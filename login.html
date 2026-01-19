@@ -23,37 +23,28 @@
   padding:0;
 }
 
-/* 🔒 LOCK VIEWPORT HEIGHT */
-html, body{
-  height:100%;
-  overflow:hidden;
+body {
+  background:#0f172a;
 }
 
-/* 📱 REAL MOBILE VIEWPORT HEIGHT */
 .content{
-  height:100dvh;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#0f172a;
-  overflow:hidden;
 }
 
-/* 🪟 LOGIN CARD */
 .login-card{
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   width:100%;
   max-width:420px;
-  max-height:100%;
   background:#0b1220;
   border-radius:16px;
   padding:26px;
   border:1px solid var(--border);
-  justify-content:space-between;
 }
 
-/* HEADER */
 .login-header{
   display:flex;
   justify-content:space-between;
@@ -76,10 +67,9 @@ html, body{
   height:100%;
   object-fit:contain;
   opacity:.9;
-  cursor:pointer;
+  cursor: pointer;
 }
 
-/* TEXT */
 h1{
   color:var(--text);
   font-size:22px;
@@ -94,10 +84,9 @@ h1{
 .sub a{
   color:var(--blue);
   text-decoration:none;
-  font-weight:600;
+  font-weight: 600;
 }
 
-/* INPUTS */
 .field{
   width:100%;
   background:none;
@@ -117,7 +106,7 @@ h1{
 .eye{
   position:absolute;
   right:14px;
-  top:50%;
+  top:40%;
   transform:translateY(-50%);
   width:20px;
   height:20px;
@@ -129,17 +118,15 @@ h1{
   opacity:.7;
 }
 
-/* LINKS */
 .forgot{
   font-size:16px;
   color:var(--blue);
   display:inline-block;
   margin:6px 0 20px;
   text-decoration:none;
-  font-weight:600;
+  font-weight: 600;
 }
 
-/* BUTTON */
 .btn{
   width:100%;
   border:none;
@@ -152,7 +139,6 @@ h1{
   cursor:pointer;
 }
 
-/* ERROR */
 .error{
   display:none;
   color:#ff6b6b;
@@ -161,63 +147,62 @@ h1{
   text-align:center;
 }
 
-/* 📱 MOBILE */
-@media (max-width:700px){
-  .login-card{
-    width:100%;
-    max-width:none;
-  }
-}
+    @media (max-width:700px) {
+.login-card{
+  width:100%;
+  height: 100vh;
+  max-width:none;
+  justify-content: space-between;
+}      
+    }
 </style>
 </head>
 
 <body>
-
 <div class="content">
 
-  <div class="login-card">
-
-    <!-- 🔝 TOP CONTENT -->
-    <div>
-      <div class="login-header">
-        <div class="logo-wrap">
-          <img src="images/xm-logo-white.png" alt="XM">
-        </div>
-        <div class="header-icons">
-          <div class="icon-wrap"><img src="images/support-icon.png"></div>
-          <div class="icon-wrap"><img src="images/uk-flag.png"></div>
-        </div>
+<div class="login-card">
+  <div>
+    <div class="login-header">
+      <div class="logo-wrap">
+        <img src="images/xm-logo-white.png" alt="XM">
       </div>
-
-      <h1>Login</h1>
-      <div class="sub">New to XM? <a href="register.html">Open an account</a></div>
-
-      <input id="email" class="field" type="email" placeholder="Email">
-
-      <div class="pass-wrap">
-        <input id="password" class="field" type="password" placeholder="Password">
-        <div class="eye" onclick="togglePassword()">
-          <img id="eyeIcon" src="images/eye-off.svg">
-        </div>
-      </div>
-
-      <a class="forgot" href="#">Forgot your password?</a>
-    </div>
-
-    <!-- 🔻 BOTTOM CONTENT -->
-    <div>
-      <button class="btn" onclick="login()">Login</button>
-      <div id="errorMsg" class="error">
-        No account matches these login credentials
+      <div class="header-icons">
+        <div class="icon-wrap"><img src="images/support-icon.png"></div>
+        <div class="icon-wrap"><img src="images/uk-flag.png"></div>
       </div>
     </div>
 
+    <h1>Login</h1>
+    <div class="sub">New to XM? <a href="register.html">Open an account</a></div>
+
+    <input id="email" class="field" type="email" placeholder="Email">
+
+    <div class="pass-wrap">
+      <input id="password" class="field" type="password" placeholder="Password">
+      <div class="eye" onclick="togglePassword()">
+        <img id="eyeIcon" src="images/eye-off.svg">
+      </div>
+    </div>
+
+    <a class="forgot" href="#">Forgot your password?</a>    
   </div>
+
+
+  <div>
+    <button class="btn" onclick="login()">Login</button>
+
+    <div id="errorMsg" class="error">
+      No account matches these login credentials
+    </div>    
+  </div>
+</div>
 
 </div>
 
+
 <script>
-/* 👁 PASSWORD VISIBILITY */
+/* 👁 Password visibility toggle */
 let isVisible = false;
 function togglePassword(){
   const pass = document.getElementById("password");
@@ -225,20 +210,25 @@ function togglePassword(){
 
   isVisible = !isVisible;
   pass.type = isVisible ? "text" : "password";
-  icon.src = isVisible ? "images/eye-on.svg" : "images/eye-off.svg";
+  icon.src = isVisible
+    ? "images/eye-on.svg"
+    : "images/eye-off.svg";
 }
 
-/* 🔐 HARDCODED LOGIN */
-function login(){
+/* 🔐 HARD-CODED LOGIN */
+function login() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const errorMsg = document.getElementById("errorMsg");
 
+  // Hardcoded credentials
   const VALID_EMAIL = "project234@gmail.com";
   const VALID_PASSWORD = "project234";
 
-  if(email === VALID_EMAIL && password === VALID_PASSWORD){
+  if (email === VALID_EMAIL && password === VALID_PASSWORD) {
     errorMsg.style.display = "none";
+
+    // Redirect to dashboard
     window.location.href = "dashboard.html";
   } else {
     errorMsg.style.display = "block";
@@ -246,5 +236,65 @@ function login(){
 }
 </script>
 
+
+
 </body>
 </html>
+
+
+<!--
+<script>
+/*
+/* 🔗 YOUR GOOGLE APPS SCRIPT WEB APP URL */
+const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+/* 👁 Password visibility toggle */
+let isVisible = false;
+function togglePassword(){
+  const pass = document.getElementById("password");
+  const icon = document.getElementById("eyeIcon");
+
+  isVisible = !isVisible;
+  pass.type = isVisible ? "text" : "password";
+  icon.src = isVisible
+    ? "images/eye-on.svg"
+    : "images/eye-off.svg";
+}
+
+/* 🔐 Login handler */
+async function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const error = document.getElementById("errorMsg");
+
+  error.style.display = "none";
+
+  if(!email || !password){
+    error.textContent = "Please enter email and password";
+    error.style.display = "block";
+    return;
+  }
+
+  try{
+    const res = await fetch(SCRIPT_URL,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(data.status === "success"){
+      window.location.href = `dashboard.html?uid=${data.uid}`;
+    } else {
+      error.style.display = "block";
+    }
+
+  }catch(err){
+    error.textContent = "Connection error. Try again.";
+    error.style.display = "block";
+  }
+}
+
+</script>
+-->
