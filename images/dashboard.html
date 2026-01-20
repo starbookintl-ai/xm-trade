@@ -3,779 +3,160 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>XM – Trading Dashboard</title>
+<title>Live SVG Trading Chart</title>
 
 <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#0f172a;
-      --panel-2:#111827;
-      --border:rgba(255,255,255,.06);
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --green:#22c55e;
-      --red:#ef4444;
-      --blue:#1f7bff;
-    }
+body{
+  background:#0b1220;
+  font-family:system-ui,Segoe UI,Roboto;
+  color:#fff;
+}
 
-    *{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,Roboto,Arial,sans-serif}
+select{
+  background:#111a2e;
+  color:#fff;
+  padding:8px 12px;
+  border-radius:6px;
+  border:none;
+  margin:14px;
+}
 
-    body{
-      background:linear-gradient(180deg,#0b1220,#020617);
-      color:var(--text);
-      min-height:100vh;
-      overflow-x:hidden;
-      overflow-y:auto;
-    }
+.chart-wrapper{
+  width:420px;
+  height:260px;
+  background:#0e1626;
+  border-radius:10px;
+  padding:10px;
+}
 
-    /* ===== APP GRID ===== */
-    .app{
-      display:grid;
-      grid-template-columns:0.2fr 0.8fr 2.5fr;
-      height:100vh;
-      width:100%;
-    }
+svg{width:100%;height:100%}
 
-    /* ===== LEFT PANEL ===== */
-    .sidebar{
-      background: var(--card);
-      border-right:1px solid var(--border);
-      overflow-y:auto;
-    }
-    .logo{height:50px;width: 50px;margin-bottom:16px;margin-bottom:25px;}
-    .market{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:10px;border-radius:10px;cursor:pointer;transition:.2s;
-    }
-    .market:hover{background:rgba(255,255,255,.05)}
-    .market span{font-size:13px;color:var(--muted)}
-    .price.up{color:var(--green)}
-    .price.down{color:var(--red)}
-
-    /* ===== MAIN ===== */
-    .main{
-      display:flex;
-      flex-direction:column;
-      padding:0px;
-      gap:14px;
-      width:100%;
-      min-width:0;
-      overflow:hidden;
-    }
-
-    /*account-nav*/
-    .account-nav{    border-bottom: 1px solid var(--border); width: 100%;min-height: 70px;display: flex;justify-content: space-between;align-items: center;padding: 0px 20px;}
-    .account-nav-btns-wrap{display: flex;align-items: center;gap: 10px;}
-    .account-nav-btns-wrap img{height: 40px;width: 40px;background: yellow;}
-    /* Banner */
-    .banner{
-      background-color: #eef5ff;
-      border-radius:50px;padding:25px;display:flex;align-items:center;justify-content:space-between;color: #000;
-    }
-    .banner button{
-      background:var(--blue);
-      border:none;color:#fff;padding:10px 16px;border-radius:999px;font-weight:600
-    }
-
-    /* ===== CHART + TRADE CONTAINER ===== */
-    .chart-trade-container{
-      display:flex;
-      gap:16px;
-      flex:1;
-      min-height:0;
-      padding: 0px 20px 0px 0px;
-    }
-
-    /* Chart area */
-    .chart-wrapper{
-      flex:2;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      min-height:0;
-    }
-
-    /* Chart card */
-    .chart-section{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      min-height:0;
-      position:relative;
-      width: 300px;
-      cursor: crosshair;
-    }
-    .chart-container{
-      position: relative;
-      width: 100%;
-      height: 300px;
-      max-height: 600px;
-      min-height:300px;
-      overflow: hidden;
-    }
-    .chart-scroll{
-      width:100%;
-      height:100%;
-      overflow-x:auto;
-      overflow-y:hidden;
-    }
-    canvas{
-      display:block;
-      height:100%;
-    }
-
-    /* Price pill */
-    .price-pill{
-      position:absolute;
-      right:6px;
-      padding:6px 10px;
-      font-size:12px;
-      font-weight:600;
-      background:#1f7bff;
-      color:#fff;
-      border-radius:50px;
-      border: #ffffff13 solid 1px;
-      pointer-events:none;
-      transform:translateY(-50%);
-      white-space:nowrap;
-      box-shadow:0 6px 16px rgba(0,0,0,.35);
-      z-index:20;
-      display:none;
-    }
-
-    #priceLabel{
-      position:absolute;
-      right:0;
-      transform:translateY(-100%);
-      background:#111827;
-      color:#fff;
-      padding:4px 8px;
-      font-weight:600;
-      font-size:14px;
-      border-radius:6px;
-      pointer-events:none;
-      white-space:nowrap;
-    }
-
-    /* Chart controls */
-    .chart-controls{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      justify-content: end;
-    }
-    .chart-controls button{
-      padding:6px 10px;font-size:12px;border-radius:8px;
-      border:1px solid rgba(255,255,255,.15);
-      background:#0b1220;color:#fff;cursor:pointer;
-    }
-    .chart-controls button.active{background:#1f7bff;}
-    .switch {
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: #1f2937;
-      color: #9ca3af;
-      cursor: pointer;
-      user-select: none;
-    }
-    .switch.active { background: #22c55e; color: #000; }
-
-    /* ===== TRADE CARD ===== */
-    .trade{
-      flex:0.5;
-      border-radius:14px;
-      padding:16px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      min-width:250px;
-      overflow-x:auto;
-    }
-
-    /* Order buttons */
-    .order-btn{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .order-btn button{padding:12px;border:none;border-radius:10px;font-weight:700;color:#fff;cursor:pointer;}
-    .sell{background:#1f2937}
-    .buy{background:var(--green); padding:15px 20px;border-radius: 10px; color: white;font-size:16px; font-weight: bold;cursor:pointer}
-    .input{background:none;border:1px solid var(--border);border-radius:10px;padding:12px;color:#fff;width:100%;margin-bottom:12px}
-    .error{color:var(--red);font-size:13px;margin-bottom:10px}
-
-    /* SL/TP card */
-    .sl-tp-card{background:#111827;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;}
-    
-    .sl-tp-header{display:flex;justify-content:space-between;align-items:center;}
-    .sl-tp-header span{font-weight:600;color:#fff;}
-    .sl-tp-header .switch{padding:4px 10px;}
-    .sl-tp-inputs{display:none;flex-direction:column;gap:8px;}
-    .sl-tp-inputs input{background:none;border:1px solid var(--border);border-radius:8px;padding:8px;color:#fff;width:100%;}
-
-    /* ===== SIDE NAV ===== */
-    .side-nav{
-      position:sticky;
-      top:0;
-      height:100vh;
-      display:flex;
-      flex-direction: column;
-      gap: 20px;
-      min-width: 80px;
-      align-items: center;
-      padding: 20px;
-      background: var(--card);
-      border-right: 1px solid var(--border);
-      justify-content:space-between;
-    }
-      .chart-board{display: flex;}
-      .chart-tools{display: flex;flex-direction: column;gap: 20px;padding: 10px;}
-      .chart-tools button{
-        padding:6px 10px;font-size:12px;border-radius:8px;
-        border:1px solid rgba(255,255,255,.15);
-        background:#0b1220;color:#fff;cursor:pointer;
-      }
-      .chart-tools button.active{border:#96c2ff solid 1px;color: #96c2ff;}
-      .pages-nav-wrap{display: flex;flex-direction: column;gap: 15px;}
-      .nav-img{height: 20px;}
-      .nav-img-wrap{cursor: pointer;border-radius: 50px; height: 45px;width: 45px;display: flex;justify-content: center;align-items: center;}
-      .nav-img-wrap:hover{background-color: #ffffff1a;}
-      * {
-        scrollbar-width: thin;              /* auto | thin | none */
-        scrollbar-color: #ffffff1a #ffffff1a;          /* thumb track */
-      }
-
-      /* Firefox (global) */
-      * {
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255,255,255,0.4) transparent;
-      }
-
-      /* Chrome, Edge, Safari (global) */
-      *::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-
-      *::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      *::-webkit-scrollbar-thumb {
-        background: rgba(255,255,255,0.4);
-        border-radius: 999px;
-        border: 2px solid #ffffff31;
-        background-clip: padding-box;
-      }
-
-      *::-webkit-scrollbar-thumb:hover {
-        background: rgba(255,255,255,0.6);
-      }
-
-
-
-
-    /* ===== MOBILE ===== */
-    @media (max-width:1024px){
-      .chart-trade-container{flex-direction:column;}
-      .chart-wrapper{flex:1;}
-      .trade{flex:unset;min-width:100%;}
-    }
+.grid line{stroke:rgba(255,255,255,.08)}
+#yLabels text{fill:#9aa4c7;font-size:11px}
 </style>
-<style>
-  :root {
-    --bg: #0b1220;
-    --card: #0f172a;
-    --border: rgba(255,255,255,.06);
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --green: #22c55e;
-    --red: #ef4444;
-  }
-
-  .market-list {
-    width: 100%;
-    max-width: 420px;
-    overflow-y: auto;
-  }
-
-  .market-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-  }
-
-  .market-item:hover{
-    background-color: #ffffff0a;
-  }
-
-  .market-item:last-child {
-    border-bottom: none;
-  }
-
-  .left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .icon {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .icon img {
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
-  }
-
-  .names {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .symbol {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .desc {
-    font-size: 12px;
-    color: var(--text-sub);
-  }
-
-  .right {
-    text-align: right;
-  }
-
-  .price {
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  .change {
-    font-size: 12px;
-    margin-top: 2px;
-  }
-
-  .positive { color: var(--green); }
-  .negative { color: var(--red); }
-</style>
-
 </head>
+
 <body>
 
-<div class="app fade-in">
+<select id="market">
+  <option value="BTCUSD">BTCUSD</option>
+  <option value="ETHUSD">ETHUSD</option>
+  <option value="EURUSD">EURUSD</option>
+  <option value="USDJPY">USDJPY</option>
+  <option value="GBPUSD">GBPUSD</option>
+  <option value="AUDUSD">AUDUSD</option>
+</select>
 
-  <!-- SIDE NAV -->
-  <nav class="side-nav">
-    <div style="display: flex;flex-direction: column;align-items:center">
-      <div style="display:flex;flex-direction:column;justify-content:center">
-      <img src="images/xm-logo-white.png" class="logo" alt="XM">
-      <div class="pages-nav-wrap">
-        <div class="nav-img-wrap">  <img src="images/trade-icon.png" class="nav-img" alt=""></div>
-        <div class="nav-img-wrap">  <img src="images/transaction-icon.png" class="nav-img" alt=""></div>
-        <div class="nav-img-wrap">  <img src="images/explore-icon.png" class="nav-img" alt=""></div>        
-        <div class="nav-img-wrap">  <img src="images/copytrade-icon.png" class="nav-img" alt=""></div>
-        <div class="nav-img-wrap">  <img src="images/competition-icon.png" class="nav-img" alt=""></div>
-        <div class="nav-img-wrap">  <img src="images/promotion-icon.png" class="nav-img" alt=""></div>
-        <div class="nav-img-wrap">  <img src="images/more-icon.png" class="nav-img" alt=""></div>
-      </div>
-      </div>
-    </div>
-    <div class="nav-img-wrap" style="background-color: #ffffff1a;margin-bottom:20px">  <img src="images/support-icon.png" class="nav-img" alt=""></div>
-  </nav>
+<div class="chart-wrapper">
+<svg id="chart" viewBox="0 0 420 260" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(31,209,138,.25)"/>
+      <stop offset="100%" stop-color="rgba(31,209,138,0)"/>
+    </linearGradient>
+  </defs>
 
-  <aside class="sidebar">
-    <div class="market-list" id="marketList"></div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <div class="account-nav">
-      <div class="balance-wrap"></div>
-      <div class="account-nav-btns-wrap">
-        <img src="" alt="">
-        <img src="" alt="">
-        <img src="" alt="">
-        <img src="" alt="">
-      </div>
-    </div>
-
-    <div style="padding: 0px 20px;">
-      <div class="banner"><p style="font-weight: bold;">Finish setting up your account 🎁 <br> Complete all steps to unlock <b style="color:#fbbf24">50% bonus</b></p>      <button>Complete</button> </div>
-    </div>
-
-    <!-- Chart + Trade Container -->
-    <div class="chart-trade-container">
-
-      <!-- Chart Area -->
-      <div class="chart-wrapper">
-
-        <div class="chart-controls">
-          <button id="toggleSnap">Snap</button>
-          <button id="togglePriceLine" class="chart-btn">Line</button>
-        </div>
-
-        <div class="chart-board">
-          <div class="chart-tools">
-            <button id="zoomIn">Zoom +</button>
-            <button id="zoomOut">Zoom −</button>
-            <button id="toggleCrosshair" class="active">Crosshair</button>
-            <button id="togglePricePill" class="active">Price Pill</button>
-            <button id="toggleLastPrice" class="active">Last Price</button>
-            <button id="toggleAutoScroll" class="active">Auto Scroll</button>
-            <button id="toggleVolume" class="active">Volume</button>            
-          </div>
-
-          <div class="chart-section">
-            <div class="chart-container">
-              <div class="chart-scroll">
-                <canvas id="xmChart"></canvas>
-              </div>
-              <div class="price-pill" id="pricePill">1.23456</div>
-              <div id="priceLabel"></div>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
-
-      <!-- Trade Card -->
-      <div class="trade">
-        <h3>One Click Order</h3>
-        <div class="order-btn">
-          <button class="sell">SELL</button>
-          <button class="buy">BUY</button>
-        </div>
-        <input class="input" placeholder="Amount">
-        <div class="error">You don't have enough margin to place this order</div>
-
-
-        <!-- SL/TP Card -->
-        <div class="sl-tp-card">
-
-          <div class="sl-tp-header">
-            <span>SL / TP</span>
-            <div class="switch" id="buyWhenToggle" >OFF</div>
-          </div>          
-
-          <div class="buy-when-inputs">
-            <input type="number" placeholder="buy at">
-          </div>
-        </div>
-
-        <div class="sl-tp-card">
-
-          <div class="sl-tp-header">
-            <span>SL / TP</span>
-            <div class="switch" id="sltpToggle" >OFF</div>
-          </div>          
-
-          <div class="sl-tp-inputs">
-            <input type="number" placeholder="Stop Loss">
-            <input type="number" placeholder="Take Profit">
-          </div>
-        </div>
-
-        <button class="buy" style="width:100%">Place Order</button>        
-      </div>
-
-    </div>
-  </main>
-
+  <g class="grid"></g>
+  <path id="area" fill="url(#g)"></path>
+  <path id="line" fill="none" stroke="#1fd18b" stroke-width="2"/>
+  <line id="lastLine" stroke="#fff" stroke-width="1"/>
+  <rect id="box" rx="4" fill="#fff"/>
+  <text id="price" fill="#000" font-size="11"
+        text-anchor="middle" dominant-baseline="middle"></text>
+  <g id="yLabels"></g>
+</svg>
 </div>
 
 <script>
+const API_KEY = "6Z08ZDGBCFE2C8MK";
 
+const svg = document.getElementById("chart");
+const grid = svg.querySelector(".grid");
+const yLabels = document.getElementById("yLabels");
+const line = document.getElementById("line");
+const area = document.getElementById("area");
+const lastLine = document.getElementById("lastLine");
+const box = document.getElementById("box");
+const priceText = document.getElementById("price");
 
-/* ===== CHART STATE ===== */
-let zoomLevel=1, showCrosshair=true, showPricePill=true, showLastPriceLine=true;
-let autoScroll=true, showSL=false, showTP=false, showVolume=false, showPriceLine=false;
-let stopLossPrice=null, takeProfitPrice=null;
-const BTC_API =  "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd";
+const W=420,H=260,p={t:20,r:60,b:20,l:10};
 
+/* ================= DRAW ================= */
+function draw(data){
+  if(!data || data.length<2) return;
 
-/* ===== DOM ===== */
-const scroll=document.querySelector(".chart-scroll");
-const canvas=document.getElementById("xmChart");
-const ctx=canvas.getContext("2d");
-const priceLabel=document.getElementById("priceLabel");
-const pricePill=document.getElementById("pricePill");
+  grid.innerHTML=""; yLabels.innerHTML="";
+  const min=Math.min(...data), max=Math.max(...data);
+  const step=(W-p.l-p.r)/(data.length-1);
+  const y=v=>p.t+(H-p.t-p.b)*(1-(v-min)/(max-min||1));
 
-document.getElementById("zoomIn").onclick = () => zoomLevel=Math.min(zoomLevel+0.2,3);
-document.getElementById("zoomOut").onclick = () => zoomLevel=Math.max(zoomLevel-0.2,0.6);
-
-function setupToggle(id,state){
-  const btn=document.getElementById(id);
-  if(!btn) return;
-  btn.onclick=()=>{
-    window[state]=!window[state];
-    btn.classList.toggle("active",window[state]);
-    draw();
-  }
-}
-["toggleCrosshair","togglePricePill","toggleLastPrice","toggleAutoScroll",
- "toggleSL","toggleTP","toggleVolume","togglePriceLine"].forEach(id=>{
-   const state=id.replace("toggle","").replace(/^\w/,c=>c.toLowerCase());
-   setupToggle(id,state);
-});
-
-/* ===== SL/TP Toggle ===== */
-const sltpToggle=document.getElementById("sltpToggle");
-const sltpInputs=document.querySelector(".sl-tp-inputs");
-sltpToggle.onclick=()=>{
-  sltpInputs.style.display=sltpInputs.style.display==="flex"?"none":"flex";
-  sltpToggle.classList.toggle("active");
-  sltpToggle.textContent=sltpToggle.classList.contains("active")?"ON":"OFF";
-};
-
-/* ===== RESIZE ===== */
-function resize(){
-  const container=document.querySelector(".chart-container");
-  canvas.height=container.clientHeight;
-  draw();
-}
-new ResizeObserver(resize).observe(document.querySelector(".chart-container"));
-
-/* ===== CANDLES ===== */
-const gap=4, candleDuration=60, maxCandles=200;
-let candles=[], active, seconds=0, base=91300, mouseX=null, mouseY=null;
-const rand=(a,b)=>Math.random()*(b-a)+a;
-const formatTime=t=>new Date(t).toLocaleTimeString([],{
-  hour:'2-digit',minute:'2-digit'
-});
-
-function newCandle(){return {time:Date.now(),open:base,high:base,low:base,close:base,vol:rand(100,400)}}
-
-(function seed(){
-  let t=Date.now()-100*60000;
-  for(let i=0;i<100;i++){
-    let o=base,c=o+rand(-40,40);
-    candles.push({time:t,open:o,high:Math.max(o,c)+20,low:Math.min(o,c)-20,close:c,vol:rand(100,500)});
-    base=c;t+=60000;
-  }
-  active=newCandle();
-})();
-
-let minPrice,maxPrice,PRICE_H=0;
-function yToPrice(y){return maxPrice-(y/PRICE_H)*(maxPrice-minPrice);}
-
-/* ===== MOUSE ===== */
-scroll.addEventListener("mousemove", e=>{
-  const rect=canvas.getBoundingClientRect();
-  mouseX=(e.clientX-rect.left)*(canvas.width/rect.width);
-  mouseY=(e.clientY-rect.top)*(canvas.height/rect.height);
-
-  if(showPricePill){
-    const clampedY=Math.max(0, Math.min(mouseY, PRICE_H));
-    pricePill.style.display="block";
-    pricePill.style.top=`${clampedY}px`;
-    pricePill.style.transform="translateY(-50%)";
-    pricePill.textContent=yToPrice(clampedY).toFixed(2);
-  }
-});
-scroll.addEventListener("mouseleave",()=>{mouseX=null; mouseY=null; pricePill.style.display="none";});
-
-/* ===== DRAW ===== */
-function draw(){
-  const candleWidth=10*zoomLevel;
-  const all=[...candles,active];
-  const AXIS_SPACE=40;
-  const VOLUME_H=showVolume?canvas.height*0.18:0;
-  PRICE_H=canvas.height-AXIS_SPACE-VOLUME_H;
-  const X_AXIS_Y=PRICE_H+VOLUME_H+26;
-  maxPrice=Math.max(...all.map(c=>c.high));
-  minPrice=Math.min(...all.map(c=>c.low));
-
-  canvas.width=all.length*(candleWidth+gap)+120;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  const priceToY=p=>PRICE_H-(p-minPrice)/(maxPrice-minPrice)*(PRICE_H-20);
-
-  // Grid
-  ctx.strokeStyle="#1f2937";
-  for(let i=0;i<6;i++){
-    const y=(PRICE_H/5)*i;
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();
+  for(let i=0;i<10;i++){
+    const yy=p.t+i*(H-p.t-p.b)/9;
+    grid.innerHTML+=`<line x1="${p.l}" y1="${yy}" x2="${W-p.r}" y2="${yy}"/>`;
+    yLabels.innerHTML+=`<text x="${W-6}" y="${yy}" text-anchor="end">
+      ${(min+(max-min)*(9-i)/9).toFixed(2)}
+    </text>`;
   }
 
-  // Candles
-  all.forEach((c,i)=>{
-    const x=i*(candleWidth+gap)+40;
-    const o=priceToY(c.open);
-    const cl=priceToY(c.close);
-    const h=priceToY(c.high);
-    const l=priceToY(c.low);
-    const up=c.close>=c.open;
-    ctx.strokeStyle=up?"#16c784":"#ea3943";
-    ctx.fillStyle=up?"#16c784":"#ea3943";
-    ctx.beginPath();ctx.moveTo(x+candleWidth/2,h);ctx.lineTo(x+candleWidth/2,l);ctx.stroke();
-    ctx.fillRect(x,Math.min(o,cl),candleWidth,Math.max(1,Math.abs(o-cl)));
-    if(showVolume){
-      const vh=Math.min(VOLUME_H,c.vol/3);
-      ctx.fillStyle="#374151";
-      ctx.fillRect(x,PRICE_H+VOLUME_H-vh,candleWidth,vh);
-    }
+  let d="";
+  data.forEach((v,i)=>{
+    const x=p.l+i*step, yy=y(v);
+    d+=i?`L ${x} ${yy}`:`M ${x} ${yy}`;
   });
 
-  // Price line
-  if(showPriceLine){
-    ctx.strokeStyle="#3b82f6";ctx.lineWidth=2;ctx.beginPath();
-    all.forEach((c,i)=>{
-      const x=i*(candleWidth+gap)+40+candleWidth/2;
-      const y=priceToY(c.close);
-      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
-    });ctx.stroke();
-  }
+  line.setAttribute("d",d);
+  area.setAttribute("d",
+    `${d} L ${p.l+(data.length-1)*step} ${H-p.b} L ${p.l} ${H-p.b} Z`
+  );
 
-  // X axis timestamps every 10 min
-  ctx.font=`${Math.max(11,14*zoomLevel)}px Segoe UI`;
-  ctx.fillStyle="#9ca3af";
-  const TEN_MIN=10*60*1000; let lastTime=0;
-  all.forEach((c,i)=>{
-    if(c.time-lastTime>=TEN_MIN){
-      const x=i*(candleWidth+gap)+20;
-      ctx.fillText(formatTime(c.time), x, X_AXIS_Y);
-      lastTime=c.time;
-    }
-  });
+  const last=data.at(-1), ly=y(last);
+  lastLine.setAttribute("x1",p.l);
+  lastLine.setAttribute("x2",W-p.r);
+  lastLine.setAttribute("y1",ly);
+  lastLine.setAttribute("y2",ly);
 
-  // Y axis
-  for(let i=0;i<5;i++){
-    const p=maxPrice-(maxPrice-minPrice)/4*i;
-    ctx.fillText(p.toFixed(2),canvas.width-70,priceToY(p)+5);
-  }
+  box.setAttribute("x",W-p.r+6);
+  box.setAttribute("y",ly-10);
+  box.setAttribute("width",52);
+  box.setAttribute("height",20);
 
-  // Last price
-  if(showLastPriceLine){
-    const y=priceToY(active.close);
-    ctx.setLineDash([4,4]);
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();
-    ctx.setLineDash([]);
-    priceLabel.textContent=active.close.toFixed(2);
-    priceLabel.style.top=`${Math.max(0,Math.min(y,PRICE_H))}px`;
-  }
-
-  // Crosshair
-  if(showCrosshair && mouseX!==null){
-    ctx.save(); ctx.strokeStyle="#fff"; ctx.lineWidth=3; ctx.setLineDash([6,6]);
-    ctx.beginPath();ctx.moveTo(mouseX,0);ctx.lineTo(mouseX,PRICE_H);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(0,mouseY);ctx.lineTo(canvas.width,mouseY);ctx.stroke();
-    ctx.restore();
-  }
-
-  if(autoScroll) scroll.scrollLeft=scroll.scrollWidth;
+  priceText.setAttribute("x",W-p.r+32);
+  priceText.setAttribute("y",ly);
+  priceText.textContent=last.toFixed(2);
 }
 
-/* ===== LIVE UPDATE ===== */
-setInterval(()=>{
-  seconds++;
-  active.close+=rand(-30,30);
-  active.high=Math.max(active.high,active.close);
-  active.low=Math.min(active.low,active.close);
-  if(seconds>=candleDuration){
-    candles.push(active);
-    if(candles.length>maxCandles) candles.shift();
-    active=newCandle();
-    seconds=0;
+/* ================= LOADERS ================= */
+async function crypto(sym){
+  const r=await fetch(
+    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=${sym}&market=USD&apikey=${API_KEY}`
+  );
+  const j=await r.json();
+  const t=j["Time Series (Digital Currency Daily)"];
+  return Object.values(t).slice(0,60).reverse().map(v=>+v["4a. close (USD)"]);
+}
+
+async function forex(pair){
+  const r=await fetch(
+    `https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=${pair.slice(0,3)}&to_symbol=${pair.slice(3)}&apikey=${API_KEY}`
+  );
+  const j=await r.json();
+  const t=j["Time Series FX (Daily)"];
+  return Object.values(t).slice(0,60).reverse().map(v=>+v["4. close"]);
+}
+
+async function load(symbol){
+  let data;
+  if(symbol.endsWith("USD") && symbol.length===6 && symbol!=="EURUSD" && symbol!=="GBPUSD"){
+    data=await crypto(symbol.replace("USD",""));
+  }else{
+    data=await forex(symbol);
   }
-  draw();
-},1000);
+  draw(data);
+}
 
-draw();
-</script>
-
-
-
-
-
-
-<script>
-  // ===== LOCAL DATASET (WITH IMAGE SOURCES) =====
-  const markets = [
-    {
-      symbol: "GOLD",
-      desc: "GOLD",
-      image: "images/gold.svg",
-      price: 4506.94,
-      change: 0.66
-    },
-    {
-      symbol: "BTCUSD",
-      desc: "Bitcoin vs US Dollar",
-      image: "images/btcusd.svg",
-      price: 90402.25,
-      change: -0.92
-    },
-    {
-      symbol: "USDJPY",
-      desc: "US Dollar vs Japanese Yen",
-      image: "images/usdjpy.svg",
-      price: 157.894,
-      change: 0.67
-    },
-    {
-      symbol: "EURUSD",
-      desc: "Euro vs US Dollar",
-      image: "images/eurusd.svg",
-      price: 1.16315,
-      change: -0.23
-    },
-    {
-      symbol: "US100Cash",
-      desc: "US 100 Index Cash",
-      image: "images/us100cash.svg",
-      price: 25756.03,
-      change: 0.87
-    },
-    {
-      symbol: "ETHUSD",
-      desc: "Ethereum vs US Dollar",
-      image: "images/ethusd.svg",
-      price: 3081.05,
-      change: -1.13
-    }
-  ];
-
-  const list = document.getElementById("marketList");
-
-  markets.forEach(m => {
-    const row = document.createElement("div");
-    row.className = "market-item";
-
-    const changeClass = m.change >= 0 ? "positive" : "negative";
-    const sign = m.change >= 0 ? "+" : "";
-
-    row.innerHTML = `
-      <div class="left">
-        <div class="icon">
-          <img src="${m.image}" alt="${m.symbol}">
-        </div>
-        <div class="names">
-          <div class="symbol">${m.symbol}</div>
-          <div class="desc">${m.desc}</div>
-        </div>
-      </div>
-
-      <div class="right">
-        <div class="price">${m.price.toLocaleString()}</div>
-        <div class="change ${changeClass}">
-          ${sign}${m.change}%
-        </div>
-      </div>
-    `;
-
-    list.appendChild(row);
-  });
+document.getElementById("market").onchange=e=>load(e.target.value);
+load("BTCUSD");
 </script>
 
 </body>
 </html>
-
-
-
