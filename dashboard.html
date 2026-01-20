@@ -55,7 +55,7 @@
     .top-actions img {
     width: 22px;
     height: 22px;
-    opacity: 0.6;
+    opacity: 0.4;
     cursor: pointer;
     }
 
@@ -273,17 +273,39 @@
         bottom: -100%;
         left: 0;
         width: 100%;
-        height: 95%;
         background: #0f1730;
-        border-radius: 16px 16px 0 0;
         transition: .35s;
         padding: 10px;
         z-index: 100;
         }
 
+        .slide-panel-lap{
+          border-radius: 0px; height: 100%;
+        }
+
+        .slide-panel-notlap{
+        height: 95%;
+        border-radius: 16px 16px 0 0;
+        }
+
+        .slide-cancle-button{
+
+        }
+
         #slidePanel.active {
         bottom: 0;
         }
+
+
+        .cancle-wrap{
+          width: 100%;padding: 20px 15px;display: flex;justify-content: end;align-items: center;
+        }
+
+        .cancle-wrap img{height: 20px;width: 20px;cursor: pointer;}
+
+        .cancle-wrap img:hover{opacity: 0.4;}
+
+        .disabled {display: none;}
 
         .drag-bar {
         width: 40px;
@@ -449,8 +471,13 @@
 
         <div id="panelOverlay"></div>
 
-        <div id="slidePanel">
+        <div id="slidePanel" class="slide-panel-notlap">
 
+          <div class="cancle-wrap disabled" id="cancle-wrap">
+            <img src="images/cancle-icon.png" alt="" id="cancle-btn">
+          </div>
+
+          <!--CHART CANVAS-->
           <div id="chartCanvas">
             <div class="drag-bar"></div>
             <div class="trade-header"> <span id="tradeSymbol"></span> </div>
@@ -464,18 +491,53 @@
             </div>
           </div>
 
+          <!--SEARCH CANVAS-->
           <div id="searchCanvas">  
+            <div class="drag-bar"></div>            
             search canvas
           </div>
 
+          <!--NOTIFICATION CANVAS-->
           <div id="notificationCanvas">
             notifcation canvas
           </div>
 
+          <!--WALLET CANVAS-->
           <div id="walletCanvas">
-            wallet canvas
+
+            <div class="wallet-wrap">
+              <h3>Funding</h3>
+
+              <div class="available-balance-card">
+                <h4>Standard <span class="status">Real</span></h4>
+                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
+              </div>
+              
+              <h3>Funding Options</h3>
+
+              <div class="funding-options-wrap">
+                <div class="funding-option-btn">
+                  <img src="images/deposit-icon.png" alt="" class="funding-button-icon"> <p>Deposit</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src="images/withdraw-icon.png" alt="" class="funding-button-icon"> <p>Withdraw</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src= "images/internal-transfer-icon.png" alt="" class="funding-button-icon"> <p>Internal Transfer</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src="images/transaction-history-icon.png" alt="" class="funding-button-icon"> <p>Transactions History</p>
+                </div>
+              </div>
+            </div>
+
           </div>
 
+          <!--PROFILE CANVAS-->
           <div id="profileCanvas">
             profile canvas
           </div>
@@ -606,6 +668,8 @@ navButtons.forEach(btn => {
   const tradeSymbol = document.getElementById("tradeSymbol");
 
   /*Define the constants for the various canvas that are on the slide up panel*/
+  const cancleWrap = document.getElementById("cancle-wrap");
+  const canclebtn = document.getElementById("cancle-btn");
   const chart = document.getElementById("chartCanvas");
   const search = document.getElementById("searchCanvas");
   const notification = document.getElementById("notificationCanvas");
@@ -710,6 +774,11 @@ navButtons.forEach(btn => {
     panel.classList.remove("active");
     overlay.classList.remove("active");
   };
+
+  canclebtn.addEventListener("click", () => {
+    panel.classList.remove("active");
+    overlay.classList.remove("active");
+  });
 
   // ===== LOAD CHART =====
   async function loadChart(m) {
@@ -883,6 +952,9 @@ navButtons.forEach(btn => {
     tradeSymbol.textContent = m.symbol;
     panel.classList.add("active");
     overlay.classList.add("active");
+    panel.classList.remove("slide-panel-lap");
+    panel.classList.add("slide-panel-notlap");   
+    cancleWrap.classList.add("disabled");
     chartCanvas.classList.remove("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -896,6 +968,9 @@ navButtons.forEach(btn => {
   notificationBtn.addEventListener("click", () => {
     panel.classList.add("active");
     overlay.classList.add("active");
+    panel.classList.add("slide-panel-lap");
+    panel.classList.remove("slide-panel-notlap");  
+    cancleWrap.classList.remove("disabled");         
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.remove("canvas-disabled");
@@ -907,6 +982,9 @@ navButtons.forEach(btn => {
   walletBtn.addEventListener("click", () => {
     panel.classList.add("active");
     overlay.classList.add("active");
+    panel.classList.add("slide-panel-lap");
+    panel.classList.remove("slide-panel-notlap"); 
+    cancleWrap.classList.remove("disabled");       
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -918,6 +996,9 @@ navButtons.forEach(btn => {
   profileBtn.addEventListener("click", () => {
     panel.classList.add("active");
     overlay.classList.add("active");
+    panel.classList.add("slide-panel-lap");
+    panel.classList.remove("slide-panel-notlap"); 
+    cancleWrap.classList.remove("disabled");      
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -929,6 +1010,9 @@ navButtons.forEach(btn => {
   searchBtn.addEventListener("click", () => {
     panel.classList.add("active");
     overlay.classList.add("active");
+    panel.classList.remove("slide-panel-lap");
+    panel.classList.add("slide-panel-notlap");
+    cancleWrap.classList.add("disabled");   
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.remove("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -941,6 +1025,13 @@ navButtons.forEach(btn => {
 
 </script>
 
+<style>
+.wallet-wrap{display: flex;flex-direction: column;gap: 20px; padding: 15px;}
+.available-balance-card{display: flex; flex-direction: column; width: 100%; border-radius: 12px; min-height: 100px; background-color: #ffffff0c; padding: 20px;}
+.funding-options-wrap{display: flex; flex-direction: column; width: 100%; gap: 10px;}
+.funding-option-btn{display: flex; width: 100%; border-radius:12px; padding: 15px 20px; border: #ffffff46 solid 1px; cursor: pointer;align-items: center; gap: 15px;}
+.funding-button-icon{height: 18px;width: 18px;}
+</style>
+
 </body>
 </html>
-
