@@ -24,13 +24,12 @@
 
 /* 🔒 ROOT HEIGHT CONTROL */
 html, body{
-  height:100%;
   background:var(--bg);
 }
 
 /* 📐 CONSISTENT VIEWPORT HEIGHT */
 .content{
-  height:100dvh;  /* modern browsers */
+  height:100dvh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -160,8 +159,8 @@ h1{
 @media (max-width:700px){
   .login-card{
     max-width:none;
-    border-radius:0;
-    height:100dvh;
+    border-radius:0px;
+    height:100%;
     justify-content:space-between;
   }
 }
@@ -303,5 +302,3 @@ async function login(){
 
 </script>
 -->
-
-
