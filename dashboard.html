@@ -294,13 +294,14 @@
         }
 
 
-        .cancle-wrap{
-          width: 100%;display: flex;justify-content: end;align-items: center; 
+        .slide-panel-topbar{
+          width: 100%;display: flex;justify-content: space-between;align-items: center; 
         }
 
-        .cancle-wrap img{height: 20px;width: 20px;cursor: pointer;}
 
-        .cancle-wrap img:hover{opacity: 0.4;}
+        .slide-panel-topbar-img{height: 20px;width: 20px;cursor: pointer;}
+
+        .slide-panel-topbar-img:hover{opacity: 0.4;}
 
         .disabled {display: none;}
 
@@ -466,13 +467,10 @@
             <div id="marketList" class="market-list"></div>
         </div>
 
+        <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
         <div id="panelOverlay"></div>
 
         <div id="slidePanel" class="slide-panel-notlap">
-
-          <div class="cancle-wrap disabled" id="cancle-wrap">
-            <img src="images/cancle-icon.png" alt="" id="cancle-btn">
-          </div>
 
           <!--CHART CANVAS-->
           <div id="chartCanvas">
@@ -488,20 +486,12 @@
             </div>
           </div>
 
-          <!--SEARCH CANVAS-->
-          <div id="searchCanvas">  
-            <div class="drag-bar"></div>            
-            search canvas
-          </div>
-
-          <!--NOTIFICATION CANVAS-->
-          <div id="notificationCanvas">
-            notifcation canvas
-          </div>
-
           <!--WALLET CANVAS-->
           <div id="walletCanvas">
-
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>     
             <div class="wallet-wrap">
               <h3>Funding</h3>
 
@@ -536,7 +526,101 @@
 
           <!--PROFILE CANVAS-->
           <div id="profileCanvas">
-            profile canvas
+            <div class="slide-panel-topbar">
+              <h3>My Profile</h3>
+              <div style="display: flex;align-items: center;gap: 20px;">
+                <img src="images/support-icon.png" alt="" class="slide-panel-topbar-img">
+                <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+              </div>
+            </div>                 
+            <div class="profile-wrap"> 
+
+              <div style="width: 100%;display: flex;gap: 20px;align-items: center;">
+                <img src="images/profile-page-icon.png" alt="" class="profile-image">
+                <p style="color: #ffffff80;font-weight: bold;">project234@gmail.com</p>
+              </div>
+
+              <div class="level-container">
+                <div class="level-header-wrap">
+                  <p class="level-header">Level</p>
+                  <p class="level-header">Trading volume</p>
+                </div>
+
+                <div class="level-value-wrap">
+                  <p class="level-value">Bronze</p>
+                  <p class="level-value">$0 <span style="color: #ffffff86;">/$1,000,000</span></p>
+                </div>
+
+                <div class="level-bar-wrap">
+                  <img src="images/bronze.webp" alt="">
+                  <div class="level-bar"></div>
+                  <img src="images/silver.webp" alt="">
+                </div>
+              </div>
+
+              <div class="hr"></div>              
+
+              <div class="card-grid">
+                <div class="card">
+                  <img src="images/profile-verification-icon.png" alt="" style="height: 20px;width: 20px;">
+                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
+                    <p style="font-size: 14px;font-weight: 600;">Verification</p>
+                    <p id="verification-status" style="font-size: 12px;padding: 2px 8px;border-radius: 5px;color: #f5b3b4;background-color: #812d16;width: fit-content;">Unverified</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="images/referal-program-icon.png" alt="" style="height: 20px;width: 20px;">
+                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
+                    <p style="font-size: 14px;font-weight: 600;">Referral Program </p>
+                    <p style="font-size: 12px;color: #ffffffa4;">invite and earn rewards</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div class="account-controls-wrap">
+                <div class="account-control-btn">
+                  <img src="images/settings-icon.png" alt="" style="width: 20px; height: 20px;">
+                  <p style="font-size: 16px;">Settings</p>
+                </div>
+                <div class="account-control-btn">
+                  <img src="images/profile-icon.png" alt="" style="width: 15px; height: 15px;">
+                  <p style="font-size: 16px;">Support</p>
+                </div>
+                <div class="account-control-btn">
+                  <img src="images/signout-icon.png" alt="" style="width: 18px; height: 18px;">
+                  <p style="font-size: 16px;">Sign Out</p>
+                </div>
+              </div>
+
+              <div class="suggestion-bubble">
+                <img src="images/suggestion-icon.png" alt="" style="width: 15px;height: 15px;">
+                <p>Suggest new features or share your opinion</p>
+                <img src="images/enter-icon.png" alt="" style="width: 10px;height: 10px;">
+              </div>
+
+
+            </div>
+          </div>
+
+          <!--SEARCH CANVAS-->
+          <div id="searchCanvas">  
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>            
+            <div class="drag-bar"></div>            
+            search canvas
+          </div>
+
+          <!--NOTIFICATION CANVAS-->
+          <div id="notificationCanvas">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            notifcation canvas
           </div>
 
         </div>
@@ -665,8 +749,7 @@ navButtons.forEach(btn => {
   const tradeSymbol = document.getElementById("tradeSymbol");
 
   /*Define the constants for the various canvas that are on the slide up panel*/
-  const cancleWrap = document.getElementById("cancle-wrap");
-  const canclebtn = document.getElementById("cancle-btn");
+  const cancelButtons = document.querySelectorAll(".cancel-btn");
   const chart = document.getElementById("chartCanvas");
   const search = document.getElementById("searchCanvas");
   const notification = document.getElementById("notificationCanvas");
@@ -772,10 +855,13 @@ navButtons.forEach(btn => {
     overlay.classList.remove("active");
   };
 
-  canclebtn.addEventListener("click", () => {
+  cancelButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
     panel.classList.remove("active");
     overlay.classList.remove("active");
   });
+});
+
 
   // ===== LOAD CHART =====
   async function loadChart(m) {
@@ -950,8 +1036,7 @@ navButtons.forEach(btn => {
     panel.classList.add("active");
     overlay.classList.add("active");
     panel.classList.remove("slide-panel-lap");
-    panel.classList.add("slide-panel-notlap");   
-    cancleWrap.classList.add("disabled");
+    panel.classList.add("slide-panel-notlap");
     chartCanvas.classList.remove("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -966,8 +1051,7 @@ navButtons.forEach(btn => {
     panel.classList.add("active");
     overlay.classList.add("active");
     panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap");  
-    cancleWrap.classList.remove("disabled");         
+    panel.classList.remove("slide-panel-notlap");      
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.remove("canvas-disabled");
@@ -980,8 +1064,7 @@ navButtons.forEach(btn => {
     panel.classList.add("active");
     overlay.classList.add("active");
     panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap"); 
-    cancleWrap.classList.remove("disabled");       
+    panel.classList.remove("slide-panel-notlap");   
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -994,8 +1077,7 @@ navButtons.forEach(btn => {
     panel.classList.add("active");
     overlay.classList.add("active");
     panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap"); 
-    cancleWrap.classList.remove("disabled");      
+    panel.classList.remove("slide-panel-notlap");
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.add("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -1009,7 +1091,6 @@ navButtons.forEach(btn => {
     overlay.classList.add("active");
     panel.classList.remove("slide-panel-lap");
     panel.classList.add("slide-panel-notlap");
-    cancleWrap.classList.add("disabled");   
     chartCanvas.classList.add("canvas-disabled");
     searchCanvas.classList.remove("canvas-disabled");
     notificationCanvas.classList.add("canvas-disabled");
@@ -1028,6 +1109,24 @@ navButtons.forEach(btn => {
 .funding-options-wrap{display: flex; flex-direction: column; width: 100%; gap: 10px;}
 .funding-option-btn{display: flex; width: 100%; border-radius:12px; padding: 15px 20px; border: #ffffff46 solid 1px; cursor: pointer;align-items: center; gap: 15px;}
 .funding-button-icon{height: 18px;width: 18px;}
+.profile-wrap{display: flex;flex-direction: column;gap: 20px;margin-top: 30px;}
+.profile-image{width: 50px;height: 50px;border: #ffffff33 solid 1px;border-radius: 100px;}
+.level-container{cursor: pointer; width: 100%;min-height: 100px;display: flex;border: #ffffff33 solid 1px;border-radius: 10px;padding: 10px 15px;flex-direction: column;}
+.level-header-wrap{display: flex;font-size: 12px;color: #ffffff86;width: 100%;justify-content: space-between;}
+.level-value-wrap{display: flex;font-size: 16px;color: #fff;width: 100%;justify-content: space-between;font-weight: 700;margin-bottom: 15px;}
+.level-bar-wrap{width: 100%;display: flex;gap: 20px;align-items: center;}
+.level-bar-wrap img{height: 20px;width: 20px;}
+.level-bar{width: 100%;background-color: #ffffff69;border-radius: 50px;height: 8px;}
+.hr{width: 100%;height: 1px;background-color: #ffffff33;}
+.card-grid{width: 100%;display: grid; grid-template-columns: 1fr 1fr; gap: 10px;}
+.card{display: flex;flex-direction: column; min-height: 140px;border-radius: 10px;background-color: #ffffff0a;padding: 10px;justify-content: space-between;cursor: pointer;} 
+.card:hover{background-color: #ffffff1c;}
+.account-controls-wrap{display: flex;flex-direction: column;width: 100%;gap: 15px;}
+.account-control-btn{display: flex;width: 100%;gap: 10px;cursor: pointer;padding: 10px 0px;align-items: center;}
+.account-control-btn:hover{opacity: 0.5;}
+.suggestion-bubble{font-size: 13px; font-weight: 600; color: #0c1324;display: flex;gap: 13px;background-color: #ffffffe5;border-radius: 10px;padding: 10px;align-items: center;cursor: pointer;}
+.suggestion-bubble p{width: 80%;}
+.suggestion-bubble:hover{background-color: #fff;}
 </style>
 
 </body>
