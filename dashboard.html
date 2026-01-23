@@ -96,23 +96,27 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid #ffffff2c;
     }
 
     .nav-btn {
     background: none;
     border: none;
+    width: 100%;height: 100%;
     color: #8f95b2;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     font-size: 11px;
     cursor: pointer;
+    opacity: .7;
     }
 
     .nav-btn:hover{
     color: #ffffff;
+    opacity: 1;
     }
 
     .nav-btn img {
@@ -122,6 +126,7 @@
 
     .nav-btn.active {
     color: #ffffff;
+    opacity: 1;
     }
     </style>
     
@@ -696,7 +701,37 @@
     <!-- PAGE 2 -->
     <section class="page" id="page-trades">
       <!-- 🔽 PASTE PAGE 2 CONTENT HERE 🔽 -->
-      <h2>Trades</h2>
+      <div class="page-wrap">
+
+        <div class="top-row">
+          <h3 style="font-size: 22px;">Trades</h3>
+          <img src="images/settings-icon.png" alt="" style="height: 30px;width: 30px;cursor: pointer;opacity: 0.4;">
+        </div>
+
+        <div class="categories-scrollbar">
+          <p class="notification-category-pill active" data-type="all">Open Positions</p>
+          <p class="notification-category-pill" data-type="unread">Pending Orders</p>
+          <p class="notification-category-pill" data-type="account">History</p>
+          <p class="notification-category-pill" data-type="pice arlert">Price-Alert</p>
+          <p class="notification-category-pill" data-type="trading">Trading</p>
+        </div>        
+        
+        <div class="xm-loader">
+
+          <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+              <circle class="wave w1" cx="100" cy="100" r="20" />
+              <circle class="wave w2" cx="100" cy="100" r="20" />
+              <circle class="wave w3" cx="100" cy="100" r="20" />
+            </svg>
+            <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Nothing here yet</p>
+          </div>
+
+        </div>
+        
+
+      </div>
+
     </section>
 
     <!-- PAGE 3 -->
@@ -708,7 +743,41 @@
     <!-- PAGE 4 -->
     <section class="page" id="page-more">
       <!-- 🔽 PASTE PAGE 4 CONTENT HERE 🔽 -->
-      <h2>More</h2>
+      <div class="page-wrap">
+
+        <div class="offers">
+            <div class="offer-card">
+                <h3>Get a 50% Deposit Bonus</h3>
+                <p>Claim up to $500 in extra trading capital</p>
+            </div>
+            <div class="offer-card">
+                <h3>Ultra Low Account</h3>
+                <p>Benefit from some of the lowest trading costs on the market</p>                
+            </div>
+            <div class="offer-card">
+                <h3>Refer a Friend</h3>    
+                <p>Earn $80 for every successful referral</p>                
+            </div>
+            <div class="offer-card">
+                <h3>XM Competitions</h3>
+                <p>Put your skills to the test to win big withdrawable cash prizes</p>                
+            </div>
+            <div class="offer-card">
+                <h3>Get a 50% Deposit Bonus</h3>
+                <p>Claim up to $500 in extra trading capital</p>                
+            </div>        
+        </div>        
+
+        <div class="categories-scrollbar">
+          <p class="notification-category-pill active" data-type="all">Popular</p>
+          <p class="notification-category-pill" data-type="unread">Rewards</p>
+          <p class="notification-category-pill" data-type="account">Tools</p>
+          <p class="notification-category-pill" data-type="pice arlert">Education</p>
+          <p class="notification-category-pill" data-type="trading">Funding</p>
+          <p class="notification-category-pill" data-type="pice arlert">Platforms</p>
+          <p class="notification-category-pill" data-type="trading">Support</p>          
+        </div>        
+      </div>
     </section>
 
   </main>
@@ -1366,8 +1435,13 @@ navButtons.forEach(btn => {
   height: 100%;
 }
 
+.page-wrap{width: 100%;height: 100%;display: flex;flex-direction: column;}
+.top-row{width: 100%;padding: 15px;display: flex;justify-content: space-between;}
 
 
 </style>
+<body>
+  
+</body>
 </body>
 </html
