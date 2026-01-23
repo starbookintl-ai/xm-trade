@@ -123,7 +123,6 @@
     .nav-btn.active {
     color: #ffffff;
     }
-        
     </style>
     
     <style>
@@ -209,9 +208,11 @@
         padding: 12px 0px;display: flex;flex-direction: column;gap: 15px;
         }
         .market-header{display: flex;width: 100%;align-items: center;justify-content: space-between;padding: 0px 20px;}
-        .categories-scrollbar{display: flex;width: 100%;align-items: center;overflow-x: auto;gap: 5px;padding: 0px 10px;white-space: nowrap;}
-        .category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
-        .category-pill:hover{background-color: #ffffff36;}
+        .categories-scrollbar{display: flex;width: 100%;align-items: center;overflow-x: auto;gap: 5px;padding: 0px 10px;white-space: nowrap;height: 70px;}
+        .market-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .market-category-pill:hover{background-color: #ffffff36;}
+        .notification-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .notification-category-pill:hover{background-color: #ffffff36;}        
         .categories-scrollbar .active {background-color: white;color: #0c1324;}
         .market-item {display: flex;justify-content: space-between;border-bottom: 1px solid #1a2340;cursor: pointer;transition: .2s;padding: 14px 20px;}
 
@@ -396,6 +397,10 @@
         font-weight: 400;
         }
 
+        .cancel-btn{
+          cursor: pointer;
+        }
+
         .notification-wrap{
           display: flex;flex-direction: column;width: 100%;height: 100%;
         }
@@ -403,6 +408,7 @@
         .notification-categories-scrollbar{display: flex;width: 100%;align-items: center;overflow-x: auto;gap: 10px;padding: 0px 20px;white-space: nowrap;}
         .notification-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #1a2340;cursor: pointer;font-weight: bold;}
         .notification-categories-scrollbar .active {background-color: white;color: #0c1324;}
+        .panel-mild{background-color: #1e2741;}
     </style>
 
 </head>
@@ -467,11 +473,11 @@
               <img src="images/search-icon.png" alt="" class="search-icon" id="searchButton">
             </div>
             <div class="categories-scrollbar">
-              <p class="category-pill active">Popular</p>
-              <p class="category-pill">Forex</p>
-              <p class="category-pill">Stock CFDs</p>
-              <p class="category-pill">Turbo Stocks</p>
-              <p class="category-pill">Stock 5</p>
+              <p class="market-category-pill active" data-type="Popular">Popular</p>
+              <p class="market-category-pill" data-type="Forex">Forex</p>
+              <p class="market-category-pill" data-type="Stock CFDs">Stock CFDs</p>
+              <p class="market-category-pill" data-type="Turbo Stocks">Turbo Stocks</p>
+              <p class="market-category-pill" data-type="Stocks 5">Stock 5</p>
             </div>
 
             <div id="marketList" class="market-list"></div>
@@ -617,10 +623,21 @@
           <div id="searchCanvas">  
             <div class="drag-bar"></div>            
             <div class="slide-panel-topbar">
-              <div></div>
-              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>            
-            search canvas
+              <input style="width: 100%; display: flex;padding: 8px; background-color: #0f1730;border-radius: 8px;" type="text">
+              <p class="cancel-btn" style="font-size: 17px; font-weight: 600;">Cancel</p>
+            </div>
+            <div class="slider-content-wrap">
+              <div class="categories-scrollbar">
+                <p class="notification-category-pill active" data-type="all">All</p>
+                <p class="notification-category-pill" data-type="unread">Forex</p>
+                <p class="notification-category-pill" data-type="account">Stock CFDs</p>
+                <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
+                <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
+                <p class="notification-category-pill" data-type="commodities">Commodities</p>
+                <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
+                <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
+              </div>
+            </div>
           </div>
 
           <!--NOTIFICATION CANVAS-->
@@ -635,11 +652,11 @@
 
             <div class="slider-content-wrap">
               <div class="categories-scrollbar">
-                <p class="category-pill active">All</p>
-                <p class="category-pill">Unread</p>
-                <p class="category-pill">Account</p>
-                <p class="category-pill">Price-Alert</p>
-                <p class="category-pill">Trading</p>
+                <p class="notification-category-pill active" data-type="all">All</p>
+                <p class="notification-category-pill" data-type="unread">Unread</p>
+                <p class="notification-category-pill" data-type="account">Account</p>
+                <p class="notification-category-pill" data-type="pice arlert">Price-Alert</p>
+                <p class="notification-category-pill" data-type="trading">Trading</p>
               </div>
 
                 <div class="xm-loader">
@@ -1082,6 +1099,7 @@ navButtons.forEach(btn => {
     walletCanvas.classList.add("canvas-disabled");
     profileCanvas.classList.add("canvas-disabled");
     await loadChart(m);
+    panel.classlist.add("panel-mild");    
   }
 
 
@@ -1096,6 +1114,7 @@ navButtons.forEach(btn => {
     notificationCanvas.classList.remove("canvas-disabled");
     walletCanvas.classList.add("canvas-disabled");
     profileCanvas.classList.add("canvas-disabled");
+    panel.classlist.remove("panel-mild");
   });
 
   //WALLET CANVAS ====
@@ -1109,6 +1128,7 @@ navButtons.forEach(btn => {
     notificationCanvas.classList.add("canvas-disabled");
     walletCanvas.classList.remove("canvas-disabled");
     profileCanvas.classList.add("canvas-disabled");
+    panel.classlist.remove("panel-mild");
   });  
 
   //PROFILE CANVAS ====
@@ -1122,6 +1142,7 @@ navButtons.forEach(btn => {
     notificationCanvas.classList.add("canvas-disabled");
     walletCanvas.classList.add("canvas-disabled");
     profileCanvas.classList.remove("canvas-disabled");
+    panel.classlist.remove("panel-mild");    
   });
 
   //SEARCH CANVAS ====
@@ -1135,6 +1156,7 @@ navButtons.forEach(btn => {
     notificationCanvas.classList.add("canvas-disabled");
     walletCanvas.classList.add("canvas-disabled");
     profileCanvas.classList.add("canvas-disabled");
+    panel.classlist.add("panel-mild");
   });  
 
 
@@ -1142,13 +1164,76 @@ navButtons.forEach(btn => {
 
 </script>
 
+<script>
+  const pills = document.querySelectorAll(".market-category-pill");
+
+  pills.forEach(pill => {
+    pill.addEventListener("click", () => {
+
+      // Remove active from all
+      pills.forEach(p => p.classList.remove("active"));
+
+      // Activate clicked pill
+      pill.classList.add("active");
+
+      // 👉 PLACE YOUR FUNCTION HERE
+      onCategorySelected(pill.dataset.category, pill);
+    });
+  });
+
+  // ===== YOUR CUSTOM LOGIC GOES HERE =====
+  function onCategorySelected(category, pillElement) {
+    console.log("Selected category:", category);
+
+    // Example ideas:
+    // filterMarkets(category);
+    // loadCategoryData(category);
+    // updateChart(category);
+  }
+
+</script>
+
+
+<script>
+  const notificationPills = document.querySelectorAll(
+    ".notification-category-pill"
+  );
+
+  notificationPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+
+      // Remove active from all notification pills
+      notificationPills.forEach(p => p.classList.remove("active"));
+
+      // Activate clicked pill
+      pill.classList.add("active");
+
+      // 👉 PLACE YOUR FUNCTION HERE
+      onNotificationCategorySelected(pill.dataset.type, pill);
+    });
+  });
+
+  // ===== YOUR CUSTOM LOGIC GOES HERE =====
+  function onNotificationCategorySelected(type, pillElement) {
+    console.log("Selected notification category:", type);
+
+    // Example:
+    // filterNotifications(type);
+    // loadNotificationCategory(type);
+    // updateNotificationBadge(type);
+  }
+</script>
+
+
+
+
 <style>
 .wallet-wrap{display: flex;flex-direction: column;gap: 20px; }
 .available-balance-card{display: flex; flex-direction: column; width: 100%; border-radius: 12px; min-height: 100px; background-color: #ffffff0c; padding: 20px;}
 .funding-options-wrap{display: flex; flex-direction: column; width: 100%; gap: 10px;}
 .funding-option-btn{display: flex; width: 100%; border-radius:12px; padding: 15px 20px; border: #ffffff46 solid 1px; cursor: pointer;align-items: center; gap: 15px;}
 .funding-button-icon{height: 18px;width: 18px;}
-.slider-content-wrap{display: flex;flex-direction: column; height: 100%;}
+.slider-content-wrap{display: flex;flex-direction: column; height: 100%;gap: 20px;}
 .profile-image{width: 50px;height: 50px;border: #ffffff33 solid 1px;border-radius: 100px;}
 .level-container{cursor: pointer; width: 100%;min-height: 100px;display: flex;border: #ffffff33 solid 1px;border-radius: 10px;padding: 10px 15px;flex-direction: column;}
 .level-header-wrap{display: flex;font-size: 12px;color: #ffffff86;width: 100%;justify-content: space-between;}
