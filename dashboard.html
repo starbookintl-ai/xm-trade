@@ -297,7 +297,7 @@
 
 
         .slide-panel-topbar{
-          width: 100%;display: flex;justify-content: space-between;align-items: center; padding: 11px 11px;
+          width: 100%;display: flex;justify-content: space-between;align-items: center; padding: 11px 11px;gap: 20px;
         }
 
 
@@ -623,8 +623,16 @@
           <div id="searchCanvas">  
             <div class="drag-bar"></div>            
             <div class="slide-panel-topbar">
-              <input style="width: 100%; display: flex;padding: 8px; background-color: #0f1730;border-radius: 8px;" type="text">
+
+              <div class="field-wrap">
+                <div class="search-btn" >
+                  <img id="searchIcon" src="images/search-icon.png">
+                </div> 
+                <input id="search" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
+              </div>
+
               <p class="cancel-btn" style="font-size: 17px; font-weight: 600;">Cancel</p>
+
             </div>
             <div class="slider-content-wrap">
               <div class="categories-scrollbar">
@@ -637,6 +645,8 @@
                 <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
                 <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
               </div>
+
+              <div id="marketList2" class="market-list2"></div>
             </div>
           </div>
 
@@ -800,6 +810,7 @@ navButtons.forEach(btn => {
   ];
 
   const list = document.getElementById("marketList");
+  const list2 = document.getElementById("marketList2");  
   const panel = document.getElementById("slidePanel");
   const overlay = document.getElementById("panelOverlay");
   const tradeSymbol = document.getElementById("tradeSymbol");
@@ -871,6 +882,27 @@ navButtons.forEach(btn => {
     row.onclick = () => selectMarket(m, row);
     list.appendChild(row);
   });
+
+
+  // ===== BUILD SEARCH LIST =====
+  markets.forEach(m => {
+    const row2 = document.createElement("div");
+    row2.className = "market-item";
+    row2.dataset.symbol = m.symbol;
+    row2.innerHTML = `
+  <div class="left">
+    <img src=${m.img}>
+    <div>
+      <div class="symbol">${m.symbol}</div>
+      <div class="desc">${m.desc}</div>
+    </div>
+  </div>
+  <div class="right" style="display:flex;justify-content:center; align-items;">
+    <img src="images/add-icon.png" style="width: 20px; height: 20px;">
+  </div>`;
+    row2.onclick = () => selectMarket(m, row2);
+    list2.appendChild(row2);
+  });  
 
   // ===== LIVE PRICES =====
   async function updatePrices() {
@@ -1298,5 +1330,44 @@ navButtons.forEach(btn => {
 
 </style>
 
+<style>
+/* INPUTS */
+
+.field{border: none;width: 100%;  background: none;color: white;  font-size:16px;}
+.field::placeholder{color:#9aa3b2}
+.field:focus{outline: none;border: none;}
+
+.field-wrap{
+  width:100%;
+  background:#090f1f;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius:12px;
+  padding:8px 16px;
+  gap: 20px;
+}
+.search-btn{
+  width:20px;
+  height:20px;
+  cursor:pointer;
+}
+
+.search-btn img{
+  width:100%;
+  height:100%;
+  opacity:.7;
+}
+
+.market-list2{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+}
+
+
+
+</style>
 </body>
 </html
