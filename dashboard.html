@@ -743,7 +743,6 @@
     <!-- PAGE 4 -->
     <section class="page" id="page-more">
       <!-- 🔽 PASTE PAGE 4 CONTENT HERE 🔽 -->
-      <div class="page-wrap">
 
         <div class="offers">
             <div class="offer-card">
@@ -776,8 +775,147 @@
           <p class="notification-category-pill" data-type="trading">Funding</p>
           <p class="notification-category-pill" data-type="pice arlert">Platforms</p>
           <p class="notification-category-pill" data-type="trading">Support</p>          
+        </div>      
+
+        <div class="more-features-row">
+
+            <div class="feature-header"><h3>Popular</h3></div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/copy-trading-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Copy Trading</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/competitions-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Competiitons</p>
+              </div>
+            </div>
+
+        </div>  
+          
+        <div class="more-features-row">
+
+            <div class="feature-header"><h3>Rewards</h3></div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/bonuses-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Bonus</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/refere-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Refere a Friend</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/trader-club-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">XM Traders Club</p>
+              </div>
+            </div>
+
+        </div>   
+          
+        <div class="more-features-row">
+
+            <div class="feature-header"><h3>Tools</h3></div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/news-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">News</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/analysis-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Analysis</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/business-calendar-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Economic Calendar</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/trading-central-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Trading Central</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/calculator-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Forex Calculator</p>
+              </div>
+              
+            </div>
+
+        </div>
+        
+        <div class="more-features-row">
+
+            <div class="feature-header"><h3>Funding</h3></div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/deposit-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Deposit</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/withdraw-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Withdraw</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/mywallet-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">My Wallet</p>
+              </div>
+           
+            </div>
+
+        </div>  
+        
+        <div class="more-features-row">
+
+            <div class="feature-header"><h3>Support</h3></div>
+
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/help-center-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Help Center</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/support-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Live Chat</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="feature-card-icon">
+                  <img src="images/submit-question-neon-icon.JPG" alt=""></div>
+                <p class="feature-card-text">Submit a Question</p>
+              </div>
+           
+            </div>
+
         </div>        
-      </div>
+
     </section>
 
   </main>
@@ -1438,6 +1576,74 @@ navButtons.forEach(btn => {
 .page-wrap{width: 100%;height: 100%;display: flex;flex-direction: column;}
 .top-row{width: 100%;padding: 15px;display: flex;justify-content: space-between;}
 
+
+</style>
+
+
+<style>
+  body{background: #0c1324;}
+
+.more-features-wrap{
+  width: 100%;
+}
+
+.more-features-row{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+}
+
+.feature-header-wrap{
+  display: flex;
+  width: 100%;
+}
+
+.feature-header-text{
+  font-size: 20px;
+}
+
+.features-grid{
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+   gap: 20px;
+}
+
+.feature-card{
+  display: flex;
+  max-width: 130px;
+  min-height: 105px;
+  border-radius: 15px;
+  background-color: #ffffff09;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.feature-card:hover{
+  background-color: #ffffff17;
+}
+
+.feature-card-icon{
+  display: flex;
+  background-color: black;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+.feature-card-icon img{
+  height: 30px;
+   width: 30px;
+}
+
+.feature-card-text{
+  font-size: 13px;text-align: center;
+}
 
 </style>
 <body>
