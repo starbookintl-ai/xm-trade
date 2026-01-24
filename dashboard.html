@@ -737,7 +737,28 @@
     <!-- PAGE 3 -->
     <section class="page" id="page-explore">
       <!-- 🔽 PASTE PAGE 3 CONTENT HERE 🔽 -->
-      <h2>Explore</h2>
+      <h2 style="margin: 20px 20px 30px 20px">Explore</h2>
+
+      <div class="section">
+        <h3 style="margin-left: 20px;">Top Gainers</h3>
+        <div class="card-row" id="gainers"></div>
+      </div>
+
+      <div class="section">
+        <h3 style="margin-left: 20px;">Top Losers</h3>
+        <div class="card-row" id="losers"></div>
+      </div>     
+
+      <div class="section">
+        <h3 style="margin-left: 20px;">Top Long</h3>
+        <div class="card-row" id="topLong"></div>
+      </div>  
+
+      <div class="section">
+        <h3 style="margin-left: 20px;">Top Short</h3>
+        <div class="card-row" id="topShort"></div>
+      </div>       
+      
     </section>
 
     <!-- PAGE 4 -->
@@ -771,9 +792,7 @@
           <p class="notification-category-pill active" data-type="all">Popular</p>
           <p class="notification-category-pill" data-type="unread">Rewards</p>
           <p class="notification-category-pill" data-type="account">Tools</p>
-          <p class="notification-category-pill" data-type="pice arlert">Education</p>
           <p class="notification-category-pill" data-type="trading">Funding</p>
-          <p class="notification-category-pill" data-type="pice arlert">Platforms</p>
           <p class="notification-category-pill" data-type="trading">Support</p>          
         </div>      
 
@@ -1101,7 +1120,7 @@ navButtons.forEach(btn => {
     <img src=${m.img}>
     <div>
       <div class="symbol">${m.symbol}</div>
-      <div class="desc">${m.desc}</div>
+      <div class="card-desc">${m.desc}</div>
     </div>
   </div>
   <div class="right" style="display:flex;justify-content:center; align-items;">
@@ -1126,7 +1145,7 @@ navButtons.forEach(btn => {
       }
 
       const row = document.querySelector(`[data-symbol="${m.symbol}"]`);
-      row.querySelector(".price").textContent = price.toLocaleString();
+      row.querySelector(".card-price").textContent = price.toLocaleString();
       row.querySelector(".change").textContent =
         `${change >= 0 ? "+" : ""}${change.toFixed(2)}%`;
       row.querySelector(".change").className =
@@ -1403,6 +1422,7 @@ navButtons.forEach(btn => {
 
 </script>
 
+
 <script>
   const pills = document.querySelectorAll(".market-category-pill");
 
@@ -1646,6 +1666,226 @@ navButtons.forEach(btn => {
 }
 
 </style>
+
+<style>
+
+/* ===== SECTION ===== */
+.section{
+  margin-bottom:22px;
+}
+.section h3{
+  font-size:18px;
+  margin-bottom:12px;
+}
+
+/* ===== CARD ROW ===== */
+.card-row{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding: 0px 20px;
+  padding-bottom:6px;
+}
+.card-row::-webkit-scrollbar{display:none}
+
+/* ===== CARD ===== */
+.market-card{
+  min-width:200px;
+  background:#0c1324;
+  border-radius:16px;
+  padding:0px;
+  border:1px solid #ffffff3f;
+  cursor: pointer;
+}
+
+.market-card:hover{
+  background-color: #ffffff0e;
+}
+
+/* ===== CARD HEADER ===== */
+.card-top{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding: 15px 15px 0px 15px;
+}
+.card-flag{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+}
+.card-symbol{
+  font-weight:600;
+  font-size:14px;
+}
+.card-desc{
+  font-size:12px;
+  color:#9aa4c7;
+}
+
+/* ===== PRICE ===== */
+.card-price{
+  margin-top:8px;
+  font-size:15px;
+  font-weight:600;
+  padding: 0px 15px 30px 15px;
+}
+.change{
+  font-size:13px;
+  margin-left:6px;
+}
+.positive{color:#1fd18b}
+.negative{color:#ff5c5c}
+
+/* ===== MINI CHART ===== */
+.card-chart-wrap{
+  margin-top:10px;
+  height:56px;
+}
+canvas{
+  width:100%;
+  height:100%;
+  cursor: pointer;
+}
+
+/* ===== DESKTOP GRID ===== */
+@media(min-width:768px){
+  .card-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    overflow:visible;
+  }
+}
+</style>
+
+<script>
+/* ===============================
+   DATASET
+================================ */
+const data = {
+  gainers:[
+    {symbol:"ZRXUSD",desc:"0x vs US Dollar",image:"images/zrxusd.svg", price:0.12740,change:3.33},
+    {symbol:"CHZUSD",desc:"Chiliz vs US Dollar",image:"images/chzusd.svg", price:0.0506,change:1.22},
+    {symbol:"STORJUSD",desc:"Storj vs US Dollar",image:"images/storjusd.svg", price:0.1279,change:2.11},
+  ],
+  losers:[
+    {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
+    {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
+    {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
+  ],
+  long:[
+    {symbol:"Tesla",desc:"Tesla Stock",image:"images/tesla_dark.png", price:446.98,change:2.79},
+    {symbol:"Nvidia",desc:"Nvidia Stock",image:"images/nvidia_dark.png", price:186.95,change:-0.06},
+    {symbol:"Apple",desc:"Apple Stock",image:"images/apple_dark.png", price:247.05,change:1.05},
+  ],
+  short:[
+    {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
+    {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
+    {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
+  ]
+};
+
+/* ===============================
+   BUILD CARD
+================================ */
+function createCard(m){
+  const isPositive = m.change >= 0;
+
+  const card = document.createElement("div");
+  card.className = "market-card";
+
+  card.innerHTML = `
+    <div class="card-top">
+      <img class="card-flag" src="${m.image}">
+      <div>
+        <div class="card-symbol">${m.symbol}</div>
+        <div class="card-desc">${m.desc}</div>
+      </div>
+    </div>
+
+    <div class="card-price">
+      ${m.price.toLocaleString()}
+      <span class="change ${isPositive ? "positive" : "negative"}">
+        ${isPositive ? "+" : ""}${m.change.toFixed(2)}%
+      </span>
+    </div>
+
+    <div class="card-chart-wrap">
+      <canvas></canvas>
+    </div>
+  `;
+
+  drawMiniChart(
+    card.querySelector("canvas"),
+    isPositive,
+    m.symbol
+  );
+
+  return card;
+}
+
+/* ===============================
+   MINI CHART
+================================ */
+function drawMiniChart(canvas, positive, seed){
+  const ctx = canvas.getContext("2d");
+  canvas.width = 220;
+  canvas.height = 56;
+
+  /* unique pseudo-random per symbol */
+  let r = seed.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
+
+  const points = Array.from({length:30},(_,i)=>{
+    r = (r * 9301 + 49297) % 233280;
+    const noise = r / 233280;
+    return Math.sin(i/4) + noise * 0.6 + (positive ? 1 : -1);
+  });
+
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+
+  ctx.beginPath();
+  points.forEach((v,i)=>{
+    const x = i/(points.length-1) * canvas.width;
+    const y = canvas.height - (v-min)/(max-min) * canvas.height;
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+
+  const lineColor = positive ? "#1fd18b" : "#ff3b3b";
+
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  /* gradient fill */
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.lineTo(0, canvas.height);
+  ctx.closePath();
+
+  const g = ctx.createLinearGradient(0,0,0,canvas.height);
+  g.addColorStop(0, positive ? "rgba(31,209,139,.25)" : "rgba(255,59,59,.25)");
+  g.addColorStop(1, "rgba(0,0,0,0)");
+
+  ctx.fillStyle = g;
+  ctx.fill();
+}
+
+/* ===============================
+   RENDER
+================================ */
+const gainers = document.getElementById("gainers");
+const losers = document.getElementById("losers");
+const long = document.getElementById("topLong");
+const short = document.getElementById("topShort");
+
+data.gainers.forEach(m => gainers.appendChild(createCard(m)));
+data.losers.forEach(m => losers.appendChild(createCard(m)));
+data.long.forEach(m => long.appendChild(createCard(m)));
+data.short.forEach(m => short.appendChild(createCard(m)));
+</script>
+
+
+
 <body>
   
 </body>
