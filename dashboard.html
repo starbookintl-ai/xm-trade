@@ -1014,413 +1014,203 @@ navButtons.forEach(btn => {
 
 
 <script>
-  const markets = [
-    { symbol: "BTCUSD", desc: "Bitcoin vs US Dollar", type: "crypto", id: "bitcoin", img: "images/btcusd.svg"},
-    { symbol: "ETHUSD", desc: "Ethereum vs US Dollar", type: "crypto", id: "ethereum", img: "images/ethusd.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"}, 
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},
-    { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", base: "USD", quote: "JPY", img: "images/usdjpy.svg"},    
-  ];
+/* ===============================
+   MARKET DATA
+================================ */
+const markets = [
+  { symbol: "BTCUSD", desc: "Bitcoin vs US Dollar", type: "crypto", id: "bitcoin", img: "images/btcusd.svg"},
+  { symbol: "ETHUSD", desc: "Ethereum vs US Dollar", type: "crypto", id: "ethereum", img: "images/ethusd.svg"},
+  { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", img: "images/usdjpy.svg"},
+  { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", img: "images/usdjpy.svg"},
+];
 
-  const list = document.getElementById("marketList");
-  const list2 = document.getElementById("marketList2");  
-  const panel = document.getElementById("slidePanel");
-  const overlay = document.getElementById("panelOverlay");
-  const tradeSymbol = document.getElementById("tradeSymbol");
+/* ===============================
+   DOM REFERENCES
+================================ */
+const list = document.getElementById("marketList");
+const list2 = document.getElementById("marketList2");
+const panel = document.getElementById("slidePanel");
+const overlay = document.getElementById("panelOverlay");
+const tradeSymbol = document.getElementById("tradeSymbol");
 
-  /*Define the constants for the various canvas that are on the slide up panel*/
-  const cancelButtons = document.querySelectorAll(".cancel-btn");
-  const chart = document.getElementById("chartCanvas");
-  const search = document.getElementById("searchCanvas");
-  const notification = document.getElementById("notificationCanvas");
-  const wallet = document.getElementById("walletCanvas");
-  const profile = document.getElementById("profileCanvas");
-  /*-----------------------------------------------------------------------------*/
-  const notificationBtn = document.getElementById("notificationButton");
-  const walletBtn = document.getElementById("walletButton");
-  const profileBtn = document.getElementById("profileButton");
-  const searchBtn = document.getElementById("searchButton");
+/* Slide panel canvases (KEEP THESE) */
+const chartCanvas = document.getElementById("chartCanvas");
+const searchCanvas = document.getElementById("searchCanvas");
+const notificationCanvas = document.getElementById("notificationCanvas");
+const walletCanvas = document.getElementById("walletCanvas");
+const profileCanvas = document.getElementById("profileCanvas");
 
+/* Buttons */
+const notificationBtn = document.getElementById("notificationButton");
+const walletBtn = document.getElementById("walletButton");
+const profileBtn = document.getElementById("profileButton");
+const searchBtn = document.getElementById("searchButton");
+const cancelButtons = document.querySelectorAll(".cancel-btn");
 
+/* ===============================
+   BUILD MARKET LIST
+================================ */
+markets.forEach(m => {
+  const row = document.createElement("div");
+  row.className = "market-item";
+  row.dataset.symbol = m.symbol;
 
-  const canvas = document.getElementById("chart");
-  const ctx = canvas.getContext("2d");
-  const xAxis = document.getElementById("xAxis");
-  const sellPrice = document.getElementById("sellPrice");
-  const buyPrice = document.getElementById("buyPrice");
-
-  let chartData = [], chartTimes = [];
-  let crossX = null, crossY = null;
-
-  // ===== LOCAL DATA STORAGE =====
-  let storedData = [];      // current data stored
-  let updatedData = [];     // changes to apply
-
-  // ===== CHART PADDING =====
-  let padding = 40;
-  let topPadding = 20;
-  let bottomPadding = 20;
-  let leftPadding = 0;
-  let chartWidth = 0;
-  let chartHeight = 0;
-
-  // ===== INITIALIZE CANVAS =====
-  function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = 400;
-    chartWidth = canvas.width - padding * 2;
-    chartHeight = canvas.height - topPadding - bottomPadding;
-    drawChart();
-  }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-
-  // ===== BUILD MARKET LIST =====
-  markets.forEach(m => {
-    const row = document.createElement("div");
-    row.className = "market-item";
-    row.dataset.symbol = m.symbol;
-    row.innerHTML = `
-  <div class="left">
-    <img src=${m.img}>
-    <div>
-      <div class="symbol">${m.symbol}</div>
-      <div class="desc">${m.desc}</div>
+  row.innerHTML = `
+    <div class="left">
+      <img src="${m.img}">
+      <div>
+        <div class="symbol">${m.symbol}</div>
+        <div class="desc">${m.desc}</div>
+      </div>
     </div>
-  </div>
-  <div class="right">
-    <div class="price">--</div>
-    <div class="change">--</div>
-  </div>`;
-    row.onclick = () => selectMarket(m, row);
-    list.appendChild(row);
-  });
-
-
-  // ===== BUILD SEARCH LIST =====
-  markets.forEach(m => {
-    const row2 = document.createElement("div");
-    row2.className = "market-item";
-    row2.dataset.symbol = m.symbol;
-    row2.innerHTML = `
-  <div class="left">
-    <img src=${m.img}>
-    <div>
-      <div class="symbol">${m.symbol}</div>
-      <div class="card-desc">${m.desc}</div>
+    <div class="right">
+      <div class="price">--</div>
+      <div class="change">--</div>
     </div>
-  </div>
-  <div class="right" style="display:flex;justify-content:center; align-items;">
-    <img src="images/add-icon.png" style="width: 20px; height: 20px;">
-  </div>`;
-    row2.onclick = () => selectMarket(m, row2);
-    list2.appendChild(row2);
-  });  
+  `;
 
-  // ===== LIVE PRICES =====
-  async function updatePrices() {
-    const cryptoIds = markets.filter(m => m.type === "crypto").map(m => m.id).join(",");
-    const crypto = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true`
-    ).then(r => r.json());
-
-    markets.forEach(m => {
-      let price = 0, change = 0;
-      if (m.type === "crypto") {
-        price = crypto[m.id].usd;
-        change = crypto[m.id].usd_24h_change;
-      }
-
-      const row = document.querySelector(`[data-symbol="${m.symbol}"]`);
-      row.querySelector(".card-price").textContent = price.toLocaleString();
-      row.querySelector(".change").textContent =
-        `${change >= 0 ? "+" : ""}${change.toFixed(2)}%`;
-      row.querySelector(".change").className =
-        `change ${change >= 0 ? "positive" : "negative"}`;
-
-      // ===== STORE UPDATES =====
-      const existing = updatedData.find(u => u.symbol === m.symbol);
-      if (existing) {
-        existing.price = price;
-      } else {
-        updatedData.push({ symbol: m.symbol, price });
-      }
-    });
-  }
-  setInterval(updatePrices, 2000); // faster updates for demo
-  updatePrices();
-
-  // ===== PANEL CONTROL =====
-  overlay.onclick = () => {
-    panel.classList.remove("active");
-    overlay.classList.remove("active");
-  };
-
-  cancelButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    panel.classList.remove("active");
-    overlay.classList.remove("active");
-  });
+  row.onclick = () => selectMarket(m, row);
+  list.appendChild(row);
 });
 
+/* ===============================
+   BUILD SEARCH LIST
+================================ */
+markets.forEach(m => {
+  const row = document.createElement("div");
+  row.className = "market-item";
 
-  // ===== LOAD CHART =====
-  async function loadChart(m) {
-    chartData = []; chartTimes = [];
-    const res = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${m.id}/market_chart?vs_currency=usd&days=1`
-    );
-    const json = await res.json();
-    json.prices.forEach(p => {
-      chartTimes.push(new Date(p[0]));
-      chartData.push(p[1]);
-    });
+  row.innerHTML = `
+    <div class="left">
+      <img src="${m.img}">
+      <div>
+        <div class="symbol">${m.symbol}</div>
+        <div class="desc">${m.desc}</div>
+      </div>
+    </div>
+    <div class="right" style="display:flex;justify-content:center; align-items;">
+      <img src="images/add-icon.png" style="width: 20px; height: 20px;">
+    </div>
+  `;
 
-    // Store initial data locally
-    storedData = chartData.slice();
+  row.onclick = () => selectMarket(m, row);
+  list2.appendChild(row);
+});
 
-    drawChart();
-    updateTradePrices();
-  }
+/* ===============================
+   LIVE PRICE UPDATE
+================================ */
+async function updatePrices() {
+  const cryptoIds = markets
+    .filter(m => m.type === "crypto")
+    .map(m => m.id)
+    .join(",");
 
-  // ===== DRAW CHART =====
-  function drawChart() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (!chartData.length) return;
+  if (!cryptoIds) return;
 
-    const min = Math.min(...chartData);
-    const max = Math.max(...chartData);
-    const lastPrice = chartData.at(-1);
+  const prices = await fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true`
+  ).then(r => r.json());
 
-    // ===== GRID LINES =====
-    ctx.strokeStyle = "rgba(255,255,255,0.1)";
-    ctx.lineWidth = 1;
+  markets.forEach(m => {
+    if (!prices[m.id]) return;
 
-    // Horizontal lines (10)
-    for (let i = 0; i <= 9; i++) {
-      const y = topPadding + i / 9 * chartHeight;
-      ctx.beginPath();
-      ctx.moveTo(padding, y);
-      ctx.lineTo(canvas.width - padding, y);
-      ctx.stroke();
-    }
+    const row = document.querySelector(`[data-symbol="${m.symbol}"]`);
+    if (!row) return;
 
-    // Vertical lines (3)
-    for (let i = 0; i <= 2; i++) {
-      const x = padding + i / 2 * chartWidth;
-      ctx.beginPath();
-      ctx.moveTo(x, topPadding);
-      ctx.lineTo(x, canvas.height - bottomPadding);
-      ctx.stroke();
-    }
+    const price = prices[m.id].usd;
+    const change = prices[m.id].usd_24h_change;
 
-    // ===== Y AXIS LABELS =====
-    ctx.fillStyle = "#9aa4c7";
-    ctx.font = "15px system-ui";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-
-    for (let i = 0; i <= 9; i++) {
-      const y = topPadding + i / 9 * chartHeight;
-      const val = (min + (max - min) * (9 - i) / 9).toFixed(2);
-      ctx.fillText(val, canvas.width - 6, y);
-    }
-
-
-
-
-
-    
-
-    // ===== GRAPH LINE =====
-  // ===== GRAPH LINE + GRADIENT =====
-  ctx.beginPath();
-  chartData.forEach((p, i) => {
-    const x = padding + i / (chartData.length - 1) * chartWidth;
-    const y = topPadding + chartHeight - (p - min) / (max - min) * chartHeight;
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    row.querySelector(".price").textContent = price.toLocaleString();
+    const changeEl = row.querySelector(".change");
+    changeEl.textContent = `${change >= 0 ? "+" : ""}${change.toFixed(2)}%`;
+    changeEl.className = `change ${change >= 0 ? "positive" : "negative"}`;
   });
+}
 
-  // ---- CREATE GRADIENT ----
-  const gradient = ctx.createLinearGradient(0, topPadding, 0, topPadding + chartHeight);
-  gradient.addColorStop(0, "rgba(31, 209, 138, 0.16)");
-  gradient.addColorStop(0.6, "rgba(31, 209, 138, 0.04)");
-  gradient.addColorStop(1, "rgba(31, 209, 139, 0)");
+updatePrices();
+setInterval(updatePrices, 3000);
 
-  // ---- FILL AREA UNDER LINE ----
-  ctx.lineTo(padding + chartWidth, topPadding + chartHeight);
-  ctx.lineTo(padding, topPadding + chartHeight);
-  ctx.closePath();
+/* ===============================
+   PANEL CONTROL
+================================ */
+overlay.onclick = closePanel;
+cancelButtons.forEach(btn => btn.onclick = closePanel);
 
-  ctx.fillStyle = gradient;
-  ctx.fill();
+function closePanel() {
+  panel.classList.remove("active");
+  overlay.classList.remove("active");
+}
 
-  // ---- STROKE LINE ON TOP ----
-  ctx.beginPath();
-  chartData.forEach((p, i) => {
-    const x = padding + i / (chartData.length - 1) * chartWidth;
-    const y = topPadding + chartHeight - (p - min) / (max - min) * chartHeight;
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
+/* ===============================
+   MARKET SELECTION
+================================ */
+function selectMarket(m, row) {
+  document.querySelectorAll(".market-item").forEach(r => r.classList.remove("active"));
+  row.classList.add("active");
 
-  ctx.strokeStyle = "#1fd18b";
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  tradeSymbol.textContent = m.symbol;
 
-  
-    // ===== LAST PRICE LINE =====
-    const lastY = topPadding + chartHeight - (lastPrice - min) / (max - min) * chartHeight;
-    const labelWidth = 60;
-    const labelHeight = 18;
+  panel.classList.add("active", "slide-panel-notlap", "panel-mild");
+  overlay.classList.add("active");
 
-    // Horizontal line
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(padding, lastY);
-    ctx.lineTo(canvas.width - padding - labelWidth, lastY);
-    ctx.stroke();
+  chartCanvas.classList.remove("canvas-disabled");
+  searchCanvas.classList.add("canvas-disabled");
+  notificationCanvas.classList.add("canvas-disabled");
+  walletCanvas.classList.add("canvas-disabled");
+  profileCanvas.classList.add("canvas-disabled");
+}
 
-    // Price label box
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(canvas.width - padding - labelWidth, lastY - labelHeight/2, labelWidth, labelHeight);
+/* ===============================
+   PANEL BUTTONS (SPECIFIED BEHAVIOR)
+================================ */
 
-    // Price text inside
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(lastPrice.toFixed(2), canvas.width - padding - labelWidth/2, lastY);
+/* FULL SCREEN PANELS */
+notificationBtn.onclick = () => openFullPanel(notificationCanvas);
+walletBtn.onclick       = () => openFullPanel(walletCanvas);
+profileBtn.onclick      = () => openFullPanel(profileCanvas);
 
-    // ===== CROSSHAIR =====
-    if (crossX !== null) {
-      ctx.strokeStyle = "rgba(255,255,255,.3)";
-      ctx.beginPath();
-      const crossYClamped = Math.min(Math.max(crossY, topPadding), canvas.height - bottomPadding);
-      ctx.moveTo(crossX, topPadding);
-      ctx.lineTo(crossX, canvas.height - bottomPadding);
-      ctx.moveTo(padding, crossYClamped);
-      ctx.lineTo(canvas.width - padding, crossYClamped);
-      ctx.stroke();
-    }
+/* PARTIAL SLIDE-UP PANELS */
+searchBtn.onclick       = () => openPartialPanel(searchCanvas);
 
-    // ===== X AXIS LABELS =====
-    xAxis.innerHTML = `
-      <span>${chartTimes[0]?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-      <span>${chartTimes.at(-1)?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-    `;
-  }
+/* ===============================
+   PANEL OPEN HELPERS
+================================ */
+function openFullPanel(activeCanvas) {
+  panel.classList.add("active", "slide-panel-lap");
+  panel.classList.remove("slide-panel-notlap");
 
-  // ===== CROSSHAIR EVENTS =====
-  canvas.onmousemove = e => {
-    const r = canvas.getBoundingClientRect();
-    crossX = e.clientX - r.left;
-    crossY = e.clientY - r.top;
-    drawChart();
-  };
-  canvas.onmouseleave = () => {
-    crossX = null; crossY = null;
-    drawChart();
-  };
+  overlay.classList.add("active");
 
-  // ===== BUY / SELL =====
-  function updateTradePrices() {
-    const last = chartData.at(-1);
-    sellPrice.textContent = last.toFixed(2);
-    buyPrice.textContent = (last + 20).toFixed(2);
-  }
+  disableAllCanvases();
+  activeCanvas.classList.remove("canvas-disabled");
+}
 
-  // ===== SELECT MARKET =====
-  async function selectMarket(m, row) {
-    document.querySelectorAll(".market-item").forEach(r => r.classList.remove("active"));
-    row.classList.add("active");
-    tradeSymbol.textContent = m.symbol;
-    panel.classList.add("active");
-    overlay.classList.add("active");
-    panel.classList.remove("slide-panel-lap");
-    panel.classList.add("slide-panel-notlap");
-    chartCanvas.classList.remove("canvas-disabled");
-    searchCanvas.classList.add("canvas-disabled");
-    notificationCanvas.classList.add("canvas-disabled");
-    walletCanvas.classList.add("canvas-disabled");
-    profileCanvas.classList.add("canvas-disabled");
-    await loadChart(m);
-    panel.classlist.add("panel-mild");    
-  }
+function openPartialPanel(activeCanvas) {
+  panel.classList.add("active");
+  panel.classList.remove("slide-panel-lap");
+  panel.classList.add("slide-panel-notlap");
 
+  overlay.classList.add("active");
 
-  //NOTIFICATION CANVAS ====
-  notificationBtn.addEventListener("click", () => {
-    panel.classList.add("active");
-    overlay.classList.add("active");
-    panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap");      
-    chartCanvas.classList.add("canvas-disabled");
-    searchCanvas.classList.add("canvas-disabled");
-    notificationCanvas.classList.remove("canvas-disabled");
-    walletCanvas.classList.add("canvas-disabled");
-    profileCanvas.classList.add("canvas-disabled");
-    panel.classlist.remove("panel-mild");
-  });
+  disableAllCanvases();
+  activeCanvas.classList.remove("canvas-disabled");
+}
 
-  //WALLET CANVAS ====
-  walletBtn.addEventListener("click", () => {
-    panel.classList.add("active");
-    overlay.classList.add("active");
-    panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap");   
-    chartCanvas.classList.add("canvas-disabled");
-    searchCanvas.classList.add("canvas-disabled");
-    notificationCanvas.classList.add("canvas-disabled");
-    walletCanvas.classList.remove("canvas-disabled");
-    profileCanvas.classList.add("canvas-disabled");
-    panel.classlist.remove("panel-mild");
-  });  
-
-  //PROFILE CANVAS ====
-  profileBtn.addEventListener("click", () => {
-    panel.classList.add("active");
-    overlay.classList.add("active");
-    panel.classList.add("slide-panel-lap");
-    panel.classList.remove("slide-panel-notlap");
-    chartCanvas.classList.add("canvas-disabled");
-    searchCanvas.classList.add("canvas-disabled");
-    notificationCanvas.classList.add("canvas-disabled");
-    walletCanvas.classList.add("canvas-disabled");
-    profileCanvas.classList.remove("canvas-disabled");
-    panel.classlist.remove("panel-mild");    
-  });
-
-  //SEARCH CANVAS ====
-  searchBtn.addEventListener("click", () => {
-    panel.classList.add("active");
-    overlay.classList.add("active");
-    panel.classList.remove("slide-panel-lap");
-    panel.classList.add("slide-panel-notlap");
-    chartCanvas.classList.add("canvas-disabled");
-    searchCanvas.classList.remove("canvas-disabled");
-    notificationCanvas.classList.add("canvas-disabled");
-    walletCanvas.classList.add("canvas-disabled");
-    profileCanvas.classList.add("canvas-disabled");
-    panel.classlist.add("panel-mild");
-  });  
-
-
-
+/* ===============================
+   SHARED UTIL
+================================ */
+function disableAllCanvases() {
+  chartCanvas.classList.add("canvas-disabled");
+  searchCanvas.classList.add("canvas-disabled");
+  notificationCanvas.classList.add("canvas-disabled");
+  walletCanvas.classList.add("canvas-disabled");
+  profileCanvas.classList.add("canvas-disabled");
+}
 
 </script>
+
+
 
 
 <script>
@@ -1690,7 +1480,7 @@ navButtons.forEach(btn => {
 
 /* ===== CARD ===== */
 .market-card{
-  min-width:200px;
+  min-width:180px;
   background:#0c1324;
   border-radius:16px;
   padding:0px;
@@ -1760,28 +1550,48 @@ canvas{
 
 <script>
 /* ===============================
-   DATASET
+   DATASET (ORIGINAL + 20 MORE)
 ================================ */
 const data = {
   gainers:[
     {symbol:"ZRXUSD",desc:"0x vs US Dollar",image:"images/zrxusd.svg", price:0.12740,change:3.33},
     {symbol:"CHZUSD",desc:"Chiliz vs US Dollar",image:"images/chzusd.svg", price:0.0506,change:1.22},
     {symbol:"STORJUSD",desc:"Storj vs US Dollar",image:"images/storjusd.svg", price:0.1279,change:2.11},
+
+    {symbol:"Oracle",desc:"Oracle Stock",image:"images/oracle_dark.png", price:146.21,change:4.82},
+    {symbol:"Microsoft",desc:"Microsoft Stock",image:"images/microsoft_dark.png", price:34.19,change:3.14},
+    {symbol:"ETHEUR",desc:"Ethurium vs Euro",image:"images/etheur.svg", price:0.61,change:1.87},
+    {symbol:"LINKUSD",desc:"Chainlink vs US Dollar",image:"images/linkusd.svg", price:18.03,change:2.64},
+    {symbol:"MATICUSD",desc:"Polygon vs US Dollar",image:"images/maticusd.svg", price:0.92,change:1.41},
   ],
+
   losers:[
     {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
     {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
     {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
+    {symbol:"APEUSD",desc:"Apecoin vs US Dollar",image:"images/apeusd.svg", price:5.21,change:-2.33},
+    {symbol:"ATOMUSD",desc:"Cosmos vs US Dollar",image:"images/atomusd.svg", price:9.87,change:-1.88},
+    {symbol:"LINKUSD",desc:"Link vs US Dollar",image:"images/linkusd.svg", price:0.46,change:-3.21},
+    {symbol:"OILCASHUSD",desc:"Oil Cash vs US Dollar",image:"images/oilcash.svg", price:12.44,change:-2.91},
+    {symbol:"LTCUSD",desc:"Litecoin vs US Dollar",image:"images/ltcusd.svg", price:0.41,change:-1.62},
   ],
+
   long:[
     {symbol:"Tesla",desc:"Tesla Stock",image:"images/tesla_dark.png", price:446.98,change:2.79},
     {symbol:"Nvidia",desc:"Nvidia Stock",image:"images/nvidia_dark.png", price:186.95,change:-0.06},
     {symbol:"Apple",desc:"Apple Stock",image:"images/apple_dark.png", price:247.05,change:1.05},
+    {symbol:"Amazon",desc:"Amazon Stock",image:"images/amazon_dark.png", price:182.64,change:1.88},
+    {symbol:"Meta",desc:"Meta Platforms Stock",image:"images/facebook_dark.png ", price:521.14,change:2.41},
+    {symbol:"Google",desc:"Alphabet Stock",image:"images/google_dark.png", price:152.87,change:1.29},
   ],
+
   short:[
     {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
     {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
     {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
+    {symbol:"COIN",desc:"Coinbase Stock",image:"images/coinbase_dark.png", price:228.11,change:-2.19},
+    {symbol:"Adidas",desc:"Adidas Stock",image:"images/adidas_dark.png", price:14.62,change:-1.94},
+    {symbol:"Netflix",desc:"Netflix Stock",image:"images/netflix_dark.svg", price:58.91,change:-2.73},
   ]
 };
 
@@ -1793,6 +1603,7 @@ function createCard(m){
 
   const card = document.createElement("div");
   card.className = "market-card";
+  card.dataset.positive = isPositive;
 
   card.innerHTML = `
     <div class="card-top">
@@ -1815,30 +1626,24 @@ function createCard(m){
     </div>
   `;
 
-  drawMiniChart(
-    card.querySelector("canvas"),
-    isPositive,
-    m.symbol
-  );
-
+  card._seed = m.symbol;
   return card;
 }
 
 /* ===============================
-   MINI CHART
+   MINI CHART (DRAW ON DEMAND)
 ================================ */
 function drawMiniChart(canvas, positive, seed){
   const ctx = canvas.getContext("2d");
-  canvas.width = 220;
-  canvas.height = 56;
 
-  /* unique pseudo-random per symbol */
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+
   let r = seed.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
 
   const points = Array.from({length:30},(_,i)=>{
     r = (r * 9301 + 49297) % 233280;
-    const noise = r / 233280;
-    return Math.sin(i/4) + noise * 0.6 + (positive ? 1 : -1);
+    return Math.sin(i/4) + (r/233280)*0.6 + (positive?1:-1);
   });
 
   const min = Math.min(...points);
@@ -1848,41 +1653,56 @@ function drawMiniChart(canvas, positive, seed){
   points.forEach((v,i)=>{
     const x = i/(points.length-1) * canvas.width;
     const y = canvas.height - (v-min)/(max-min) * canvas.height;
-    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
   });
 
-  const lineColor = positive ? "#1fd18b" : "#ff3b3b";
-
-  ctx.strokeStyle = lineColor;
+  const color = positive ? "#1fd18b" : "#ff5c5c";
+  ctx.strokeStyle = color;
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  /* gradient fill */
-  ctx.lineTo(canvas.width, canvas.height);
-  ctx.lineTo(0, canvas.height);
+  ctx.lineTo(canvas.width,canvas.height);
+  ctx.lineTo(0,canvas.height);
   ctx.closePath();
 
   const g = ctx.createLinearGradient(0,0,0,canvas.height);
-  g.addColorStop(0, positive ? "rgba(31,209,139,.25)" : "rgba(255,59,59,.25)");
-  g.addColorStop(1, "rgba(0,0,0,0)");
-
+  g.addColorStop(0, positive ? "rgba(31,209,139,.25)" : "rgba(255,92,92,.25)");
+  g.addColorStop(1,"rgba(0,0,0,0)");
   ctx.fillStyle = g;
   ctx.fill();
 }
 
 /* ===============================
+   VISIBILITY OBSERVER
+================================ */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const card = e.target;
+      const canvas = card.querySelector("canvas");
+      drawMiniChart(canvas, card.dataset.positive==="true", card._seed);
+      observer.unobserve(card);
+    }
+  });
+},{threshold:0.25});
+
+/* ===============================
    RENDER
 ================================ */
-const gainers = document.getElementById("gainers");
-const losers = document.getElementById("losers");
-const long = document.getElementById("topLong");
-const short = document.getElementById("topShort");
+function renderSection(list, container){
+  list.forEach(m=>{
+    const card = createCard(m);
+    container.appendChild(card);
+    observer.observe(card);
+  });
+}
 
-data.gainers.forEach(m => gainers.appendChild(createCard(m)));
-data.losers.forEach(m => losers.appendChild(createCard(m)));
-data.long.forEach(m => long.appendChild(createCard(m)));
-data.short.forEach(m => short.appendChild(createCard(m)));
+renderSection(data.gainers, document.getElementById("gainers"));
+renderSection(data.losers, document.getElementById("losers"));
+renderSection(data.long, document.getElementById("topLong"));
+renderSection(data.short, document.getElementById("topShort"));
 </script>
+
 
 
 
