@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trading App UI</title>
+  <title> XM-Trading Dashboard</title>
 
     <style>
     /* ================= APP ================= */
@@ -279,7 +279,7 @@
         #slidePanel {
         position: fixed;
         bottom: -100%;
-        padding: 15px;
+        padding: 15px 0px;
         left: 0;
         width: 100%;
         background: #0f1730;
@@ -488,214 +488,7 @@
             <div id="marketList" class="market-list"></div>
         </div>
 
-        <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
-        <div id="panelOverlay"></div>
 
-        <div id="slidePanel" class="slide-panel-notlap">
-
-          <!--CHART CANVAS-->
-          <div id="chartCanvas">
-            <div class="drag-bar"></div>
-            <div class="trade-header"> <span id="tradeSymbol"></span> </div>
-            <canvas id="chart"></canvas>
-            <div class="y-axis" id="yAxis"></div>
-            <div class="x-axis" id="xAxis"></div>
-
-            <div class="trade-actions">
-              <div class="sell"> SELL <span id="sellPrice">--</span>  </div>
-              <div class="buy">   BUY <span id="buyPrice">--</span>   </div>
-            </div>
-          </div>
-
-          <!--WALLET CANVAS-->
-          <div id="walletCanvas">
-            <div class="slide-panel-topbar">
-              <div></div>
-              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>     
-            <div class="wallet-wrap">
-              <h3>Funding</h3>
-
-              <div class="available-balance-card">
-                <h4>Standard <span class="status">Real</span></h4>
-                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
-                <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
-              </div>
-              
-              <h3>Funding Options</h3>
-
-              <div class="funding-options-wrap">
-                <div class="funding-option-btn">
-                  <img src="images/deposit-icon.png" alt="" class="funding-button-icon"> <p>Deposit</p>
-                </div>
-
-                <div class="funding-option-btn">
-                  <img src="images/withdraw-icon.png" alt="" class="funding-button-icon"> <p>Withdraw</p>
-                </div>
-
-                <div class="funding-option-btn">
-                  <img src= "images/internal-transfer-icon.png" alt="" class="funding-button-icon"> <p>Internal Transfer</p>
-                </div>
-
-                <div class="funding-option-btn">
-                  <img src="images/transaction-history-icon.png" alt="" class="funding-button-icon"> <p>Transactions History</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!--PROFILE CANVAS-->
-          <div id="profileCanvas">
-            <div class="slide-panel-topbar">
-              <h3>My Profile</h3>
-              <div style="display: flex;align-items: center;gap: 20px;">
-                <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-              </div>
-            </div>                 
-            <div class="slider-content-wrap"> 
-
-              <div style="width: 100%;display: flex;gap: 20px;align-items: center;">
-                <img src="images/profile-page-icon.png" alt="" class="profile-image">
-                <p style="color: #ffffff80;font-weight: bold;">project234@gmail.com</p>
-              </div>
-
-              <div class="level-container">
-                <div class="level-header-wrap">
-                  <p class="level-header">Level</p>
-                  <p class="level-header">Trading volume</p>
-                </div>
-
-                <div class="level-value-wrap">
-                  <p class="level-value">Bronze</p>
-                  <p class="level-value">$0 <span style="color: #ffffff86;">/$1,000,000</span></p>
-                </div>
-
-                <div class="level-bar-wrap">
-                  <img src="images/bronze.webp" alt="">
-                  <div class="level-bar"></div>
-                  <img src="images/silver.webp" alt="">
-                </div>
-              </div>
-
-              <div class="hr"></div>              
-
-              <div class="card-grid">
-                <div class="card">
-                  <img src="images/profile-verification-icon.png" alt="" style="height: 20px;width: 20px;">
-                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
-                    <p style="font-size: 14px;font-weight: 600;">Verification</p>
-                    <p id="verification-status" style="font-size: 12px;padding: 2px 8px;border-radius: 5px;color: #f5b3b4;background-color: #812d16;width: fit-content;">Unverified</p>
-                  </div>
-                </div>
-                <div class="card">
-                  <img src="images/referal-program-icon.png" alt="" style="height: 20px;width: 20px;">
-                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
-                    <p style="font-size: 14px;font-weight: 600;">Referral Program </p>
-                    <p style="font-size: 12px;color: #ffffffa4;">invite and earn rewards</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="hr"></div>
-
-              <div class="account-controls-wrap">
-                <div class="account-control-btn">
-                  <img src="images/settings-icon.png" alt="" style="width: 20px; height: 20px;">
-                  <p style="font-size: 16px;">Settings</p>
-                </div>
-                <div class="account-control-btn">
-                  <img src="images/profile-icon.png" alt="" style="width: 15px; height: 15px;">
-                  <p style="font-size: 16px;">Support</p>
-                </div>
-                <div class="account-control-btn">
-                  <img src="images/signout-icon.png" alt="" style="width: 18px; height: 18px;">
-                  <p style="font-size: 16px;">Sign Out</p>
-                </div>
-              </div>
-
-              <div class="suggestion-bubble">
-                <img src="images/suggestion-icon.png" alt="" style="width: 15px;height: 15px;">
-                <p>Suggest new features or share your opinion</p>
-                <img src="images/enter-icon.png" alt="" style="width: 10px;height: 10px;">
-              </div>
-
-
-            </div>
-          </div>
-
-          <!--SEARCH CANVAS-->
-          <div id="searchCanvas">  
-            <div class="drag-bar"></div>            
-            <div class="slide-panel-topbar">
-
-              <div class="field-wrap">
-                <div class="search-btn" >
-                  <img id="searchIcon" src="images/search-icon.png">
-                </div> 
-                <input id="search" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
-              </div>
-
-              <p class="cancel-btn" style="font-size: 17px; font-weight: 600;">Cancel</p>
-
-            </div>
-            <div class="slider-content-wrap">
-              <div class="categories-scrollbar">
-                <p class="notification-category-pill active" data-type="all">All</p>
-                <p class="notification-category-pill" data-type="unread">Forex</p>
-                <p class="notification-category-pill" data-type="account">Stock CFDs</p>
-                <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
-                <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
-                <p class="notification-category-pill" data-type="commodities">Commodities</p>
-                <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
-                <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
-              </div>
-
-              <div id="marketList2" class="market-list2"></div>
-            </div>
-          </div>
-
-          <!--NOTIFICATION CANVAS-->
-          <div id="notificationCanvas">
-            <div class="slide-panel-topbar">
-              <h3>All Notifications</h3>
-              <div style="display: flex; gap: 20px;">
-                <img src="images/settings-wheel-icon.png" alt="" class="slide-panel-topbar-img">               
-                <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-              </div>
-            </div>
-
-            <div class="slider-content-wrap">
-              <div class="categories-scrollbar">
-                <p class="notification-category-pill active" data-type="all">All</p>
-                <p class="notification-category-pill" data-type="unread">Unread</p>
-                <p class="notification-category-pill" data-type="account">Account</p>
-                <p class="notification-category-pill" data-type="pice arlert">Price-Alert</p>
-                <p class="notification-category-pill" data-type="trading">Trading</p>
-              </div>
-
-                <div class="xm-loader">
-
-                  <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;margin-bottom: 100px;width: 100;">
-                    <svg width="200" height="200" viewBox="0 0 200 200">
-                      <circle class="wave w1" cx="100" cy="100" r="20" />
-                      <circle class="wave w2" cx="100" cy="100" r="20" />
-                      <circle class="wave w3" cx="100" cy="100" r="20" />
-                    </svg>
-                    <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">You're all caught up! We'll notify you here when there's something new</p>
-                    <p style="font-size: 16px;font-weight: 600; padding: 10px 10px; border: 1px #fff solid;border-radius: 8px;margin-top: 30px; cursor: pointer;">Explore Instruments</p>
-                  </div>
-
-                </div>
-
-
-
-            </div>
-          </div>
-
-
-
-        </div>
     </section>
 
     <!-- PAGE 2 -->
@@ -939,6 +732,294 @@
 
   </main>
 
+  <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
+  <div id="panelOverlay"></div>
+
+  <div id="slidePanel" class="slide-panel-notlap">
+
+          <!--CHART CANVAS-->
+          <div id="chartCanvas">
+            <div class="drag-bar"></div>
+
+              <!-- chart-header -->
+              <div class="chart-header">
+                <div class="chart-header-top">
+
+                  <div class="chart-header-left">
+                    <img id="tradeIcon" src="">
+                    <div>
+                      <h1 id="tradeSymbol">USDJPY</h1>
+                      <span>Forex</span>
+                    </div>
+                  </div>
+
+                  <div class="chart-header-icons">
+                    <img src="images/info-icon.png">
+                    <img src="images/price-alert-icon.png">
+                    <img src="images/add-icon.png">
+                  </div>
+
+                </div>
+              </div>
+
+                 <div class="categories-scrollbar">
+                  <p class="notification-category-pill active" data-type="all">All</p>
+                  <p class="notification-category-pill" data-type="unread">Forex</p>
+                  <p class="notification-category-pill" data-type="account">Stock CFDs</p>
+                  <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
+                  <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
+                  <p class="notification-category-pill" data-type="commodities">Commodities</p>
+                  <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
+                  <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
+                </div>             
+
+              <div class="chart-top-bar">
+                <span class="one-click-label">One Click Order</span>
+
+                <label class="switch">
+                  <input type="checkbox" id="oneClickToggle">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- CHART -->
+              <div class="chart-wrap">
+                <canvas id="chart" style="background-color: #ffffff09;padding-right: 10px;"></canvas>
+                <div class="price-pill" id="pricePill">153.859</div>
+              </div>
+
+              <div class="x-axis">
+                <span>00:00</span>
+                <span>03:00</span>
+                <span>06:00</span>
+                <span>26</span>
+              </div>
+
+              <!-- TIMEFRAME -->
+              <div class="timeframe">
+                <div class="tf-left">
+                  <button class="active">1H</button>
+                  <button>1D</button>
+                  <button>1W</button>
+                  <button>1M</button>
+                  <button>1Y</button>
+                  <button>MAX</button>
+                </div>
+                <div class="tf-right">⛶</div>
+              </div>
+
+              <!-- BUY SELL -->
+              <div class="trade-buttons">
+
+                <button class="sell">
+                  <div style="display: flex;flex-direction:column;">
+                    <p>SELL</p>
+                    <strong>153.859</strong>
+                  </div>
+                  <img src="images/sell-icon.png">
+                </button>
+
+                <button class="buy">
+                  <div style="display: flex;flex-direction:column;">
+                    <p>BUY</p>
+                    <strong>153.886</strong>
+                  </div>
+                  <img src="images/buy-icon.png">
+                </button>
+              </div>
+
+          </div>
+
+          <!--WALLET CANVAS-->
+          <div id="walletCanvas" style="padding: 0px 15px;">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>     
+            <div class="wallet-wrap">
+              <h3>Funding</h3>
+
+              <div class="available-balance-card">
+                <h4>Standard <span class="status">Real</span></h4>
+                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
+              </div>
+              
+              <h3>Funding Options</h3>
+
+              <div class="funding-options-wrap">
+                <div class="funding-option-btn">
+                  <img src="images/deposit-icon.png" alt="" class="funding-button-icon"> <p>Deposit</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src="images/withdraw-icon.png" alt="" class="funding-button-icon"> <p>Withdraw</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src= "images/internal-transfer-icon.png" alt="" class="funding-button-icon"> <p>Internal Transfer</p>
+                </div>
+
+                <div class="funding-option-btn">
+                  <img src="images/transaction-history-icon.png" alt="" class="funding-button-icon"> <p>Transactions History</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--PROFILE CANVAS-->
+          <div id="profileCanvas" style="padding: 0px 15px;" >
+            <div class="slide-panel-topbar">
+              <h3>My Profile</h3>
+              <div style="display: flex;align-items: center;gap: 20px;">
+                <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+              </div>
+            </div>                 
+            <div class="slider-content-wrap"> 
+
+              <div style="width: 100%;display: flex;gap: 20px;align-items: center;">
+                <img src="images/profile-page-icon.png" alt="" class="profile-image">
+                <p style="color: #ffffff80;font-weight: bold;">project234@gmail.com</p>
+              </div>
+
+              <div class="level-container">
+                <div class="level-header-wrap">
+                  <p class="level-header">Level</p>
+                  <p class="level-header">Trading volume</p>
+                </div>
+
+                <div class="level-value-wrap">
+                  <p class="level-value">Bronze</p>
+                  <p class="level-value">$0 <span style="color: #ffffff86;">/$1,000,000</span></p>
+                </div>
+
+                <div class="level-bar-wrap">
+                  <img src="images/bronze.webp" alt="">
+                  <div class="level-bar"></div>
+                  <img src="images/silver.webp" alt="">
+                </div>
+              </div>
+
+              <div class="hr"></div>              
+
+              <div class="card-grid">
+                <div class="card">
+                  <img src="images/profile-verification-icon.png" alt="" style="height: 20px;width: 20px;">
+                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
+                    <p style="font-size: 14px;font-weight: 600;">Verification</p>
+                    <p id="verification-status" style="font-size: 12px;padding: 2px 8px;border-radius: 5px;color: #f5b3b4;background-color: #812d16;width: fit-content;">Unverified</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="images/referal-program-icon.png" alt="" style="height: 20px;width: 20px;">
+                  <div style="display: flex;gap: 5px; flex-direction: column;margin-bottom: 3px;">
+                    <p style="font-size: 14px;font-weight: 600;">Referral Program </p>
+                    <p style="font-size: 12px;color: #ffffffa4;">invite and earn rewards</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div class="account-controls-wrap">
+                <div class="account-control-btn">
+                  <img src="images/settings-icon.png" alt="" style="width: 20px; height: 20px;">
+                  <p style="font-size: 16px;">Settings</p>
+                </div>
+                <div class="account-control-btn">
+                  <img src="images/profile-icon.png" alt="" style="width: 15px; height: 15px;">
+                  <p style="font-size: 16px;">Support</p>
+                </div>
+                <div class="account-control-btn">
+                  <img src="images/signout-icon.png" alt="" style="width: 18px; height: 18px;">
+                  <p style="font-size: 16px;">Sign Out</p>
+                </div>
+              </div>
+
+              <div class="suggestion-bubble">
+                <img src="images/suggestion-icon.png" alt="" style="width: 15px;height: 15px;">
+                <p>Suggest new features or share your opinion</p>
+                <img src="images/enter-icon.png" alt="" style="width: 10px;height: 10px;">
+              </div>
+
+
+            </div>
+          </div>
+
+          <!--SEARCH CANVAS-->
+          <div id="searchCanvas">  
+            <div class="drag-bar"></div>            
+            <div class="slide-panel-topbar">
+
+              <div class="field-wrap">
+                <div class="search-btn" >
+                  <img id="searchIcon" src="images/search-icon.png">
+                </div> 
+                <input id="search" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
+              </div>
+
+              <p class="cancel-btn" style="font-size: 17px; font-weight: 600;">Cancel</p>
+
+            </div>
+            <div class="slider-content-wrap">
+              <div class="categories-scrollbar">
+                <p class="notification-category-pill active" data-type="all">All</p>
+                <p class="notification-category-pill" data-type="unread">Forex</p>
+                <p class="notification-category-pill" data-type="account">Stock CFDs</p>
+                <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
+                <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
+                <p class="notification-category-pill" data-type="commodities">Commodities</p>
+                <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
+                <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
+              </div>
+
+              <div id="marketList2" class="market-list2"></div>
+            </div>
+          </div>
+
+          <!--NOTIFICATION CANVAS-->
+          <div id="notificationCanvas">
+            <div class="slide-panel-topbar">
+              <h3>All Notifications</h3>
+              <div style="display: flex; gap: 20px;">
+                <img src="images/settings-wheel-icon.png" alt="" class="slide-panel-topbar-img">               
+                <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+              </div>
+            </div>
+
+            <div class="slider-content-wrap">
+              <div class="categories-scrollbar">
+                <p class="notification-category-pill active" data-type="all">All</p>
+                <p class="notification-category-pill" data-type="unread">Unread</p>
+                <p class="notification-category-pill" data-type="account">Account</p>
+                <p class="notification-category-pill" data-type="pice arlert">Price-Alert</p>
+                <p class="notification-category-pill" data-type="trading">Trading</p>
+              </div>
+
+                <div class="xm-loader">
+
+                  <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;margin-bottom: 100px;width: 100;">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                      <circle class="wave w1" cx="100" cy="100" r="20" />
+                      <circle class="wave w2" cx="100" cy="100" r="20" />
+                      <circle class="wave w3" cx="100" cy="100" r="20" />
+                    </svg>
+                    <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">You're all caught up! We'll notify you here when there's something new</p>
+                    <p style="font-size: 16px;font-weight: 600; padding: 10px 10px; border: 1px #fff solid;border-radius: 8px;margin-top: 30px; cursor: pointer;">Explore Instruments</p>
+                  </div>
+
+                </div>
+
+
+
+            </div>
+          </div>
+
+
+
+  </div>
+  
   <!-- ================= BOTTOM NAV ================= -->
   <nav class="bottom-nav">
 
@@ -1032,6 +1113,7 @@ const list2 = document.getElementById("marketList2");
 const panel = document.getElementById("slidePanel");
 const overlay = document.getElementById("panelOverlay");
 const tradeSymbol = document.getElementById("tradeSymbol");
+const tradeIcon = document.getElementById("tradeIcon");
 
 /* Slide panel canvases (KEEP THESE) */
 const chartCanvas = document.getElementById("chartCanvas");
@@ -1150,6 +1232,8 @@ function selectMarket(m, row) {
   row.classList.add("active");
 
   tradeSymbol.textContent = m.symbol;
+  tradeIcon.src = m.img;
+
 
   panel.classList.add("active", "slide-panel-notlap", "panel-mild");
   overlay.classList.add("active");
@@ -1211,8 +1295,6 @@ function disableAllCanvases() {
 </script>
 
 
-
-
 <script>
   const pills = document.querySelectorAll(".market-category-pill");
 
@@ -1272,8 +1354,6 @@ function disableAllCanvases() {
     // updateNotificationBadge(type);
   }
 </script>
-
-
 
 
 <style>
@@ -1703,7 +1783,335 @@ renderSection(data.long, document.getElementById("topLong"));
 renderSection(data.short, document.getElementById("topShort"));
 </script>
 
+<!--CHART STYLE-->
+<style>
+:root{
+  --bg:#0b1222;
+  --panel:#0f1a33;
+  --grid:rgba(255,255,255,.08);
+  --text:#e6ebff;
+  --muted:#9aa4c7;
+  --green:#1fd18b;
+  --red:#ff4d4d;
+}
 
+/* ===== chart-header ===== */
+.chart-header{
+  padding:12px  14px 0px 14px;
+}
+.chart-header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.chart-header-left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.chart-header-left img{
+  width:40px;height:40px;border-radius:50%;
+}
+.chart-header-left h1{
+  font-size:15px;font-weight:600;
+}
+.chart-header-left span{
+  font-size:12px;color:var(--muted);
+}
+
+/* top right icons */
+.chart-header-icons{
+  display:flex;
+  gap:12px;
+}
+.chart-header-icons img{
+  width:18px;
+  opacity:.85;
+}
+
+/* ===== chart-tabs ===== */
+.chart-tabs{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+}
+.chart-tabs button{
+  background:none;
+  border:none;
+  color:var(--muted);
+  padding:6px 10px;
+  border-radius:14px;
+  font-size:12px;
+}
+.chart-tabs .active{
+  background:#ffffff15;
+  color:#fff;
+}
+
+/* ===== CHART ===== */
+.chart-wrap{
+  position:relative;
+  height:340px;
+}
+canvas{
+  width:100%;
+  height:100%;
+}
+
+/* price pill */
+.price-pill{
+  position:absolute;
+  right:0;
+  background:#fff;
+  color:#000;
+  font-size:12px;
+  padding:4px 6px;
+  border-radius:4px 0 0 4px;
+  font-weight:600;
+  transform:translateY(-50%);
+}
+
+/* ===== TIME AXIS ===== */
+.x-axis{
+  display:flex;
+  justify-content:space-between;
+  padding:0 14px;
+  color:var(--muted);
+  font-size:11px;
+  width: 80%;
+}
+
+/* ===== TIMEFRAME ===== */
+.timeframe{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-top:1px solid var(--grid);
+}
+.tf-left button{
+  background:none;
+  border:none;
+  color:var(--muted);
+  margin-right:10px;
+  font-size:12px;
+}
+
+.tf-left .active{
+  color:#fff;
+  font-weight:600;
+}
+
+.tf-right{
+  opacity:.7;
+}
+
+/* ===== BUY SELL ===== */
+.trade-buttons{
+  display:flex;
+  gap:10px;
+  padding:14px;
+}
+
+.trade-buttons button{
+  flex:1;
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor: pointer;
+}
+.sell{background:linear-gradient(135deg,#ff3b3b,#b30000)}
+.buy{background:linear-gradient(135deg,#1fd18b,#0e8f63)}
+.trade-buttons span{
+  display:block;
+  font-size:11px;
+  opacity:.85;
+}
+
+.trade-buttons strong{
+  font-size:15px;
+}
+.trade-buttons img{
+  width:18px;
+  opacity:.9;
+}
+
+/* ===== DESKTOP ===== */
+@media(min-width:768px){
+  body{max-width:420px;margin:auto}
+}
+</style>
+
+
+
+<!--CHART SCRIPT-->
+<script>
+const canvas=document.getElementById("chart");
+const ctx=canvas.getContext("2d");
+const pill=document.getElementById("pricePill");
+
+function resize(){
+  canvas.width=canvas.offsetWidth;
+  canvas.height=canvas.offsetHeight;
+}
+resize();window.onresize=resize;
+
+/* Demo data with sharp drop */
+let prices=[];
+let p=158;
+for(let i=0;i<80;i++){p+=Math.random()*0.2;prices.push(p);}
+prices.push(153.859);
+
+function draw(){
+  const lineEndGap = 50; // space before price scale (XM behavior)
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const padL = 0;
+  const padR = 50;
+  const padT = 20;
+  const padB = 20;
+  const w = canvas.width - padL - padR - lineEndGap;
+  const h=canvas.height-padT-padB;
+  const min=Math.min(...prices);
+  const max=Math.max(...prices);
+  const last=prices.at(-1);
+
+  /* ===== GRID ===== */
+  ctx.strokeStyle="rgba(255,255,255,.08)";
+  ctx.lineWidth=1;
+  for(let i=0;i<10;i++){
+    const y=padT+i*h/9;
+    ctx.beginPath();
+    ctx.moveTo(padL,y);
+    ctx.lineTo(canvas.width-padR,y);
+    ctx.stroke();
+  }
+
+  /* ===== Y AXIS SCALE ===== */
+  ctx.fillStyle="#fff";
+  ctx.font="11px system-ui";
+  ctx.textAlign="right";
+  ctx.textBaseline="middle";
+
+  for(let i=0;i<=9;i++){
+    const val=min+(max-min)*(9-i)/9;
+    const y=padT+i*h/9;
+    ctx.fillText(val.toFixed(3),canvas.width-4,y);
+  }
+
+  /* ===== LINE ===== */
+  ctx.beginPath();
+  prices.forEach((v,i)=>{
+    const x=padL+i/(prices.length-1)*w;
+    const y=padT+(1-(v-min)/(max-min))*h;
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  });
+
+  const grad=ctx.createLinearGradient(0,padT,0,padT+h);
+  grad.addColorStop(0,"rgba(31,209,139,.28)");
+  grad.addColorStop(1,"rgba(31,209,139,0)");
+  ctx.strokeStyle="#1fd18b";
+  ctx.lineWidth=2;
+  ctx.stroke();
+  ctx.lineTo(padL+w,padT+h);
+  ctx.lineTo(padL,padT+h);
+  ctx.fillStyle=grad;
+  ctx.fill();
+
+  /* ===== LAST PRICE LEVEL ===== */
+  const lastX=padL+w;
+  const lastY=padT+(1-(last-min)/(max-min))*h;
+
+  /* dashed horizontal line */
+  ctx.setLineDash([4,4]);
+  ctx.strokeStyle="rgba(255,255,255,.45)";
+  ctx.beginPath();
+  ctx.moveTo(padL,lastY);
+  ctx.lineTo(canvas.width-padR,lastY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  /* tip ball */
+  ctx.beginPath();
+  ctx.arc(lastX,lastY,4,0,Math.PI*2);
+  ctx.fillStyle="#1fd18b";
+  ctx.fill();
+
+  /* price pill */
+  pill.textContent=last.toFixed(3);
+  pill.style.top=lastY+"px";
+}
+draw();
+</script>
+
+
+<!--SWITCH STYLE-->
+<style>
+  /* ===== CHART TOP BAR ===== */
+.chart-top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  padding:8px 14px;
+  color:#ffffff;
+  font-size:12px;
+}
+
+
+/* ===== SWITCH ===== */
+.switch{
+  position:relative;
+  width:38px;
+  height:20px;
+  cursor: pointer;
+}
+
+.switch input{display:none}
+
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#2a3352;
+  border-radius:20px;
+  transition:.25s;
+}
+.slider::before{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  left:2px;
+  top:2px;
+  background:#ffffff;
+  border-radius:50%;
+  transition:.25s;
+}
+
+.switch input:checked + .slider{
+  background:#1fd18b;
+}
+.switch input:checked + .slider::before{
+  transform:translateX(18px);
+  background:#fff;
+}
+
+</style>
+
+<!--SWITCH SCRIPT-->
+<script>
+  const oneClickToggle = document.getElementById("oneClickToggle");
+
+oneClickToggle.addEventListener("change", () => {
+  const enabled = oneClickToggle.checked;
+  console.log("One Click Order:", enabled);
+  // later: enable instant buy/sell logic here
+});
+
+</script>
 
 
 <body>
