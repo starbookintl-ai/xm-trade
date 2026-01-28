@@ -292,7 +292,7 @@
         }
 
         .slide-panel-notlap{
-        height: 98%;
+        height: 95%;
         border-radius: 16px 16px 0 0;
         }
 
@@ -317,7 +317,7 @@
         width: 40px;
         height: 4px;
         background: #444;
-        margin: 8px auto;
+        margin: 1px auto;
         border-radius: 4px;
         }
 
@@ -814,7 +814,7 @@
                 <button class="sell">
                   <div style="display: flex;flex-direction:column;">
                     <p>SELL</p>
-                    <strong>153.859</strong>
+                    <strong id="sellPrice">153.859</strong>
                   </div>
                   <img src="images/sell-icon.png">
                 </button>
@@ -822,7 +822,7 @@
                 <button class="buy">
                   <div style="display: flex;flex-direction:column;">
                     <p>BUY</p>
-                    <strong>153.886</strong>
+                    <strong id="buyPrice">153.886</strong>
                   </div>
                   <img src="images/buy-icon.png">
                 </button>
@@ -1949,62 +1949,113 @@ canvas{
 
 <!--CHART SCRIPT-->
 <script>
-const canvas=document.getElementById("chart");
-const ctx=canvas.getContext("2d");
-const pill=document.getElementById("pricePill");
+/* ===============================
+   ELEMENTS
+================================ */
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+const pill = document.getElementById("pricePill");
+const sellEl = document.getElementById("sellPrice");
+const buyEl  = document.getElementById("buyPrice");
 
+/* ===============================
+   CONFIG
+================================ */
+const MAX_POINTS = 80;
+const SPREAD = 0.027;
+
+/* ===============================
+   STATE (SINGLE SOURCE OF TRUTH)
+================================ */
+let prices = [];
+let lastPrice = 153.859;
+let isLive = false;
+let ws = null;
+
+/* ===============================
+   RESIZE
+================================ */
 function resize(){
-  canvas.width=canvas.offsetWidth;
-  canvas.height=canvas.offsetHeight;
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
 }
-resize();window.onresize=resize;
+resize();
+window.addEventListener("resize", resize);
 
-/* Demo data with sharp drop */
-let prices=[];
-let p=158;
-for(let i=0;i<80;i++){p+=Math.random()*0.2;prices.push(p);}
-prices.push(153.859);
+/* ===============================
+   INIT DATA
+================================ */
+function generateFakeData(){
+  prices = [];
+  let p = lastPrice;
+  for(let i = 0; i < MAX_POINTS; i++){
+    p += (Math.random() - 0.5) * 0.15;
+    prices.push(p);
+  }
+}
+generateFakeData();
 
+/* ===============================
+   CORE UPDATE (IMPORTANT)
+================================ */
+function updateLastPrice(price){
+  lastPrice = price;
+
+  prices.push(price);
+  if(prices.length > MAX_POINTS) prices.shift();
+
+  // BUY / SELL — same tick
+  sellEl.textContent = price.toFixed(3);
+  buyEl.textContent  = (price + SPREAD).toFixed(3);
+
+  draw();
+}
+
+/* ===============================
+   DRAW CHART
+================================ */
 function draw(){
-  const lineEndGap = 50; // space before price scale (XM behavior)
+  const lineEndGap = 50;
   ctx.clearRect(0,0,canvas.width,canvas.height);
+
   const padL = 0;
   const padR = 50;
   const padT = 20;
   const padB = 20;
-  const w = canvas.width - padL - padR - lineEndGap;
-  const h=canvas.height-padT-padB;
-  const min=Math.min(...prices);
-  const max=Math.max(...prices);
-  const last=prices.at(-1);
 
-  /* ===== GRID ===== */
+  const w = canvas.width - padR - lineEndGap;
+  const h = canvas.height - padT - padB;
+
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const last = lastPrice;
+
+  /* GRID */
   ctx.strokeStyle="rgba(255,255,255,.08)";
-  ctx.lineWidth=1;
+  ctx.lineWidth=3;
   for(let i=0;i<10;i++){
     const y=padT+i*h/9;
     ctx.beginPath();
-    ctx.moveTo(padL,y);
+    ctx.moveTo(0,y);
     ctx.lineTo(canvas.width-padR,y);
     ctx.stroke();
   }
 
-  /* ===== Y AXIS SCALE ===== */
-  ctx.fillStyle="#fff";
+  /* Y SCALE */
+  ctx.fillStyle="#9aa4c7";
   ctx.font="11px system-ui";
   ctx.textAlign="right";
   ctx.textBaseline="middle";
-
   for(let i=0;i<=9;i++){
     const val=min+(max-min)*(9-i)/9;
     const y=padT+i*h/9;
     ctx.fillText(val.toFixed(3),canvas.width-4,y);
   }
 
-  /* ===== LINE ===== */
+  /* LINE */
   ctx.beginPath();
   prices.forEach((v,i)=>{
-    const x=padL+i/(prices.length-1)*w;
+    const x=i/(prices.length-1)*w;
     const y=padT+(1-(v-min)/(max-min))*h;
     i?ctx.lineTo(x,y):ctx.moveTo(x,y);
   });
@@ -2012,38 +2063,80 @@ function draw(){
   const grad=ctx.createLinearGradient(0,padT,0,padT+h);
   grad.addColorStop(0,"rgba(31,209,139,.28)");
   grad.addColorStop(1,"rgba(31,209,139,0)");
+
   ctx.strokeStyle="#1fd18b";
   ctx.lineWidth=2;
   ctx.stroke();
-  ctx.lineTo(padL+w,padT+h);
-  ctx.lineTo(padL,padT+h);
+
+  ctx.lineTo(w,padT+h);
+  ctx.lineTo(0,padT+h);
   ctx.fillStyle=grad;
   ctx.fill();
 
-  /* ===== LAST PRICE LEVEL ===== */
-  const lastX=padL+w;
-  const lastY=padT+(1-(last-min)/(max-min))*h;
+  /* LAST PRICE LINE */
+  const lastX = w;
+  const lastY = padT+(1-(last-min)/(max-min))*h;
 
-  /* dashed horizontal line */
   ctx.setLineDash([4,4]);
   ctx.strokeStyle="rgba(255,255,255,.45)";
   ctx.beginPath();
-  ctx.moveTo(padL,lastY);
+  ctx.moveTo(0,lastY);
   ctx.lineTo(canvas.width-padR,lastY);
   ctx.stroke();
   ctx.setLineDash([]);
 
-  /* tip ball */
   ctx.beginPath();
   ctx.arc(lastX,lastY,4,0,Math.PI*2);
   ctx.fillStyle="#1fd18b";
   ctx.fill();
 
-  /* price pill */
-  pill.textContent=last.toFixed(3);
-  pill.style.top=lastY+"px";
+  pill.textContent = last.toFixed(3);
+  pill.style.top = lastY + "px";
 }
+
+/* ===============================
+   LIVE FEED
+================================ */
+function connectLiveFeed(){
+  if(ws) return;
+
+  ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+
+  ws.onopen = () => isLive = true;
+
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    updateLastPrice(parseFloat(msg.p));
+  };
+
+  ws.onclose = () => {
+    ws = null;
+    isLive = false;
+  };
+
+  ws.onerror = () => ws.close();
+}
+
+/* ===============================
+   OFFLINE SIMULATION
+================================ */
+function fakeTick(){
+  if(isLive) return;
+  updateLastPrice(lastPrice + (Math.random() - 0.5) * 0.08);
+}
+
+/* ===============================
+   NETWORK AWARENESS
+================================ */
+window.addEventListener("online", connectLiveFeed);
+window.addEventListener("offline", () => isLive = false);
+
+/* ===============================
+   START ENGINE
+================================ */
 draw();
+setInterval(fakeTick, 1200);
+if(navigator.onLine) connectLiveFeed();
 </script>
 
 
