@@ -517,7 +517,7 @@
               <circle class="wave w2" cx="100" cy="100" r="20" />
               <circle class="wave w3" cx="100" cy="100" r="20" />
             </svg>
-            <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Nothing here yet</p>
+            <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">No trading records found. <br>Start trading to see trading records here.</p>
           </div>
 
         </div>
@@ -763,14 +763,10 @@
               </div>
 
                  <div class="categories-scrollbar">
-                  <p class="notification-category-pill active" data-type="all">All</p>
-                  <p class="notification-category-pill" data-type="unread">Forex</p>
-                  <p class="notification-category-pill" data-type="account">Stock CFDs</p>
-                  <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
-                  <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
-                  <p class="notification-category-pill" data-type="commodities">Commodities</p>
-                  <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
-                  <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
+                  <p class="notification-category-pill active" data-type="all">Trade</p>
+                  <p class="notification-category-pill" data-type="unread">Ask AI</p>
+                  <p class="notification-category-pill" data-type="account">News & Analysis</p>
+                  <p class="notification-category-pill" data-type="pice arlert">Insight</p>             
                 </div>             
 
               <div class="chart-top-bar">
@@ -812,7 +808,7 @@
               <div class="trade-buttons">
 
                 <button class="sell">
-                  <div style="display: flex;flex-direction:column;">
+                  <div style="display: flex;flex-direction:column;align-items: start;">
                     <p>SELL</p>
                     <strong id="sellPrice">153.859</strong>
                   </div>
@@ -820,7 +816,7 @@
                 </button>
 
                 <button class="buy">
-                  <div style="display: flex;flex-direction:column;">
+                  <div style="display: flex;flex-direction:column;align-items: start;">
                     <p>BUY</p>
                     <strong id="buyPrice">153.886</strong>
                   </div>
@@ -1945,7 +1941,11 @@ canvas{
 }
 </style>
 
-
+<style>
+  * {
+  -webkit-tap-highlight-color: transparent;
+  }
+</style>
 
 <!--CHART SCRIPT-->
 <script>
@@ -2032,7 +2032,7 @@ function draw(){
 
   /* GRID */
   ctx.strokeStyle="rgba(255,255,255,.08)";
-  ctx.lineWidth=3;
+  ctx.lineWidth=1;
   for(let i=0;i<10;i++){
     const y=padT+i*h/9;
     ctx.beginPath();
@@ -2065,7 +2065,7 @@ function draw(){
   grad.addColorStop(1,"rgba(31,209,139,0)");
 
   ctx.strokeStyle="#1fd18b";
-  ctx.lineWidth=2;
+  ctx.lineWidth=1.5;
   ctx.stroke();
 
   ctx.lineTo(w,padT+h);
