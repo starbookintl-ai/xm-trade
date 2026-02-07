@@ -285,14 +285,17 @@
         background: #0f1730;
         transition: .35s;
         z-index: 100;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         }
 
         .slide-panel-lap{
-          border-radius: 0px; height: 100%;
+          border-radius: 0px; height: 100dvh;
         }
 
         .slide-panel-notlap{
-        height: 95%;
+        height: 95dvh;
         border-radius: 16px 16px 0 0;
         }
 
@@ -594,13 +597,13 @@
             <div class="feature-header"><h3>Popular</h3></div>
 
             <div class="features-grid">
-              <div class="feature-card">
+              <div class="feature-card" id="copytradeButton">
                 <div class="feature-card-icon">
                   <img src="images/copy-trading-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Copy Trading</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="competitionsButton">
                 <div class="feature-card-icon">
                   <img src="images/competitions-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Competitions</p>
@@ -614,19 +617,19 @@
             <div class="feature-header"><h3>Rewards</h3></div>
 
             <div class="features-grid">
-              <div class="feature-card">
+              <div class="feature-card" id="bonusButton">
                 <div class="feature-card-icon">
                   <img src="images/bonuses-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Bonus</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="refereButton">
                 <div class="feature-card-icon">
                   <img src="images/refere-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Refere a Friend</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="tradersclubButton">
                 <div class="feature-card-icon">
                   <img src="images/trader-club-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">XM Traders Club</p>
@@ -640,31 +643,31 @@
             <div class="feature-header"><h3>Tools</h3></div>
 
             <div class="features-grid">
-              <div class="feature-card">
+              <div class="feature-card" id="newsButton">
                 <div class="feature-card-icon">
                   <img src="images/news-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">News</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="analysisButton">
                 <div class="feature-card-icon">
                   <img src="images/analysis-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Analysis</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="economiccalendarButton">
                 <div class="feature-card-icon">
                   <img src="images/business-calendar-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Economic Calendar</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="tradingcentralButton">
                 <div class="feature-card-icon">
                   <img src="images/trading-central-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Trading Central</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="forexcalculatorButton">
                 <div class="feature-card-icon">
                   <img src="images/calculator-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Forex Calculator</p>
@@ -679,19 +682,19 @@
             <div class="feature-header"><h3>Funding</h3></div>
 
             <div class="features-grid">
-              <div class="feature-card">
+              <div class="feature-card" id="depositButton">
                 <div class="feature-card-icon">
                   <img src="images/deposit-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Deposit</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="withdrawButton">
                 <div class="feature-card-icon">
                   <img src="images/withdraw-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Withdraw</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="mywalletButton">
                 <div class="feature-card-icon">
                   <img src="images/mywallet-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">My Wallet</p>
@@ -706,19 +709,19 @@
             <div class="feature-header"><h3>Support</h3></div>
 
             <div class="features-grid">
-              <div class="feature-card">
+              <div class="feature-card" id="helpcenterButton">
                 <div class="feature-card-icon">
                   <img src="images/help-center-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Help Center</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="livechatButton">
                 <div class="feature-card-icon">
                   <img src="images/support-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Live Chat</p>
               </div>
 
-              <div class="feature-card">
+              <div class="feature-card" id="submitquestionButton">
                 <div class="feature-card-icon">
                   <img src="images/submit-question-neon-icon.JPG" alt=""></div>
                 <p class="feature-card-text">Submit a Question</p>
@@ -731,6 +734,47 @@
     </section>
 
   </main>
+  
+  <!-- ================= BOTTOM NAV ================= -->
+  <nav class="bottom-nav">
+
+        <button class="nav-btn active" data-page="page-markets">
+        <img 
+            src="images/trade-icon.png"
+            data-active="images/trade-icon-active.png"
+            data-inactive="images/trade-icon.png"
+        >
+        <span>Markets</span>
+        </button>
+
+        <button class="nav-btn" data-page="page-trades">
+        <img 
+            src="images/transaction-icon.png"
+            data-active="images/transaction-icon-active.png"
+            data-inactive="images/transaction-icon.png"
+        >
+        <span>Trades</span>
+        </button>
+
+        <button class="nav-btn" data-page="page-explore">
+        <img 
+            src="images/explore-icon.png"
+            data-active="images/explore-icon-active.png"
+            data-inactive="images/explore-icon.png"
+        >
+        <span>Explore</span>
+        </button>
+
+        <button class="nav-btn" data-page="page-more">
+        <img 
+            src="images/more-icon.png"
+            data-active="images/more-icon-active.png"
+            data-inactive="images/more-icon.png"
+        >
+        <span>More</span>
+        </button>
+
+  </nav>
 
   <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
   <div id="panelOverlay"></div>
@@ -738,7 +782,7 @@
   <div id="slidePanel" class="slide-panel-notlap">
 
           <!--CHART CANVAS-->
-          <div id="chartCanvas">
+          <div id="chartView" class="slide-canvas canvas-disabled">
             <div class="drag-bar"></div>
 
               <!-- chart-header -->
@@ -827,7 +871,7 @@
           </div>
 
           <!--WALLET CANVAS-->
-          <div id="walletCanvas" style="padding: 0px 15px;">
+          <div id="walletView" style="padding: 0px 15px;" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
               <div></div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
@@ -865,7 +909,7 @@
           </div>
 
           <!--PROFILE CANVAS-->
-          <div id="profileCanvas" style="padding: 0px 15px;" >
+          <div id="profileView" style="padding: 0px 15px;"  class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
               <h3>My Profile</h3>
               <div style="display: flex;align-items: center;gap: 20px;">
@@ -944,7 +988,7 @@
           </div>
 
           <!--SEARCH CANVAS-->
-          <div id="searchCanvas">  
+          <div id="searchView" class="slide-canvas canvas-disabled">  
             <div class="drag-bar"></div>            
             <div class="slide-panel-topbar">
 
@@ -975,7 +1019,7 @@
           </div>
 
           <!--NOTIFICATION CANVAS-->
-          <div id="notificationCanvas">
+          <div id="notificationView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
               <h3>All Notifications</h3>
               <div style="display: flex; gap: 20px;">
@@ -1012,50 +1056,273 @@
             </div>
           </div>
 
+          <!--WITHDRAW VIEW-->
+          <div id="withdrawView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>  
+            <div class="slide-views-wrap">
 
+                <div class="available-balance-card">
+                  <h4>Standard <span class="status">Real</span></h4>
+                  <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                  <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
+                </div>              
+
+                <!-- WITHDRAW FORM -->
+                <div class="withdraw-wrap">
+
+                    <!-- ASSET -->
+                    <div class="group">
+                      <label class="label">Asset</label>
+                      <select class="select">
+                        <option>Bitcoin (BTC)</option>
+                        <option>Ethereum (ETH)</option>
+                        <option>USDT</option>
+                      </select>
+                    </div>
+
+                    <!-- NETWORK -->
+                    <div class="group">
+                      <label class="label">Network</label>
+                      <select class="select">
+                        <option>Bitcoin (BTC)</option>
+                        <option>ERC20</option>
+                        <option>TRC20</option>
+                      </select>
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div class="group">
+                      <label class="label">Withdrawal Address</label>
+                      <input class="input" placeholder="Paste destination address"/>
+                    </div>
+
+                    <!-- MEMO -->
+                    <div class="group">
+                      <label class="label">Memo / Tag (Optional)</label>
+                      <input class="input" placeholder="Required for some networks"/>
+                    </div>
+
+                    <!-- AMOUNT -->
+                    <div class="group">
+                      <label class="label">Amount</label>
+                      <div class="amount-row">
+                        <input class="input" placeholder="0.00"/>
+                        <button class="max-btn">MAX</button>
+                      </div>
+                    </div>
+
+                    <!-- FEES -->
+                    <div class="info">
+                      <span>Network Fee</span>
+                      <span>0.0005 BTC</span>
+                    </div>
+                    <div class="info">
+                      <span>You Will Receive</span>
+                      <span>1.2453 BTC</span>
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <button class="withdraw-btn">Withdraw</button>
+
+                </div>
+              
+
+                <!-- WARNING -->
+                <div class="notice">
+                  ⚠️ Withdrawals are irreversible. Ensure the address and network are correct.
+                </div>             
+            </div>                     
+          </div>
+
+          <!--DEPOSIT VIEW-->
+          <div id="depositView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div> 
+
+            <div class="slide-views-wrap">
+              <h3>Deposit Method</h3>
+
+              <div class="available-balance-card">
+                <h4>Standard <span class="status">Real</span></h4>
+                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
+              </div>
+              
+              <h3>Available deposit methods</h3>
+
+              <div class="deposit-options-wrap">
+                <div class="deposit-method-card">
+                  <div><img src="" alt=""></div>
+                  <img src="images/pwa-visa-mastercard.svg" alt="">
+                  <p>Credit/debit cards</p>
+                </div>
+                <div class="deposit-method-card">
+                  <div><img src="" alt=""></div>
+                  <img src="images/pwa-neteller.svg" alt="">
+                  <p>Neteller</p>
+                </div>
+                <div class="deposit-method-card">
+                  <div><img src="" alt=""></div>
+                  <img src="images/pwa-usdt.png" alt="">
+                  <p>USDT/Crypto</p>
+                </div>
+                <div class="deposit-method-card">
+                  <div><img src="" alt=""></div>
+                  <img src="images/pwa-bank-transfer.png" alt="">
+                  <p>Bank Transfer</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--MY WALLET VIEW-->
+          <div id="mywalletView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>MY WALLET VIEW</h3>
+            <div class="slide-views-wrap"></div>
+          </div>
+
+          <!--COPY TRADE VIEW-->
+          <div id="copytradeView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>COPY TRADE VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--COMPETITIONS VIEW-->
+          <div id="competitionsView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>COMPETITIONS VIEW</h3>
+            <div class="slide-views-wrap"></div>           
+          </div>
+
+          <!--BONUS VIEW-->
+          <div id="bonusView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>BONUS VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--REFERE VIEW-->
+          <div id="refereview" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>REFERE VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--TRADERS CLUB VIEW-->
+          <div id="tradersclubView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>TRADERS CLUB VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--NEWS VIEW-->
+          <div id="newsView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>NEWS VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--ANALYSIS VIEW-->
+          <div id="analysisView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>ANALYSIS VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--ECONOMIC CALENDAR VIEW-->
+          <div id="economiccalendarView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>ECONOMIC CALENDAR VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--TRADING CENTRAL VIEW-->
+          <div id="tradingcentralView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>TRADING CENTRAL VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--FOREX CALCULATOR VIEW-->
+          <div id="forexcalculatorView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>FOREX CALCULATOR</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--HELP CENTER VIEW-->
+          <div id="helpcenterView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>HELP CENTER VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--LIVE CHAT VIEW-->
+          <div id="livechatView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>LIVE CHAT VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
+
+          <!--SUBMIT QUESTION VIEW-->
+          <div id="submitquestionView" class="slide-canvas canvas-disabled">
+            <div class="slide-panel-topbar">
+              <div></div>
+              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+            </div>                 
+            <h3>SUBMIT QUESTION VIEW</h3>
+            <div class="slide-views-wrap"></div>            
+          </div>
 
   </div>
-  
-  <!-- ================= BOTTOM NAV ================= -->
-  <nav class="bottom-nav">
-
-        <button class="nav-btn active" data-page="page-markets">
-        <img 
-            src="images/trade-icon.png"
-            data-active="images/trade-icon-active.png"
-            data-inactive="images/trade-icon.png"
-        >
-        <span>Markets</span>
-        </button>
-
-        <button class="nav-btn" data-page="page-trades">
-        <img 
-            src="images/transaction-icon.png"
-            data-active="images/transaction-icon-active.png"
-            data-inactive="images/transaction-icon.png"
-        >
-        <span>Trades</span>
-        </button>
-
-        <button class="nav-btn" data-page="page-explore">
-        <img 
-            src="images/explore-icon.png"
-            data-active="images/explore-icon-active.png"
-            data-inactive="images/explore-icon.png"
-        >
-        <span>Explore</span>
-        </button>
-
-        <button class="nav-btn" data-page="page-more">
-        <img 
-            src="images/more-icon.png"
-            data-active="images/more-icon-active.png"
-            data-inactive="images/more-icon.png"
-        >
-        <span>More</span>
-        </button>
-
-  </nav>
+  <!--========================================================================================-->  
 
 </div>
 
@@ -1111,19 +1378,61 @@ const overlay = document.getElementById("panelOverlay");
 const tradeSymbol = document.getElementById("tradeSymbol");
 const tradeIcon = document.getElementById("tradeIcon");
 
-/* Slide panel canvases (KEEP THESE) */
-const chartCanvas = document.getElementById("chartCanvas");
-const searchCanvas = document.getElementById("searchCanvas");
-const notificationCanvas = document.getElementById("notificationCanvas");
-const walletCanvas = document.getElementById("walletCanvas");
-const profileCanvas = document.getElementById("profileCanvas");
+/* Slide panel views (KEEP THESE) */
+const chartView = document.getElementById("chartView");
+const searchView = document.getElementById("searchView");
+const notificationView = document.getElementById("notificationView");
+const walletView = document.getElementById("walletView");
+const profileView = document.getElementById("profileView");
+/* ===============================
+   ADDITIONAL SLIDE PANEL VIEWS
+   (FULL SCREEN)
+================================ */
+const withdrawView           = document.getElementById("withdrawView");
+const depositView            = document.getElementById("depositView");
+const mywalletView           = document.getElementById("mywalletView");
+const copytradeView          = document.getElementById("copytradeView");
+const competitionsView       = document.getElementById("competitionsView");
+const bonusView              = document.getElementById("bonusView");
+const refereview             = document.getElementById("refereview");
+const tradersclubView        = document.getElementById("tradersclubView");
+const newsView               = document.getElementById("newsView");
+const analysisView           = document.getElementById("analysisView");
+const economiccalendarView   = document.getElementById("economiccalendarView");
+const tradingcentralView     = document.getElementById("tradingcentralView");
+const forexcalculatorView    = document.getElementById("forexcalculatorView");
+const helpcenterView         = document.getElementById("helpcenterView");
+const livechatView           = document.getElementById("livechatView");
+const submitquestionView     = document.getElementById("submitquestionView");
+/*=======================================================================
 
-/* Buttons */
+/*slide panel activation Buttons */
 const notificationBtn = document.getElementById("notificationButton");
 const walletBtn = document.getElementById("walletButton");
 const profileBtn = document.getElementById("profileButton");
 const searchBtn = document.getElementById("searchButton");
 const cancelButtons = document.querySelectorAll(".cancel-btn");
+/* ===============================
+   ADDITIONAL PANEL BUTTONS
+================================ */
+const withdrawBtn         = document.getElementById("withdrawButton");
+const depositBtn          = document.getElementById("depositButton");
+const mywalletBtn         = document.getElementById("mywalletButton");
+const copytradeBtn        = document.getElementById("copytradeButton");
+const competitionsBtn     = document.getElementById("competitionsButton");
+const bonusBtn            = document.getElementById("bonusButton");
+const refereBtn           = document.getElementById("refereButton");
+const tradersclubBtn      = document.getElementById("tradersclubButton");
+const newsBtn             = document.getElementById("newsButton");
+const analysisBtn         = document.getElementById("analysisButton");
+const economiccalendarBtn = document.getElementById("economiccalendarButton");
+const tradingcentralBtn   = document.getElementById("tradingcentralButton");
+const forexcalculatorBtn  = document.getElementById("forexcalculatorButton");
+const helpcenterBtn       = document.getElementById("helpcenterButton");
+const livechatBtn         = document.getElementById("livechatButton");
+const submitquestionBtn   = document.getElementById("submitquestionButton");
+/*=========================================================================
+
 
 /* ===============================
    BUILD MARKET LIST
@@ -1234,11 +1543,11 @@ function selectMarket(m, row) {
   panel.classList.add("active", "slide-panel-notlap", "panel-mild");
   overlay.classList.add("active");
 
-  chartCanvas.classList.remove("canvas-disabled");
-  searchCanvas.classList.add("canvas-disabled");
-  notificationCanvas.classList.add("canvas-disabled");
-  walletCanvas.classList.add("canvas-disabled");
-  profileCanvas.classList.add("canvas-disabled");
+  chartView.classList.remove("canvas-disabled");
+  searchView.classList.add("canvas-disabled");
+  notificationView.classList.add("canvas-disabled");
+  walletView.classList.add("canvas-disabled");
+  profileView.classList.add("canvas-disabled");
 }
 
 /* ===============================
@@ -1246,12 +1555,12 @@ function selectMarket(m, row) {
 ================================ */
 
 /* FULL SCREEN PANELS */
-notificationBtn.onclick = () => openFullPanel(notificationCanvas);
-walletBtn.onclick       = () => openFullPanel(walletCanvas);
-profileBtn.onclick      = () => openFullPanel(profileCanvas);
+notificationBtn.onclick = () => openFullPanel(notificationView);
+walletBtn.onclick       = () => openFullPanel(walletView);
+profileBtn.onclick      = () => openFullPanel(profileView);
 
 /* PARTIAL SLIDE-UP PANELS */
-searchBtn.onclick       = () => openPartialPanel(searchCanvas);
+searchBtn.onclick       = () => openPartialPanel(searchView);
 
 /* ===============================
    PANEL OPEN HELPERS
@@ -1277,16 +1586,47 @@ function openPartialPanel(activeCanvas) {
   activeCanvas.classList.remove("canvas-disabled");
 }
 
+
+/* ===============================
+   FULL SCREEN PANEL REGISTRY
+================================ */
+const fullScreenPanels = [
+  { btn: withdrawBtn,         view: withdrawView },
+  { btn: depositBtn,          view: depositView },
+  { btn: mywalletBtn,         view: mywalletView },
+  { btn: copytradeBtn,        view: copytradeView },
+  { btn: competitionsBtn,     view: competitionsView },
+  { btn: bonusBtn,            view: bonusView },
+  { btn: refereBtn,           view: refereview },
+  { btn: tradersclubBtn,      view: tradersclubView },
+  { btn: newsBtn,             view: newsView },
+  { btn: analysisBtn,         view: analysisView },
+  { btn: economiccalendarBtn, view: economiccalendarView },
+  { btn: tradingcentralBtn,   view: tradingcentralView },
+  { btn: forexcalculatorBtn,  view: forexcalculatorView },
+  { btn: helpcenterBtn,       view: helpcenterView },
+  { btn: livechatBtn,         view: livechatView },
+  { btn: submitquestionBtn,   view: submitquestionView }
+];
+
+/* Auto-bind buttons */
+fullScreenPanels.forEach(item => {
+  if (!item.btn || !item.view) return;
+  item.btn.onclick = () => openFullPanel(item.view);
+});
+/* ===============================================
+
+
+
 /* ===============================
    SHARED UTIL
 ================================ */
 function disableAllCanvases() {
-  chartCanvas.classList.add("canvas-disabled");
-  searchCanvas.classList.add("canvas-disabled");
-  notificationCanvas.classList.add("canvas-disabled");
-  walletCanvas.classList.add("canvas-disabled");
-  profileCanvas.classList.add("canvas-disabled");
+  document.querySelectorAll(".slide-canvas").forEach(c =>
+    c.classList.add("canvas-disabled")
+  );
 }
+
 
 </script>
 
@@ -1353,6 +1693,13 @@ function disableAllCanvases() {
 
 
 <style>
+.slide-canvas{height: 100%;}
+.slide-views-wrap{display: flex;flex-direction: column;gap: 20px;padding: 15px;overflow-y: auto; min-height: 0;height: 96.5%;}
+.deposit-options-wrap{display: grid;grid-template-columns: 1fr 1fr;gap: 20px;}
+.deposit-method-card{cursor: pointer; display: flex;flex-direction: column;padding: 10px;border-radius: 8px;background-color: #ffffff15;min-height: 150px;align-items: center;gap: 10px;}
+.deposit-method-card:hover{background-color: #ffffff31}
+.deposit-method-card img{height: 50px;}
+.deposit-method-card p{font-size: 16px; color: #ffffff6c;}
 .wallet-wrap{display: flex;flex-direction: column;gap: 20px; }
 .available-balance-card{display: flex; flex-direction: column; width: 100%; border-radius: 12px; min-height: 100px; background-color: #ffffff0c; padding: 20px;}
 .funding-options-wrap{display: flex; flex-direction: column; width: 100%; gap: 10px;}
@@ -1376,7 +1723,7 @@ function disableAllCanvases() {
 .suggestion-bubble{font-size: 13px; font-weight: 600; color: #0c1324;display: flex;gap: 13px;background-color: #ffffffe5;border-radius: 10px;padding: 10px;align-items: center;cursor: pointer;}
 .suggestion-bubble p{width: 100%;padding-right: 20%;}
 .suggestion-bubble:hover{background-color: #fff;}
-#chartCanvas, #walletCanvas, #profileCanvas, #searchCanvas, #notificationCanvas {height: 100%;}
+#chartView, #walletView, #profileView, #searchView, #notificationView {height: 100%;}
 .xm-loader {
   display: flex;
   flex-direction: column;
@@ -1422,6 +1769,9 @@ function disableAllCanvases() {
 
 
 </style>
+
+
+
 
 <style>
 /* INPUTS */
@@ -2205,6 +2555,135 @@ oneClickToggle.addEventListener("change", () => {
 });
 
 </script>
+
+<style>
+:root{
+  --bg:#0c1324;
+  --panel:#121c3a;
+  --card:#161f3f;
+  --border:#263056;
+  --text:#ffffff;
+  --muted:#9aa4c7;
+  --green:#1fd18b;
+  --red:#ff5c5c;
+  --btn:#1fd18b;
+}
+
+.withdraw-wrap{
+  background:var(--card);
+  border-radius:14px;
+  padding:16px;
+  border:1px solid var(--border);
+  margin-bottom:16px;
+}
+
+
+/* BALANCE */
+.balance-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.balance-row h3{
+  font-size:14px;
+  color:var(--muted);
+}
+.balance{
+  font-size:20px;
+  font-weight:700;
+}
+
+/* INPUT GROUP */
+.group{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.label{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.select, .input{
+  background:#0c1324;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 14px;
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+}
+
+.select{
+  appearance:none;
+}
+
+/* AMOUNT */
+.amount-row{
+  display:flex;
+  gap:10px;
+}
+
+.amount-row .input{
+  flex:1;
+}
+
+.max-btn{
+  padding:0 14px;
+  border-radius:10px;
+  background:#ffffff10;
+  border:1px solid var(--border);
+  color:var(--text);
+  font-size:13px;
+  cursor:pointer;
+}
+
+/* INFO ROW */
+.info{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+/* BUTTON */
+.withdraw-btn{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+  background:linear-gradient(135deg,#1fd18b,#0e8f63);
+  color:#000;
+  cursor:pointer;
+}
+
+.withdraw-btn:hover{
+  opacity:.9;
+}
+
+/* WARNING */
+.notice{
+  margin-top:16px;
+  font-size:12px;
+  color:#f5b3b4;
+  background:#2a1416;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #5c1e22;
+}
+
+
+
+
+
+
+</style>
 
 
 <body>
