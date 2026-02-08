@@ -1378,70 +1378,87 @@ const overlay = document.getElementById("panelOverlay");
 const tradeSymbol = document.getElementById("tradeSymbol");
 const tradeIcon = document.getElementById("tradeIcon");
 
-/* Slide panel views (KEEP THESE) */
+/* Slide views */
 const chartView = document.getElementById("chartView");
 const searchView = document.getElementById("searchView");
 const notificationView = document.getElementById("notificationView");
 const walletView = document.getElementById("walletView");
 const profileView = document.getElementById("profileView");
-/* ===============================
-   ADDITIONAL SLIDE PANEL VIEWS
-   (FULL SCREEN)
-================================ */
-const withdrawView           = document.getElementById("withdrawView");
-const depositView            = document.getElementById("depositView");
-const mywalletView           = document.getElementById("mywalletView");
-const copytradeView          = document.getElementById("copytradeView");
-const competitionsView       = document.getElementById("competitionsView");
-const bonusView              = document.getElementById("bonusView");
-const refereview             = document.getElementById("refereview");
-const tradersclubView        = document.getElementById("tradersclubView");
-const newsView               = document.getElementById("newsView");
-const analysisView           = document.getElementById("analysisView");
-const economiccalendarView   = document.getElementById("economiccalendarView");
-const tradingcentralView     = document.getElementById("tradingcentralView");
-const forexcalculatorView    = document.getElementById("forexcalculatorView");
-const helpcenterView         = document.getElementById("helpcenterView");
-const livechatView           = document.getElementById("livechatView");
-const submitquestionView     = document.getElementById("submitquestionView");
-/*=======================================================================
+const withdrawView = document.getElementById("withdrawView");
+const depositView = document.getElementById("depositView");
+const mywalletView = document.getElementById("mywalletView");
+const copytradeView = document.getElementById("copytradeView");
+const competitionsView = document.getElementById("competitionsView");
+const bonusView = document.getElementById("bonusView");
+const refereview = document.getElementById("refereview");
+const tradersclubView = document.getElementById("tradersclubView");
+const newsView = document.getElementById("newsView");
+const analysisView = document.getElementById("analysisView");
+const economiccalendarView = document.getElementById("economiccalendarView");
+const tradingcentralView = document.getElementById("tradingcentralView");
+const forexcalculatorView = document.getElementById("forexcalculatorView");
+const helpcenterView = document.getElementById("helpcenterView");
+const livechatView = document.getElementById("livechatView");
+const submitquestionView = document.getElementById("submitquestionView");
 
-/*slide panel activation Buttons */
+/* Buttons */
 const notificationBtn = document.getElementById("notificationButton");
 const walletBtn = document.getElementById("walletButton");
 const profileBtn = document.getElementById("profileButton");
 const searchBtn = document.getElementById("searchButton");
-const cancelButtons = document.querySelectorAll(".cancel-btn");
-/* ===============================
-   ADDITIONAL PANEL BUTTONS
-================================ */
-const withdrawBtn         = document.getElementById("withdrawButton");
-const depositBtn          = document.getElementById("depositButton");
-const mywalletBtn         = document.getElementById("mywalletButton");
-const copytradeBtn        = document.getElementById("copytradeButton");
-const competitionsBtn     = document.getElementById("competitionsButton");
-const bonusBtn            = document.getElementById("bonusButton");
-const refereBtn           = document.getElementById("refereButton");
-const tradersclubBtn      = document.getElementById("tradersclubButton");
-const newsBtn             = document.getElementById("newsButton");
-const analysisBtn         = document.getElementById("analysisButton");
+const withdrawBtn = document.getElementById("withdrawButton");
+const depositBtn = document.getElementById("depositButton");
+const mywalletBtn = document.getElementById("mywalletButton");
+const copytradeBtn = document.getElementById("copytradeButton");
+const competitionsBtn = document.getElementById("competitionsButton");
+const bonusBtn = document.getElementById("bonusButton");
+const refereBtn = document.getElementById("refereButton");
+const tradersclubBtn = document.getElementById("tradersclubButton");
+const newsBtn = document.getElementById("newsButton");
+const analysisBtn = document.getElementById("analysisButton");
 const economiccalendarBtn = document.getElementById("economiccalendarButton");
-const tradingcentralBtn   = document.getElementById("tradingcentralButton");
-const forexcalculatorBtn  = document.getElementById("forexcalculatorButton");
-const helpcenterBtn       = document.getElementById("helpcenterButton");
-const livechatBtn         = document.getElementById("livechatButton");
-const submitquestionBtn   = document.getElementById("submitquestionButton");
-/*=========================================================================
-
+const tradingcentralBtn = document.getElementById("tradingcentralButton");
+const forexcalculatorBtn = document.getElementById("forexcalculatorButton");
+const helpcenterBtn = document.getElementById("helpcenterButton");
+const livechatBtn = document.getElementById("livechatButton");
+const submitquestionBtn = document.getElementById("submitquestionButton");
+const cancelButtons = document.querySelectorAll(".cancel-btn");
 
 /* ===============================
-   BUILD MARKET LIST
+   SLIDE VIEW REGISTRY
+================================ */
+const slideViews = [
+  chartView, searchView, notificationView, walletView, profileView,
+  withdrawView, depositView, mywalletView, copytradeView,
+  competitionsView, bonusView, refereview, tradersclubView,
+  newsView, analysisView, economiccalendarView, tradingcentralView,
+  forexcalculatorView, helpcenterView, livechatView, submitquestionView
+];
+
+/* ===============================
+   HARD VIEW EXCLUSIVITY
+================================ */
+function hideAllViews() {
+  slideViews.forEach(v => {
+    v.style.display = "none";
+    v.classList.add("canvas-disabled");
+  });
+}
+
+function showView(view) {
+  hideAllViews();
+  view.style.display = "flex";
+  view.style.flexDirection = "column";
+  view.classList.remove("canvas-disabled");
+}
+
+/* ===============================
+   MARKET LIST
 ================================ */
 markets.forEach(m => {
   const row = document.createElement("div");
   row.className = "market-item";
   row.dataset.symbol = m.symbol;
-
   row.innerHTML = `
     <div class="left">
       <img src="${m.img}">
@@ -1453,20 +1470,17 @@ markets.forEach(m => {
     <div class="right">
       <div class="price">--</div>
       <div class="change">--</div>
-    </div>
-  `;
-
+    </div>`;
   row.onclick = () => selectMarket(m, row);
   list.appendChild(row);
 });
 
 /* ===============================
-   BUILD SEARCH LIST
+   SEARCH LIST
 ================================ */
 markets.forEach(m => {
   const row = document.createElement("div");
   row.className = "market-item";
-
   row.innerHTML = `
     <div class="left">
       <img src="${m.img}">
@@ -1475,11 +1489,9 @@ markets.forEach(m => {
         <div class="desc">${m.desc}</div>
       </div>
     </div>
-    <div class="right" style="display:flex;justify-content:center; align-items;">
-      <img src="images/add-icon.png" style="width: 20px; height: 20px;">
-    </div>
-  `;
-
+    <div class="right">
+      <img src="images/add-icon.png" style="width:20px;height:20px;">
+    </div>`;
   row.onclick = () => selectMarket(m, row);
   list2.appendChild(row);
 });
@@ -1518,16 +1530,6 @@ async function updatePrices() {
 updatePrices();
 setInterval(updatePrices, 3000);
 
-/* ===============================
-   PANEL CONTROL
-================================ */
-overlay.onclick = closePanel;
-cancelButtons.forEach(btn => btn.onclick = closePanel);
-
-function closePanel() {
-  panel.classList.remove("active");
-  overlay.classList.remove("active");
-}
 
 /* ===============================
    MARKET SELECTION
@@ -1535,62 +1537,52 @@ function closePanel() {
 function selectMarket(m, row) {
   document.querySelectorAll(".market-item").forEach(r => r.classList.remove("active"));
   row.classList.add("active");
-
   tradeSymbol.textContent = m.symbol;
   tradeIcon.src = m.img;
-
-
-  panel.classList.add("active", "slide-panel-notlap", "panel-mild");
-  overlay.classList.add("active");
-
-  chartView.classList.remove("canvas-disabled");
-  searchView.classList.add("canvas-disabled");
-  notificationView.classList.add("canvas-disabled");
-  walletView.classList.add("canvas-disabled");
-  profileView.classList.add("canvas-disabled");
+  openPartialGroup(chartView);
 }
 
 /* ===============================
-   PANEL BUTTONS (SPECIFIED BEHAVIOR)
+   PANEL CONTROL
 ================================ */
+overlay.onclick = closePanel;
+cancelButtons.forEach(b => b.onclick = closePanel);
 
-/* FULL SCREEN PANELS */
-notificationBtn.onclick = () => openFullPanel(notificationView);
-walletBtn.onclick       = () => openFullPanel(walletView);
-profileBtn.onclick      = () => openFullPanel(profileView);
-
-/* PARTIAL SLIDE-UP PANELS */
-searchBtn.onclick       = () => openPartialPanel(searchView);
+function closePanel() {
+  panel.classList.remove("active");
+  overlay.classList.remove("active");
+  hideAllViews();
+}
 
 /* ===============================
-   PANEL OPEN HELPERS
+   PANEL OPENERS
 ================================ */
-function openFullPanel(activeCanvas) {
+function openPartialGroup(view) {
+  panel.classList.add("active", "slide-panel-notlap");
+  panel.classList.remove("slide-panel-lap");
+  overlay.classList.add("active");
+  showView(view);
+}
+
+function openFullPanel(view) {
   panel.classList.add("active", "slide-panel-lap");
   panel.classList.remove("slide-panel-notlap");
-
   overlay.classList.add("active");
-
-  disableAllCanvases();
-  activeCanvas.classList.remove("canvas-disabled");
+  showView(view);
 }
 
-function openPartialPanel(activeCanvas) {
-  panel.classList.add("active");
-  panel.classList.remove("slide-panel-lap");
-  panel.classList.add("slide-panel-notlap");
-
-  overlay.classList.add("active");
-
-  disableAllCanvases();
-  activeCanvas.classList.remove("canvas-disabled");
-}
-
+/* ===============================
+   BUTTON BINDINGS
+================================ */
+searchBtn.onclick = () => openPartialGroup(searchView);
 
 /* ===============================
    FULL SCREEN PANEL REGISTRY
 ================================ */
 const fullScreenPanels = [
+  { btn: notificationBtn,     view: notificationView },
+  { btn: walletBtn,           view: walletView },
+  { btn: profileBtn,          view: profileView },
   { btn: withdrawBtn,         view: withdrawView },
   { btn: depositBtn,          view: depositView },
   { btn: mywalletBtn,         view: mywalletView },
@@ -1609,26 +1601,14 @@ const fullScreenPanels = [
   { btn: submitquestionBtn,   view: submitquestionView }
 ];
 
-/* Auto-bind buttons */
 fullScreenPanels.forEach(item => {
   if (!item.btn || !item.view) return;
   item.btn.onclick = () => openFullPanel(item.view);
 });
-/* ===============================================
-
-
-
-/* ===============================
-   SHARED UTIL
-================================ */
-function disableAllCanvases() {
-  document.querySelectorAll(".slide-canvas").forEach(c =>
-    c.classList.add("canvas-disabled")
-  );
-}
-
-
 </script>
+
+
+
 
 
 <script>
@@ -1723,7 +1703,8 @@ function disableAllCanvases() {
 .suggestion-bubble{font-size: 13px; font-weight: 600; color: #0c1324;display: flex;gap: 13px;background-color: #ffffffe5;border-radius: 10px;padding: 10px;align-items: center;cursor: pointer;}
 .suggestion-bubble p{width: 100%;padding-right: 20%;}
 .suggestion-bubble:hover{background-color: #fff;}
-#chartView, #walletView, #profileView, #searchView, #notificationView {height: 100%;}
+ #walletView, #profileView, #searchView, #notificationView {height: 100%;}
+ #chartView{display: flex;flex-direction: column;height: 100%;}
 .xm-loader {
   display: flex;
   flex-direction: column;
