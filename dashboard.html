@@ -1059,7 +1059,7 @@
           <!--WITHDRAW VIEW-->
           <div id="withdrawView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Withdrawal</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>  
             <div class="slide-views-wrap">
@@ -1140,14 +1140,14 @@
           <!--DEPOSIT VIEW-->
           <div id="depositView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div><p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Deposit</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div> 
 
-            <div class="slide-views-wrap">
+            <div class="slide-views-wrap" style="margin-top: 30px;">
               <h3>Deposit Method</h3>
 
-              <div class="available-balance-card">
+              <div class="available-balance-card" style="margin-bottom: 30px;">
                 <h4>Standard <span class="status">Real</span></h4>
                 <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
                 <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
@@ -1184,141 +1184,404 @@
           <!--MY WALLET VIEW-->
           <div id="mywalletView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">My Wallet</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>MY WALLET VIEW</h3>
-            <div class="slide-views-wrap"></div>
+            </div> 
+            <div class="slide-views-wrap">
+
+              <!-- ACCOUNT OVERVIEW -->
+              <div class="fx-card fx-summary">
+                <div class="fx-summary-row">
+                  <div>
+                    <p class="fx-label">Equity</p>
+                    <p class="fx-value">$0.00</p>
+                  </div>
+                  <div>
+                    <p class="fx-label">Balance</p>
+                    <p class="fx-value muted">$0.00</p>
+                  </div>
+                </div>
+
+                <div class="fx-summary-row thin">
+                  <div>
+                    <p class="fx-label">Free Margin</p>
+                    <p class="fx-value small">$0.40</p>
+                  </div>
+                  <div>
+                    <p class="fx-label">Margin Level</p>
+                    <p class="fx-value small safe">268%</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- MINI PERFORMANCE CHART -->
+              <div class="fx-card fx-wallet-performance">
+                <p class="fx-section-title">Performance</p>
+
+                <div class="wallet-perf-chart-wrap">
+                  <div class="wallet-perf-grid"></div>
+
+                  <!-- Simulated equity curve -->
+                  <div class="wallet-perf-line">
+                    <span style="left:0%; height:35%"></span>
+                    <span style="left:12%; height:42%"></span>
+                    <span style="left:24%; height:38%"></span>
+                    <span style="left:36%; height:55%"></span>
+                    <span style="left:48%; height:61%"></span>
+                    <span style="left:60%; height:58%"></span>
+                    <span style="left:72%; height:68%"></span>
+                    <span style="left:84%; height:75%"></span>
+                    <span style="left:96%; height:72%"></span>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- OPEN POSITIONS -->
+              <div class="fx-card">
+                <p class="fx-section-title">Open Positions</p>
+
+                <div class="fx-trade">
+                  <div class="fx-pair">
+                    <p>EUR/USD</p>
+                    <span>BUY · 0.50 lot</span>
+                  </div>
+                  <div class="fx-pl positive">
+                    +$248.20
+                    <span>+1.84%</span>
+                  </div>
+                </div>
+
+                <div class="fx-trade">
+                  <div class="fx-pair">
+                    <p>GBP/JPY</p>
+                    <span>SELL · 0.30 lot</span>
+                  </div>
+                  <div class="fx-pl negative">
+                    −$96.40
+                    <span>−0.62%</span>
+                  </div>
+                </div>
+
+                <div class="fx-trade">
+                  <div class="fx-pair">
+                    <p>XAU/USD</p>
+                    <span>BUY · 0.10 lot</span>
+                  </div>
+                  <div class="fx-pl positive">
+                    +$412.90
+                    <span>+3.12%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACCOUNT RISK -->
+              <div class="fx-card fx-risk">
+                <p class="fx-section-title">Account Risk</p>
+
+                <div class="risk-row">
+                  <span>Used Margin</span>
+                  <strong>$5,670.25</strong>
+                </div>
+
+                <div class="risk-row">
+                  <span>Drawdown</span>
+                  <strong class="warning">−4.8%</strong>
+                </div>
+
+                <div class="risk-bar">
+                  <div class="risk-fill"></div>
+                </div>
+              </div>
+
+
+            </div>
           </div>
 
           <!--COPY TRADE VIEW-->
           <div id="copytradeView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Copy Trade</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>COPY TRADE VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>   
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Copy trading unavailable</p>
+                </div>
+              </div>       
+
+            </div>            
           </div>
 
           <!--COMPETITIONS VIEW-->
           <div id="competitionsView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Competitions</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>                 
-            <h3>COMPETITIONS VIEW</h3>
-            <div class="slide-views-wrap"></div>           
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Competitions unavailable</p>
+                </div>
+              </div>                 
+
+            </div>           
           </div>
 
           <!--BONUS VIEW-->
           <div id="bonusView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Bonus</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>BONUS VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>      
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Bonus unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--REFERE VIEW-->
           <div id="refereview" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Refere A Friend</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>REFERE VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>        
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Refere a friend unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--TRADERS CLUB VIEW-->
           <div id="tradersclubView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Traders Club</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>TRADERS CLUB VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>  
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Traders club unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--NEWS VIEW-->
           <div id="newsView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">News</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>NEWS VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>     
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">News unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--ANALYSIS VIEW-->
           <div id="analysisView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Analysis</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>ANALYSIS VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>         
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Analysis unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--ECONOMIC CALENDAR VIEW-->
           <div id="economiccalendarView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Economic Calendar</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>                 
-            <h3>ECONOMIC CALENDAR VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Economic calendar unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--TRADING CENTRAL VIEW-->
           <div id="tradingcentralView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Trading Central</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>TRADING CENTRAL VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>              
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Trading central unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--FOREX CALCULATOR VIEW-->
           <div id="forexcalculatorView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Forex Calculator</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>FOREX CALCULATOR</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>          
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Forex calculator unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--HELP CENTER VIEW-->
           <div id="helpcenterView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Help Center</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>HELP CENTER VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>           
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Help center unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--LIVE CHAT VIEW-->
           <div id="livechatView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Live Chat</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>LIVE CHAT VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>                
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Live chat unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
           <!--SUBMIT QUESTION VIEW-->
           <div id="submitquestionView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Submit A Question</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>                 
-            <h3>SUBMIT QUESTION VIEW</h3>
-            <div class="slide-views-wrap"></div>            
+            </div>  
+            <div class="slide-views-wrap">
+
+              <div class="xm-loader">
+                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="wave w1" cx="100" cy="100" r="20" />
+                    <circle class="wave w2" cx="100" cy="100" r="20" />
+                    <circle class="wave w3" cx="100" cy="100" r="20" />
+                  </svg>
+                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Submit a question unavailable</p>
+                </div>
+              </div>                 
+
+            </div>            
           </div>
 
   </div>
@@ -1505,7 +1768,7 @@ async function updatePrices() {
     .map(m => m.id)
     .join(",");
 
-  if (!cryptoIds) return;
+  if (!cryptoIds) return; 
 
   const prices = await fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true`
@@ -1676,12 +1939,12 @@ fullScreenPanels.forEach(item => {
 .slide-canvas{height: 100%;}
 .slide-views-wrap{display: flex;flex-direction: column;gap: 20px;padding: 15px;overflow-y: auto; min-height: 0;height: 96.5%;}
 .deposit-options-wrap{display: grid;grid-template-columns: 1fr 1fr;gap: 20px;}
-.deposit-method-card{cursor: pointer; display: flex;flex-direction: column;padding: 10px;border-radius: 8px;background-color: #ffffff15;min-height: 150px;align-items: center;gap: 10px;}
-.deposit-method-card:hover{background-color: #ffffff31}
+.deposit-method-card{cursor: pointer; display: flex;flex-direction: column;padding: 10px;border-radius: 8px;  background:var(--card); border:1px solid var(--border); min-height: 150px;align-items: center;gap: 10px;}
+.deposit-method-card:hover{background: var(--card-hover)}
 .deposit-method-card img{height: 50px;}
 .deposit-method-card p{font-size: 16px; color: #ffffff6c;}
 .wallet-wrap{display: flex;flex-direction: column;gap: 20px; }
-.available-balance-card{display: flex; flex-direction: column; width: 100%; border-radius: 12px; min-height: 100px; background-color: #ffffff0c; padding: 20px;}
+.available-balance-card{display: flex; flex-direction: column; width: 100%; border-radius: 12px; min-height: 100px;   background:var(--card); border:1px solid var(--border); padding: 20px;}
 .funding-options-wrap{display: flex; flex-direction: column; width: 100%; gap: 10px;}
 .funding-option-btn{display: flex; width: 100%; border-radius:12px; padding: 15px 20px; border: #ffffff46 solid 1px; cursor: pointer;align-items: center; gap: 15px;}
 .funding-button-icon{height: 18px;width: 18px;}
@@ -2537,12 +2800,14 @@ oneClickToggle.addEventListener("change", () => {
 
 </script>
 
+<!--WITHDRAW STYLE-->
 <style>
 :root{
   --bg:#0c1324;
   --panel:#121c3a;
   --card:#161f3f;
-  --border:#263056;
+  --card-hover: #152355;
+  --border:#2a376b;
   --text:#ffffff;
   --muted:#9aa4c7;
   --green:#1fd18b;
@@ -2552,10 +2817,11 @@ oneClickToggle.addEventListener("change", () => {
 
 .withdraw-wrap{
   background:var(--card);
+  border:1px solid var(--border);
   border-radius:14px;
   padding:16px;
   border:1px solid var(--border);
-  margin-bottom:16px;
+  margin-bottom:8px;
 }
 
 
@@ -2650,7 +2916,6 @@ oneClickToggle.addEventListener("change", () => {
 
 /* WARNING */
 .notice{
-  margin-top:16px;
   font-size:12px;
   color:#f5b3b4;
   background:#2a1416;
@@ -2662,6 +2927,202 @@ oneClickToggle.addEventListener("change", () => {
 
 
 
+
+
+</style>
+
+<!--MY WALLET CONTENT STYLE-->
+<style>
+/* ===============================
+   FX WALLET / PORTFOLIO VIEW
+================================ */
+
+.slide-views-wrap {
+  padding: 16px;
+  font-family: Inter, system-ui, sans-serif;
+  color: #e9f1ff;
+}
+
+.fx-card {
+  background: #0c1a33;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.45);
+}
+
+.fx-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #7fb3ff;
+}
+
+/* SUMMARY */
+.fx-summary {
+  background: linear-gradient(135deg, #0e234a, #142f63);
+}
+
+.fx-summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fx-summary-row.thin {
+  margin-top: 12px;
+}
+
+.fx-label {
+  font-size: 12px;
+  opacity: .75;
+}
+
+.fx-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.fx-value.small {
+  font-size: 16px;
+}
+
+.fx-value.muted {
+  opacity: .7;
+}
+
+.fx-value.safe {
+  color: #3cffb0;
+}
+
+/* CHART */
+.fx-chart canvas {
+  width: 100%;
+  height: 110px;
+}
+
+/* TRADES */
+.fx-trade {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #0a1830;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.fx-pair p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.fx-pair span {
+  font-size: 12px;
+  color: #8fbaff;
+}
+
+.fx-pl {
+  text-align: right;
+  font-weight: 700;
+}
+
+.fx-pl span {
+  display: block;
+  font-size: 12px;
+  opacity: .85;
+}
+
+.fx-pl.positive {
+  color: #3cffb0;
+}
+
+.fx-pl.negative {
+  color: #ff6b6b;
+}
+
+/* RISK */
+.fx-risk .risk-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.warning {
+  color: #ffb347;
+}
+
+.risk-bar {
+  background: #081226;
+  height: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.risk-fill {
+  width: 42%;
+  height: 100%;
+  background: linear-gradient(90deg, #1e90ff, #3cffb0);
+}
+
+/* ===============================
+   WALLET PERFORMANCE (DIV-CHART)
+================================ */
+
+.fx-wallet-performance {
+  padding-bottom: 18px;
+}
+
+.wallet-perf-chart-wrap {
+  position: relative;
+  height: 110px;
+  margin-top: 8px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0b1934, #081226);
+  overflow: hidden;
+}
+
+/* subtle grid */
+.wallet-perf-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(255,255,255,0.04) 0,
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    ),
+    repeating-linear-gradient(
+      to top,
+      rgba(255,255,255,0.04) 0,
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  opacity: .6;
+}
+
+/* fake equity curve */
+.wallet-perf-line {
+  position: absolute;
+  inset: 0;
+}
+
+.wallet-perf-line span {
+  position: absolute;
+  bottom: 0;
+  width: 10%;
+  background: linear-gradient(
+    180deg,
+    rgba(60,255,176,.95),
+    rgba(30,144,255,.85)
+  );
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 0 12px rgba(60,255,176,.25);
+}
 
 
 </style>
