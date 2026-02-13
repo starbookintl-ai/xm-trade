@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -1214,27 +1214,29 @@
                 </div>
               </div>
 
-              <!-- MINI PERFORMANCE CHART -->
-              <div class="fx-card fx-wallet-performance">
-                <p class="fx-section-title">Performance</p>
 
-                <div class="wallet-perf-chart-wrap">
-                  <div class="wallet-perf-grid"></div>
 
-                  <!-- Simulated equity curve -->
-                  <div class="wallet-perf-line">
-                    <span style="left:0%; height:35%"></span>
-                    <span style="left:12%; height:42%"></span>
-                    <span style="left:24%; height:38%"></span>
-                    <span style="left:36%; height:55%"></span>
-                    <span style="left:48%; height:61%"></span>
-                    <span style="left:60%; height:58%"></span>
-                    <span style="left:72%; height:68%"></span>
-                    <span style="left:84%; height:75%"></span>
-                    <span style="left:96%; height:72%"></span>
+
+
+              <!-- WALLET PERFORMANCE -->
+              <div class="performance-card">
+                <div class="performance-card-header">
+                  <div>
+                    <h2>Portfolio Performance</h2>
+                    <span>Your trading summary</span>
                   </div>
                 </div>
+                <div class="performance-price-pill" id="portfolioValue">$12,450.78</div>
+                <div class="performance-chart-container">
+                  <canvas id="performanceChart"></canvas>
+                </div>
               </div>
+
+
+
+
+
+
 
 
               <!-- OPEN POSITIONS -->
@@ -1588,6 +1590,9 @@
   <!--========================================================================================-->  
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 <script>
 const navButtons = document.querySelectorAll(".nav-btn");
@@ -2218,6 +2223,7 @@ canvas{
 }
 </style>
 
+<!--CARD CHART SCRIPT--> 
 <script>
 /* ===============================
    DATASET (ORIGINAL + 20 MORE)
@@ -2948,7 +2954,6 @@ oneClickToggle.addEventListener("change", () => {
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 14px;
-  box-shadow: 0 8px 22px rgba(0,0,0,.45);
 }
 
 .fx-section-title {
@@ -3066,66 +3071,118 @@ oneClickToggle.addEventListener("change", () => {
   background: linear-gradient(90deg, #1e90ff, #3cffb0);
 }
 
-/* ===============================
-   WALLET PERFORMANCE (DIV-CHART)
-================================ */
+</style>
 
-.fx-wallet-performance {
-  padding-bottom: 18px;
+
+<!--PERFORMANCE CHART STYLE-->
+<style>
+:root{
+  --bg:#0b1222;
+  --panel:#0f1a33;
+  --grid:rgba(255,255,255,.08);
+  --text:#e6ebff;
+  --muted:#9aa4c7;
+  --green:#1fd18b;
+  --red:#ff4d4d;
 }
 
-.wallet-perf-chart-wrap {
-  position: relative;
-  height: 110px;
-  margin-top: 8px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #0b1934, #081226);
-  overflow: hidden;
+/* Card */
+.performance-card{
+  background:var(--panel);
+  border-radius:16px;
+  width:100%;
+  max-width:420px;
+  height:300px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  box-sizing:border-box;
 }
 
-/* subtle grid */
-.wallet-perf-grid {
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      to right,
-      rgba(255,255,255,0.04) 0,
-      rgba(255,255,255,0.04) 1px,
-      transparent 1px,
-      transparent 18px
-    ),
-    repeating-linear-gradient(
-      to top,
-      rgba(255,255,255,0.04) 0,
-      rgba(255,255,255,0.04) 1px,
-      transparent 1px,
-      transparent 18px
-    );
-  opacity: .6;
+/* Header */
+.performance-card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.performance-card-header h2{
+  font-size:16px;
+  font-weight:600;
+}
+.performance-card-header span{
+  font-size:12px;
+  color:var(--muted);
+  display:block;
+  margin-top:2px;
 }
 
-/* fake equity curve */
-.wallet-perf-line {
-  position: absolute;
-  inset: 0;
+/* Price pill */
+.performance-price-pill{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:#fff;
+  color:#000;
+  font-size:14px;
+  font-weight:600;
+  padding:6px 10px;
+  border-radius:6px;
 }
 
-.wallet-perf-line span {
-  position: absolute;
-  bottom: 0;
-  width: 10%;
-  background: linear-gradient(
-    180deg,
-    rgba(60,255,176,.95),
-    rgba(30,144,255,.85)
-  );
-  border-radius: 6px 6px 0 0;
-  box-shadow: 0 0 12px rgba(60,255,176,.25);
+/* Chart fills remaining space */
+.performance-performance-chart-container{
+  flex:1;
+  margin-top:15px;
+  position:relative;
 }
+ #performanceChart{
+  width:100%;
+  height: 280px !important;
+  display:block;
+}
+
+
 
 
 </style>
+
+<!--PERFORMANCE CHART SCRIPT-->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const ctx = document.getElementById("performanceChart");
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+      datasets: [{
+        label: "Performance",
+        data: [12, 19, 14, 22, 18, 25, 30],
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false },
+        y: { display: false }
+      }
+    }
+  });
+});
+</script>
+
+
+
+
+
+
 
 
 <body>
