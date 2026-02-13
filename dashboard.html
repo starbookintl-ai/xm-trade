@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -274,7 +274,7 @@
         #panelOverlay.active {
         opacity: 1;
         pointer-events: auto;
-        }
+        }       
 
         #slidePanel {
         position: fixed;
@@ -290,6 +290,45 @@
         overflow: hidden;
         }
 
+        /* ===== SECOND OVERLAY & PANEL ===== */
+        #secondOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .45);
+        opacity: 0;
+        pointer-events: none;
+        transition: .3s;
+        z-index: 200;
+        }
+
+        #secondOverlay.active {
+        opacity: 1;
+        pointer-events: auto;
+        }       
+
+        #secondPanel {
+        position: fixed;
+        bottom: -100%;
+        padding: 15px 0px;
+        left: 0;
+        width: 100%;
+        background: #0f1730;
+        transition: .35s;
+        z-index: 201;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        }  
+
+        #secondPanel.active {
+          bottom: 0;
+        }
+    
+
+
+
+
+
         .slide-panel-lap{
           border-radius: 0px; height: 100dvh;
         }
@@ -298,6 +337,12 @@
         height: 95dvh;
         border-radius: 16px 16px 0 0;
         }
+
+        .second-slide-panel-notlap{
+        height: 300dvh;
+        height: 60dvh;
+        border-radius: 16px 16px 0 0;
+        }        
 
         #slidePanel.active {
         bottom: 0;
@@ -851,7 +896,7 @@
               <!-- BUY SELL -->
               <div class="trade-buttons">
 
-                <button class="sell">
+                <button class="sell" id="sellButton">
                   <div style="display: flex;flex-direction:column;align-items: start;">
                     <p>SELL</p>
                     <strong id="sellPrice">153.859</strong>
@@ -859,7 +904,7 @@
                   <img src="images/sell-icon.png">
                 </button>
 
-                <button class="buy">
+                <button class="buy" id="buyButton">
                   <div style="display: flex;flex-direction:column;align-items: start;">
                     <p>BUY</p>
                     <strong id="buyPrice">153.886</strong>
@@ -1587,7 +1632,82 @@
           </div>
 
   </div>
-  <!--========================================================================================-->  
+
+  <!--========================================================================================--> 
+
+
+
+
+  <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
+  <div id="secondOverlay"></div>
+
+    <div id="secondPanel" class="second-slide-panel-notlap">
+      <div class="drag-bar"></div>
+
+      <!-- BUY VIEW -->
+      <div id="buyView" class="buy-view">
+
+        <div class="buy-header">
+          <span>Buy Order</span>
+          <span>Market</span>
+        </div>
+
+        <div class="buy-price-box">
+          <strong>153.886</strong>
+        </div>
+
+        <div class="buy-field">
+          <label>Amount</label>
+          <input class="buy-input" type="number" placeholder="Enter amount">
+        </div>
+
+        <div class="buy-field">
+          <label>Stop Loss</label>
+          <input class="buy-input" type="number">
+        </div>
+
+        <div class="buy-info-row">
+          <span>Margin</span>
+          <span>$0.00</span>
+        </div>
+
+        <button class="buy-submit">Place Buy Order</button>
+
+      </div>
+
+      <!-- SELL VIEW -->
+      <div id="sellView" class="sell-view">
+
+        <div class="sell-header">
+          <span>Sell Order</span>
+          <span>Market</span>
+        </div>
+
+        <div class="sell-price-box">
+          <strong>153.859</strong>
+        </div>
+
+        <div class="sell-field">
+          <label>Amount</label>
+          <input class="sell-input" type="number" placeholder="Enter amount">
+        </div>
+
+        <div class="sell-field">
+          <label>Stop Loss</label>
+          <input class="sell-input" type="number">
+        </div>
+
+        <div class="sell-info-row">
+          <span>Margin</span>
+          <span>$0.00</span>
+        </div>
+
+        <button class="sell-submit">Place Sell Order</button>
+
+      </div>
+
+    </div>
+  <!--========================================================================================--> 
 
 </div>
 
@@ -1874,6 +1994,203 @@ fullScreenPanels.forEach(item => {
   item.btn.onclick = () => openFullPanel(item.view);
 });
 </script>
+
+
+
+<!--===SECOND PANEL + SECOND OVERLAY (STANDALONE MODULE)===-->
+<style>
+  .second-slide-panel-notlap {
+  will-change: transform;
+  transform: translateY(0);
+}
+</style>
+
+<style>
+
+/* BUY VIEW */
+.buy-view{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding:16px;
+}
+
+.buy-header{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+  color:#1ecb7b;
+}
+
+.buy-price-box{
+  text-align:center;
+  padding:12px;
+}
+
+.buy-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.buy-input{
+  padding:10px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:none;
+  color:#fff;
+}
+
+.buy-info-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  opacity:.8;
+}
+
+.buy-submit{
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-weight:700;
+  background:#1ecb7b;
+  color:#fff;
+  cursor:pointer;
+}
+
+
+
+/* SELL VIEW */
+.sell-view{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding:16px;
+}
+
+.sell-header{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+  color:#ff4d4d;
+}
+
+.sell-price-box{
+  text-align:center;
+  padding:12px;
+}
+
+.sell-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.sell-input{
+  padding:10px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:none;
+  color:#fff;
+}
+
+.sell-info-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  opacity:.8;
+}
+
+.sell-submit{
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-weight:700;
+  background:#ff4d4d;
+  color:#fff;
+  cursor:pointer;
+}
+
+</style>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+     DOM REFERENCES
+  ================================ */
+  const buyButton  = document.getElementById("buyButton");
+  const sellButton = document.getElementById("sellButton");
+
+  const secondPanel   = document.getElementById("secondPanel");
+  const secondOverlay = document.getElementById("secondOverlay");
+
+  const buyView  = document.getElementById("buyView");
+  const sellView = document.getElementById("sellView");
+
+  if (!buyView || !sellView) {
+    console.warn("buyView or sellView missing");
+    return;
+  }
+
+  /* ===============================
+     VIEW SWITCHER
+  ================================ */
+  function showBuyView() {
+    buyView.style.display = "flex";
+    buyView.style.flexDirection ="column"
+    sellView.style.display = "none";
+    openSecondPanel();
+  }
+
+  function showSellView() {
+    sellView.style.display = "flex";
+    sellView.style.flexDirection = "column";
+    buyView.style.display = "none";
+    openSecondPanel();
+  }
+
+  /* ===============================
+     PANEL CONTROL
+  ================================ */
+  function openSecondPanel() {
+    secondPanel.classList.add("active", "second-slide-panel-notlap");
+    secondOverlay.classList.add("active");
+    secondPanel.style.transform = "translateY(0)";
+  }
+
+  function closeSecondPanel() {
+    secondPanel.classList.remove("active", "second-slide-panel-notlap");
+    secondOverlay.classList.remove("active");
+    secondPanel.style.transform = "";
+  }
+
+  /* ===============================
+     BUTTON BINDINGS
+  ================================ */
+  buyButton?.addEventListener("click", showBuyView);
+  sellButton?.addEventListener("click", showSellView);
+
+  secondOverlay?.addEventListener("click", closeSecondPanel);
+
+  /* ===============================
+     OPTIONAL GLOBAL API
+  ================================ */
+  window.SecondPanel = {
+    openBuy: showBuyView,
+    openSell: showSellView,
+    close: closeSecondPanel
+  };
+
+});
+</script>
+
+
+
+<!--=====================================================-->
 
 
 
@@ -2493,12 +2810,24 @@ canvas{
 }
 
 .tf-left .active{
-  color:#fff;
+  color:black;
   font-weight:600;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 3px 6px;
+  cursor: pointer;
 }
 
 .tf-right{
   opacity:.7;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #fff 1px solid;
+  border-radius: 6px;
+  font-size: 18px;
 }
 
 /* ===== BUY SELL ===== */
@@ -3190,4 +3519,3 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 </body>
 </html
-
