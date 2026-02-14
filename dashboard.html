@@ -1684,8 +1684,8 @@
           </div>
 
           <div class="trade-info buy-info">
-            <div><span>Margin</span><span>$120.00</span></div>
-            <div><span>Fee</span><span>$0.25</span></div>
+            <div><span>Margin: </span><span>$120.00</span></div>
+            <div><span>Fee: </span><span>$0.25</span></div>
           </div>
 
           <button class="trade-action buy-btn">Place Buy Order</button>
@@ -2166,17 +2166,33 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      PANEL CONTROL
   ================================ */
-  function openSecondPanel() {
-    secondPanel.classList.add("active", "second-slide-panel-notlap");
-    secondOverlay.classList.add("active");
-    secondPanel.style.transform = "translateY(0)";
-  }
+    function openSecondPanel() {
+      secondPanel.classList.add("active", "second-slide-panel-notlap");
+      secondOverlay.classList.add("active");
+      secondPanel.style.transform = "translateY(0)";
 
-  function closeSecondPanel() {
-    secondPanel.classList.remove("active", "second-slide-panel-notlap");
-    secondOverlay.classList.remove("active");
-    secondPanel.style.transform = "";
-  }
+      // 👇 THIS IS REQUIRED
+      history.pushState({ secondPanel: true }, "");
+    }
+
+
+      window.addEventListener("popstate", () => {
+      if (secondPanel.classList.contains("active")) {
+        closeSecondPanel();
+
+        // Prevent navigating away
+        history.pushState(null, "", location.href);
+      }
+    });
+ 
+
+
+    function closeSecondPanel() {
+      secondPanel.classList.remove("active", "second-slide-panel-notlap");
+      secondOverlay.classList.remove("active");
+      secondPanel.style.transform = "";
+    }
+
 
   /* ===============================
      BUTTON BINDINGS
