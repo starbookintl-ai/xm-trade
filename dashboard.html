@@ -213,11 +213,17 @@
         padding: 12px 0px 0px 0px;display: flex;flex-direction: column;gap: 15px;
         }
         .market-header{display: flex;width: 100%;align-items: center;justify-content: space-between;padding: 0px 20px;}
-        .categories-scrollbar{display: flex;width: 100%;align-items: center;overflow-x: auto;gap: 5px;padding: 0px 10px;white-space: nowrap;height: 70px;}
-        .market-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .categories-scrollbar{display: flex;width: 100%;align-items: center;overflow-x: auto;gap: 5px;padding: 0px 10px;white-space: nowrap;height: 70px;position: sticky;top: 0;}
+        .market-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer; font-weight: bold;font-size: 14px;}
         .market-category-pill:hover{background-color: #ffffff36;}
         .notification-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
-        .notification-category-pill:hover{background-color: #ffffff36;}        
+        .notification-category-pill:hover{background-color: #ffffff36;}    
+        .trades-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .trades-category-pill:hover{background-color: #ffffff36;} 
+        .more-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .more-category-pill:hover{background-color: #ffffff36;} 
+        .search-category-pill{text-align: center; color: #ffffffaf;border-radius: 50px;padding: 8px 16px;background-color: #ffffff0c;cursor: pointer;font-weight: bold;font-size: 15px;}
+        .search-category-pill:hover{background-color: #ffffff36;}                               
         .categories-scrollbar .active {background-color: white;color: #0c1324;}
         .market-item {display: flex;justify-content: space-between;border-bottom: 1px solid #1a2340;cursor: pointer;transition: .2s;padding: 14px 20px;}
 
@@ -521,7 +527,7 @@
         </div>
 
         <div class="markets">
-          <div style="position: sticky;top: 0;background: #0c1324;width: 100%;display: flex;flex-direction: column;">
+          <div style="position: sticky;top: 0;background: #0c1324; width: 100%;display: flex;flex-direction: column;">
             <div class="market-header">
               <h3 style="font-size: 22px;">Markets</h3>
               <img src="images/search-icon.png" alt="" class="search-icon" id="searchButton">
@@ -552,11 +558,11 @@
         </div>
 
         <div class="categories-scrollbar">
-          <p class="notification-category-pill active" data-type="all">Open Positions</p>
-          <p class="notification-category-pill" data-type="unread">Pending Orders</p>
-          <p class="notification-category-pill" data-type="account">History</p>
-          <p class="notification-category-pill" data-type="pice arlert">Price-Alert</p>
-          <p class="notification-category-pill" data-type="trading">Trading</p>
+          <p class="trades-category-pill active" data-type="all">Open Positions</p>
+          <p class="trades-category-pill" data-type="unread">Pending Orders</p>
+          <p class="trades-category-pill" data-type="account">History</p>
+          <p class="trades-category-pill" data-type="pice arlert">Price-Alert</p>
+          <p class="trades-category-pill" data-type="trading">Trading</p>
         </div>        
         
         <div class="xm-loader">
@@ -631,12 +637,12 @@
             </div>        
         </div>        
 
-        <div class="categories-scrollbar">
-          <p class="notification-category-pill active" data-type="all">Popular</p>
-          <p class="notification-category-pill" data-type="unread">Rewards</p>
-          <p class="notification-category-pill" data-type="account">Tools</p>
-          <p class="notification-category-pill" data-type="trading">Funding</p>
-          <p class="notification-category-pill" data-type="trading">Support</p>          
+        <div class="categories-scrollbar" style="background: #0c1324;">
+          <p class="more-category-pill active" data-type="all">Popular</p>
+          <p class="more-category-pill" data-type="unread">Rewards</p>
+          <p class="more-category-pill" data-type="account">Tools</p>
+          <p class="more-category-pill" data-type="trading">Funding</p>
+          <p class="more-category-pill" data-type="trading">Support</p>          
         </div>      
 
         <div class="more-features-row">
@@ -1046,19 +1052,19 @@
                 <input id="search" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
               </div>
 
-              <p class="cancel-btn" style="font-size: 17px; font-weight: 600;">Cancel</p>
+              <p class="cancel-btn" style="font-size: 17px; font-weight: 600;margin-right: 20px;">Cancel</p>
 
             </div>
             <div class="slider-content-wrap">
               <div class="categories-scrollbar">
-                <p class="notification-category-pill active" data-type="all">All</p>
-                <p class="notification-category-pill" data-type="unread">Forex</p>
-                <p class="notification-category-pill" data-type="account">Stock CFDs</p>
-                <p class="notification-category-pill" data-type="pice arlert">Turbo Stocks</p>
-                <p class="notification-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
-                <p class="notification-category-pill" data-type="commodities">Commodities</p>
-                <p class="notification-category-pill" data-type="pice arlert">Equity Indices</p>
-                <p class="notification-category-pill" data-type="trading indices">Thematic Indices</p>                
+                <p class="search-category-pill active" data-type="all">All</p>
+                <p class="search-category-pill" data-type="unread">Forex</p>
+                <p class="search-category-pill" data-type="account">Stock CFDs</p>
+                <p class="search-category-pill" data-type="pice arlert">Turbo Stocks</p>
+                <p class="search-category-pill" data-type="cryto currencies">Cryptocurrencies</p>
+                <p class="search-category-pill" data-type="commodities">Commodities</p>
+                <p class="search-category-pill" data-type="pice arlert">Equity Indices</p>
+                <p class="search-category-pill" data-type="trading indices">Thematic Indices</p>                
               </div>
 
               <div id="marketList2" class="market-list2"></div>
@@ -1354,17 +1360,9 @@
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>   
             <div class="slide-views-wrap">
-
-              <div class="xm-loader">
-                <div style="display: flex;  flex-direction: column;justify-content: center;align-items: center;width: 100%;">
-                  <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle class="wave w1" cx="100" cy="100" r="20" />
-                    <circle class="wave w2" cx="100" cy="100" r="20" />
-                    <circle class="wave w3" cx="100" cy="100" r="20" />
-                  </svg>
-                  <p style="text-align: center;color: #ffffffa2;font-size: 17px;width: 80%;">Copy trading unavailable</p>
-                </div>
-              </div>       
+  
+              <!-- JS POPULATES HERE -->
+              <div id="copytraderList"></div>             
 
             </div>            
           </div>
@@ -1750,39 +1748,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
+<!--==============APP DATA===================-->
 <script>
-const navButtons = document.querySelectorAll(".nav-btn");
-const pages = document.querySelectorAll(".page");
+  /* ===============================
+   COPY TRADING PROFILES DATASET
+================================ */
+const strategies = [
+  {name:"Elon Musk", handle:"@ElonMusk", rank:6, return:"39.89%", funds:"$8,131", invested:"$200,217", min:"$50", fee:"35%", investors:"661", drawdown:"25%",image:"https://i.pinimg.com/736x/4f/ce/17/4fce1710ef11a77170235d51b0ba25c1.jpg"},
+  {name:"Kathy Lien", handle:"@KathyLien", rank:5, return:"33.36%", funds:"$4,097", invested:"$15,094", min:"$3,000", fee:"30%", investors:"244", drawdown:"18%",image:"https://i.pinimg.com/736x/de/44/64/de446467698b874e9ccab50e4428caa2.jpg"},
+  {name:"Raghee Horner", handle:"RagheeHorner", rank:4, return:"28.12%", funds:"$12,504", invested:"$98,332", min:"$100", fee:"25%", investors:"412", drawdown:"21%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZutyP238lG-1G74VihXKsZ_Tz8LCJuGZDog&s"},
+  {name:"Chris Lori", handle:"@ChrisLori", rank:3, return:"24.77%", funds:"$6,880", invested:"$45,910", min:"$250", fee:"20%", investors:"198", drawdown:"16%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTh6V1vtnn4oE7B3cjYYuwYhXf3dxG0kKe4A&s"},
+  {name:"Ray Dalio", handle:"@RayDalio", rank:2, return:"21.45%", funds:"$9,441", invested:"$62,300", min:"$500", fee:"15%", investors:"355", drawdown:"14%",image:"https://i.pinimg.com/736x/02/09/b0/0209b0fab1926832a2805600307196dd.jpg"},
+];
 
-function updateNavIcons() {
-  navButtons.forEach(btn => {
-    const img = btn.querySelector("img");
-    img.src = btn.classList.contains("active")
-      ? img.dataset.active
-      : img.dataset.inactive;
-  });
-}
-
-// initial load
-updateNavIcons();
-
-navButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-
-    navButtons.forEach(b => b.classList.remove("active"));
-    pages.forEach(p => p.classList.remove("active"));
-
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.page).classList.add("active");
-
-    updateNavIcons();
-  });
-});
-</script>
-
-
-<script>
 /* ===============================
    MARKET DATA
 ================================ */
@@ -1827,10 +1805,275 @@ const marketData = [
   { symbol:"Adidas", desc:"Adidas Stock", type:"stock", id:"adidas", image:"images/adidas_dark.png", price:14.62, change:-1.94, performance:"short" },
   { symbol:"Netflix", desc:"Netflix Stock", type:"stock", id:"netflix", image:"images/netflix_dark.png", price:58.91, change:-2.73, performance:"short" }
 ];
+</script>
+<!--======================-====================-->
+
+<!--===========COPY TRADING=======================-->
+<script>
+/* ===============================
+   COPYTRADING TRADER DATASET
+================================ */
+const copyTraders = [
+  {name:"Elon Musk", handle:"@ElonMusk", rank:6, return:"39.89%", funds:"$8,131", invested:"$200,217", min:"$50", fee:"35%", investors:"661", drawdown:"25%",image:"https://i.pinimg.com/736x/4f/ce/17/4fce1710ef11a77170235d51b0ba25c1.jpg"},
+  {name:"Kathy Lien", handle:"@KathyLien", rank:5, return:"33.36%", funds:"$4,097", invested:"$15,094", min:"$3,000", fee:"30%", investors:"244", drawdown:"18%",image:"https://i.pinimg.com/736x/de/44/64/de446467698b874e9ccab50e4428caa2.jpg"},
+  {name:"Raghee Horner", handle:"RagheeHorner", rank:4, return:"28.12%", funds:"$12,504", invested:"$98,332", min:"$100", fee:"25%", investors:"412", drawdown:"21%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZutyP238lG-1G74VihXKsZ_Tz8LCJuGZDog&s"},
+  {name:"Chris Lori", handle:"@ChrisLori", rank:3, return:"24.77%", funds:"$6,880", invested:"$45,910", min:"$250", fee:"20%", investors:"198", drawdown:"16%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTh6V1vtnn4oE7B3cjYYuwYhXf3dxG0kKe4A&s"},
+  {name:"Ray Dalio", handle:"@RayDalio", rank:2, return:"21.45%", funds:"$9,441", invested:"$62,300", min:"$500", fee:"15%", investors:"355", drawdown:"14%",image:"https://i.pinimg.com/736x/02/09/b0/0209b0fab1926832a2805600307196dd.jpg"},
+];
+
+/* ===============================
+   SPARKLINE DRAWER
+================================ */
+function drawTraderSparkline(canvas, seed){
+
+  const ctx = canvas.getContext("2d");
+
+  /* FIX: get real size even if hidden */
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width  || canvas.parentElement.offsetWidth  || 300;
+  const h = rect.height || canvas.parentElement.offsetHeight || 60;
+
+  canvas.width  = w;
+  canvas.height = h;
+
+  let r = seed.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
+
+  const points = Array.from({length:28}, (_,i)=>{
+    r = (r * 9301 + 49297) % 233280;
+    return 0.5 + Math.sin(i/4)*0.15 + (r/233280)*0.25;
+  });
+
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+
+  ctx.beginPath();
+  points.forEach((v,i)=>{
+    const x = i/(points.length-1) * w;
+    const y = h - (v-min)/(max-min) * h;
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  });
+
+  ctx.strokeStyle = "#36ff87";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.lineTo(w,h);
+  ctx.lineTo(0,h);
+  ctx.closePath();
+
+  const g = ctx.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,"rgba(54,255,135,.35)");
+  g.addColorStop(1,"rgba(54,255,135,0)");
+  ctx.fillStyle = g;
+  ctx.fill();
+}
+
+/* ===============================
+   RENDER COPYTRADERS
+================================ */
+const copytraderListEl = document.getElementById("copytraderList");
+
+copyTraders.forEach(trader=>{
+  const card = document.createElement("div");
+  card.className = "ct-card";
+
+  card.innerHTML = `
+    <div class="ct-card-top">
+      <div class="ct-profile">
+        <img class="ct-avatar" src="${trader.image}" alt="">
+        <div>
+          <div class="ct-name">${trader.name}</div>
+          <div class="ct-handle">${trader.handle}</div>
+        </div>
+      </div>
+      <div class="ct-rank">${trader.rank}</div>
+    </div>
+
+    <div class="ct-chart">
+      <canvas></canvas>
+      <div class="ct-return">
+        Return 1M
+        <strong>${trader.return}</strong>
+      </div>      
+    </div>
+
+    <div class="ct-stats">
+      <div class="ct-stat"><span>Own Funds</span><strong>${trader.funds}</strong></div>
+      <div class="ct-stat"><span>Invested</span><strong>${trader.invested}</strong></div>
+      <div class="ct-stat"><span>Min. Investment</span><strong>${trader.min}</strong></div>
+    </div>
+
+    <div class="ct-footer">
+      <div>Fee<strong>${trader.fee}</strong></div>
+      <div>Investors<strong>${trader.investors}</strong></div>
+      <div>Drawdown<strong>${trader.drawdown}</strong></div>
+    </div>
+  `;
+
+  copytraderListEl.appendChild(card);
+  drawTraderSparkline(card.querySelector("canvas"), trader.name);
+});
+</script>
+
+<style>
+
+/* ---------- copytrading-search ---------- */
+.copytrading-search{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#121c31;
+  border-radius:10px;
+  padding:12px 14px;
+  margin-bottom:18px;
+}
+.copytrading-search input{
+  background:none;
+  border:none;
+  outline:none;
+  color:#fff;
+  width:100%;
+  font-size:14px;
+}
+.copytrading-search input::placeholder{color:#8c98b3}
+
+/* ---------- CARD ---------- */
+.ct-card{
+  background:linear-gradient(180deg,#15213a,#111a2d);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.35);
+  cursor: pointer;
+}
+
+.ct-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.ct-profile{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.ct-avatar{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#2b3a5f;
+}
+.ct-name{font-size:14px;font-weight:600}
+.ct-handle{font-size:12px;color:#8fa0c8}
+.ct-rank{
+  background:#1f2b49;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:12px;
+}
+
+/* ---------- CHART ---------- */
+.ct-chart{
+  height:46px;
+  margin:12px 0 6px;
+  border-radius:6px;
+  gap: 20px;
+  width: 100%;
+  display: flex;
+}
+.ct-chart canvas{
+  width: 75%;
+  height:100%;
+  display:block;
+}
+
+/* ---------- RETURN ---------- */
+.ct-return{
+  text-align:right;
+  font-size:13px;
+  color:#8fa0c8;
+}
+.ct-return strong{
+  display:block;
+  color:#39ffa8;
+  font-size:16px;
+}
+
+/* ---------- STATS ---------- */
+.ct-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.ct-stat{
+  background:#1a2744;
+  padding:10px;
+  border-radius:10px;
+}
+.ct-stat span{
+  display:block;
+  font-size:12px;
+  color:#93a2c5;
+}
+.ct-stat strong{font-size:14px}
+
+/* ---------- FOOTER ---------- */
+.ct-footer{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  margin-top:10px;
+  font-size:13px;
+  color:#9cadcf;
+}
+.ct-footer strong{
+  display:block;
+  color:#fff;
+}
+</style>
+<!--==============================================-->
 
 
 
 
+
+<script>
+const navButtons = document.querySelectorAll(".nav-btn");
+const pages = document.querySelectorAll(".page");
+
+function updateNavIcons() {
+  navButtons.forEach(btn => {
+    const img = btn.querySelector("img");
+    img.src = btn.classList.contains("active")
+      ? img.dataset.active
+      : img.dataset.inactive;
+  });
+}
+
+// initial load
+updateNavIcons();
+
+navButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    navButtons.forEach(b => b.classList.remove("active"));
+    pages.forEach(p => p.classList.remove("active"));
+
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.page).classList.add("active");
+
+    updateNavIcons();
+  });
+});
+</script>
+
+
+<script>
 /* ===============================
    DOM REFERENCES
 ================================ */
@@ -2283,6 +2526,7 @@ window.addEventListener("popstate", () => {
 
 
 
+<!--category pill functions-->
 
 <script>
   const pills = document.querySelectorAll(".market-category-pill");
@@ -2343,6 +2587,97 @@ window.addEventListener("popstate", () => {
     // updateNotificationBadge(type);
   }
 </script>
+
+
+
+<script>
+  const tradespills = document.querySelectorAll(".trades-category-pill");
+
+  tradespills.forEach(pill => {
+    pill.addEventListener("click", () => {
+
+      // Remove active from all
+      tradespills.forEach(p => p.classList.remove("active"));
+
+      // Activate clicked pill
+      pill.classList.add("active");
+
+      // 👉 PLACE YOUR FUNCTION HERE
+      onTradesSelected(pill.dataset.category, pill);
+    });
+  });
+
+  // ===== YOUR CUSTOM LOGIC GOES HERE =====
+  function onTradesSelected(category, pillElement) {
+    console.log("Selected category:", category);
+
+    // Example ideas:
+    // filterMarkets(category);
+    // loadCategoryData(category);
+    // updateChart(category);
+  }
+
+</script>
+
+<script>
+  const morepills = document.querySelectorAll(".more-category-pill");
+
+  morepills.forEach(pill => {
+    pill.addEventListener("click", () => {
+
+      // Remove active from all
+      morepills.forEach(p => p.classList.remove("active"));
+
+      // Activate clicked pill
+      pill.classList.add("active");
+
+      // 👉 PLACE YOUR FUNCTION HERE
+      onMoreSelected(pill.dataset.category, pill);
+    });
+  });
+
+  // ===== YOUR CUSTOM LOGIC GOES HERE =====
+  function onMoreSelected(category, pillElement) {
+    console.log("Selected category:", category);
+
+    // Example ideas:
+    // filterMarkets(category);
+    // loadCategoryData(category);
+    // updateChart(category);
+  }
+
+</script>
+
+<script>
+  const searchpills = document.querySelectorAll(".search-category-pill");
+
+  searchpills.forEach(pill => {
+    pill.addEventListener("click", () => {
+
+      // Remove active from all
+      searchpills.forEach(p => p.classList.remove("active"));
+
+      // Activate clicked pill
+      pill.classList.add("active");
+
+      // 👉 PLACE YOUR FUNCTION HERE
+      onSearchSelected(pill.dataset.category, pill);
+    });
+  });
+
+  // ===== YOUR CUSTOM LOGIC GOES HERE =====
+  function onSearchSelected(category, pillElement) {
+    console.log("Selected category:", category);
+
+    // Example ideas:
+    // filterMarkets(category);
+    // loadCategoryData(category);
+    // updateChart(category);
+  }
+
+</script>
+
+<!--===========================================================-->
 
 
 <style>
@@ -2538,7 +2873,6 @@ window.addEventListener("popstate", () => {
 </style>
 
 <style>
-
 /* ===== SECTION ===== */
 .section{
   margin-bottom:22px;
