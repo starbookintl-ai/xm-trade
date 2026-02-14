@@ -1971,19 +1971,11 @@ function selectMarket(m, row) {
 overlay.onclick = closePanel;
 cancelButtons.forEach(b => b.onclick = closePanel);
 
-function closePanel(fromBack = false) {
+function closePanel() {
   panel.classList.remove("active");
   overlay.classList.remove("active");
   hideAllViews();
-
-  firstPanelOpen = false;
-
-  // 🔑 Prevent accidental exit
-  if (fromBack) {
-    history.pushState(null, "", location.href);
-  }
 }
-
 
 /* ===============================
    PANEL OPENERS
@@ -1994,10 +1986,8 @@ function openPartialGroup(view) {
   overlay.classList.add("active");
   showView(view);
 
-  firstPanelOpen = true;
   history.pushState({ layer: "first" }, "");
 }
-
 
 function openFullPanel(view) {
   panel.classList.add("active", "slide-panel-lap");
@@ -2005,9 +1995,9 @@ function openFullPanel(view) {
   overlay.classList.add("active");
   showView(view);
 
-  firstPanelOpen = true;
   history.pushState({ layer: "first" }, "");
 }
+
 
 
 /* ===============================
@@ -2152,6 +2142,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      DOM REFERENCES
   ================================ */
+  history.replaceState({ layer: "base" }, "");
   const buyButton  = document.getElementById("buyButton");
   const sellButton = document.getElementById("sellButton");
 
@@ -2191,23 +2182,23 @@ document.addEventListener("DOMContentLoaded", () => {
     secondOverlay.classList.add("active");
     secondPanel.style.transform = "translateY(0)";
 
-    secondPanelOpen = true;
     history.pushState({ layer: "second" }, "");
   }
 
 
 
-    window.addEventListener("popstate", () => {
 
-  // 1️⃣ Second panel has priority
-  if (secondPanelOpen) {
-    closeSecondPanel(true);
+window.addEventListener("popstate", () => {
+
+  // 1️⃣ Close second panel first
+  if (secondPanel.classList.contains("active")) {
+    closeSecondPanel();
     return;
   }
 
-  // 2️⃣ Then first panel
-  if (firstPanelOpen) {
-    closePanel(true);
+  // 2️⃣ Then close first panel
+  if (panel.classList.contains("active")) {
+    closePanel();
     return;
   }
 
@@ -2217,20 +2208,11 @@ document.addEventListener("DOMContentLoaded", () => {
  
 
 
-    function closeSecondPanel(fromBack = false) {
+  function closeSecondPanel() {
     secondPanel.classList.remove("active", "second-slide-panel-notlap");
     secondOverlay.classList.remove("active");
     secondPanel.style.transform = "";
-
-    secondPanelOpen = false;
-
-    // 🔑 If closed via Back, restore first panel history
-    if (fromBack && firstPanelOpen) {
-      history.pushState({ layer: "first" }, "");
-    }
   }
-
-
 
   /* ===============================
      BUTTON BINDINGS
