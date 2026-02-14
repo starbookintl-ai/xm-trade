@@ -247,7 +247,7 @@
         }
 
         .price {
-        font-weight: 600;font-size: 18px;
+        font-weight: 600;font-size: 16px;
         }
 
         .positive {
@@ -840,7 +840,7 @@
                     <img id="tradeIcon" src="">
                     <div>
                       <h1 id="tradeSymbol">USDJPY</h1>
-                      <span>Forex</span>
+                      <span id="marketType">Forex</span>
                     </div>
                   </div>
 
@@ -1839,6 +1839,7 @@ const list2 = document.getElementById("marketList2");
 const panel = document.getElementById("slidePanel");
 const overlay = document.getElementById("panelOverlay");
 const tradeSymbol = document.getElementById("tradeSymbol");
+const marketType = document.getElementById("marketType");
 const tradeIcon = document.getElementById("tradeIcon");
 
 /* Slide views */
@@ -2001,6 +2002,7 @@ function selectMarket(m, row) {
   document.querySelectorAll(".market-item").forEach(r => r.classList.remove("active"));
   row.classList.add("active");
   tradeSymbol.textContent = m.symbol;
+  marketType.textContent = m.type;
   tradeIcon.src = m.image;
   openPartialGroup(chartView);
 }
