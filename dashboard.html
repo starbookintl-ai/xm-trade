@@ -1971,11 +1971,19 @@ function selectMarket(m, row) {
 overlay.onclick = closePanel;
 cancelButtons.forEach(b => b.onclick = closePanel);
 
-function closePanel() {
+function closePanel(fromBack = false) {
   panel.classList.remove("active");
   overlay.classList.remove("active");
   hideAllViews();
+
+  firstPanelOpen = false;
+
+  // 🔑 Prevent accidental exit
+  if (fromBack) {
+    history.pushState(null, "", location.href);
+  }
 }
+
 
 /* ===============================
    PANEL OPENERS
@@ -1986,8 +1994,8 @@ function openPartialGroup(view) {
   overlay.classList.add("active");
   showView(view);
 
-  // 👇 ADD THIS
-  history.pushState({ firstPanel: true }, "");
+  firstPanelOpen = true;
+  history.pushState({ layer: "first" }, "");
 }
 
 
@@ -1997,8 +2005,8 @@ function openFullPanel(view) {
   overlay.classList.add("active");
   showView(view);
 
-  // 👇 ADD THIS
-  history.pushState({ firstPanel: true }, "");
+  firstPanelOpen = true;
+  history.pushState({ layer: "first" }, "");
 }
 
 
@@ -2135,6 +2143,10 @@ fullScreenPanels.forEach(item => {
 
 
 <script>
+let firstPanelOpen = false;
+let secondPanelOpen = false;
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
@@ -2175,42 +2187,49 @@ document.addEventListener("DOMContentLoaded", () => {
      PANEL CONTROL
   ================================ */
     function openSecondPanel() {
-      secondPanel.classList.add("active", "second-slide-panel-notlap");
-      secondOverlay.classList.add("active");
-      secondPanel.style.transform = "translateY(0)";
+    secondPanel.classList.add("active", "second-slide-panel-notlap");
+    secondOverlay.classList.add("active");
+    secondPanel.style.transform = "translateY(0)";
 
-      // 👇 THIS IS REQUIRED
-      history.pushState({ secondPanel: true }, "");
-    }
+    secondPanelOpen = true;
+    history.pushState({ layer: "second" }, "");
+  }
+
 
 
     window.addEventListener("popstate", () => {
 
-      // 1️⃣ Close SECOND panel first
-      if (secondPanel.classList.contains("active")) {
-        closeSecondPanel();
-        history.pushState(null, "", location.href);
-        return;
-      }
+  // 1️⃣ Second panel has priority
+  if (secondPanelOpen) {
+    closeSecondPanel(true);
+    return;
+  }
 
-      // 2️⃣ Then close FIRST panel
-      if (panel.classList.contains("active")) {
-        closePanel();
-        history.pushState(null, "", location.href);
-        return;
-      }
+  // 2️⃣ Then first panel
+  if (firstPanelOpen) {
+    closePanel(true);
+    return;
+  }
 
-      // 3️⃣ Otherwise → allow normal navigation
-    });
+  // 3️⃣ Otherwise allow normal navigation
+});
 
  
 
 
-    function closeSecondPanel() {
-      secondPanel.classList.remove("active", "second-slide-panel-notlap");
-      secondOverlay.classList.remove("active");
-      secondPanel.style.transform = "";
+    function closeSecondPanel(fromBack = false) {
+    secondPanel.classList.remove("active", "second-slide-panel-notlap");
+    secondOverlay.classList.remove("active");
+    secondPanel.style.transform = "";
+
+    secondPanelOpen = false;
+
+    // 🔑 If closed via Back, restore first panel history
+    if (fromBack && firstPanelOpen) {
+      history.pushState({ layer: "first" }, "");
     }
+  }
+
 
 
   /* ===============================
