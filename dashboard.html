@@ -521,6 +521,7 @@
         </div>
 
         <div class="markets">
+          <div style="position: sticky;top: 0;background: #0c1324;width: 100%;display: flex;flex-direction: column;">
             <div class="market-header">
               <h3 style="font-size: 22px;">Markets</h3>
               <img src="images/search-icon.png" alt="" class="search-icon" id="searchButton">
@@ -531,9 +532,10 @@
               <p class="market-category-pill" data-type="Stock CFDs">Stock CFDs</p>
               <p class="market-category-pill" data-type="Turbo Stocks">Turbo Stocks</p>
               <p class="market-category-pill" data-type="Stocks 5">Stock 5</p>
-            </div>
+            </div>            
+          </div>
 
-            <div id="marketList" class="market-list"></div>
+          <div id="marketList" class="market-list"></div>
         </div>
 
 
@@ -933,11 +935,11 @@
               <h3>Funding Options</h3>
 
               <div class="funding-options-wrap">
-                <div class="funding-option-btn">
-                  <img src="images/deposit-icon.png" alt="" class="funding-button-icon"> <p>Deposit</p>
+                <div class="funding-option-btn" onclick="document.getElementById('depositButton').click()" >
+                  <img src="images/deposit-icon.png" alt="" class="funding-button-icon" > <p>Deposit</p>
                 </div>
 
-                <div class="funding-option-btn">
+                <div class="funding-option-btn" onclick="document.getElementById('withdrawButton').click()" >
                   <img src="images/withdraw-icon.png" alt="" class="funding-button-icon"> <p>Withdraw</p>
                 </div>
 
@@ -1104,7 +1106,7 @@
           <!--WITHDRAW VIEW-->
           <div id="withdrawView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Withdrawal</p> </div>
+              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Withdraw</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>  
             <div class="slide-views-wrap">
@@ -1784,12 +1786,50 @@ navButtons.forEach(btn => {
 /* ===============================
    MARKET DATA
 ================================ */
-const markets = [
-  { symbol: "BTCUSD", desc: "Bitcoin vs US Dollar", type: "crypto", id: "bitcoin", img: "images/btcusd.svg"},
-  { symbol: "ETHUSD", desc: "Ethereum vs US Dollar", type: "crypto", id: "ethereum", img: "images/ethusd.svg"},
-  { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", img: "images/usdjpy.svg"},
-  { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", img: "images/usdjpy.svg"},
+const marketData = [
+  { symbol: "BTCUSD", desc: "Bitcoin vs US Dollar", type: "crypto", id: "bitcoin", image: "images/btcusd.svg", price:0.12740, change:3.33, performance:"gainer" },
+  { symbol: "ETHUSD", desc: "Ethereum vs US Dollar", type: "crypto", id: "ethereum", image: "images/ethusd.svg", price:0.12740, change:3.33, performance:"gainer" },
+  { symbol: "USDJPY", desc: "US Dollar vs Japanese Yen", type: "forex", id: "usdjpy", image: "images/usdjpy.svg", price:0.12740, change:3.33, performance:"gainer" },
+
+  /* GAINERS */
+  { symbol:"ZRXUSD", desc:"0x vs US Dollar", type:"crypto", id:"zrxusd", image:"images/zrxusd.svg", price:0.12740, change:3.33, performance:"gainer" },
+  { symbol:"CHZUSD", desc:"Chiliz vs US Dollar", type:"crypto", id:"chzusd", image:"images/chzusd.svg", price:0.0506, change:1.22, performance:"gainer" },
+  { symbol:"STORJUSD", desc:"Storj vs US Dollar", type:"crypto", id:"storjusd", image:"images/storjusd.svg", price:0.1279, change:2.11, performance:"gainer" },
+  { symbol:"Oracle", desc:"Oracle Stock", type:"stock", id:"oracle", image:"images/oracle_dark.png", price:146.21, change:4.82, performance:"gainer" },
+  { symbol:"Microsoft", desc:"Microsoft Stock", type:"stock", id:"microsoft", image:"images/microsoft_dark.png", price:34.19, change:3.14, performance:"gainer" },
+  { symbol:"ETHEUR", desc:"Ethereum vs Euro", type:"crypto", id:"etheur", image:"images/etheur.svg", price:0.61, change:1.87, performance:"gainer" },
+  { symbol:"LINKUSD", desc:"Chainlink vs US Dollar", type:"crypto", id:"linkusd", image:"images/linkusd.svg", price:18.03, change:2.64, performance:"gainer" },
+  { symbol:"MATICUSD", desc:"Polygon vs US Dollar", type:"crypto", id:"maticusd", image:"images/maticusd.svg", price:0.92, change:1.41, performance:"gainer" },
+
+  /* LOSERS */
+  { symbol:"AXSUSD", desc:"Axie Infinity vs US Dollar", type:"crypto", id:"axsusd", image:"images/axsusd.svg", price:2.77, change:-4.48, performance:"loser" },
+  { symbol:"DASHUSD", desc:"Dash vs US Dollar", type:"crypto", id:"dashusd", image:"images/dashusd.svg", price:65.20, change:-1.57, performance:"loser" },
+  { symbol:"CRVUSD", desc:"Curve DAO vs US Dollar", type:"crypto", id:"crvusd", image:"images/crvusd.svg", price:0.351, change:-1.40, performance:"loser" },
+  { symbol:"APEUSD", desc:"Apecoin vs US Dollar", type:"crypto", id:"apeusd", image:"images/apeusd.svg", price:5.21, change:-2.33, performance:"loser" },
+  { symbol:"ATOMUSD", desc:"Cosmos vs US Dollar", type:"crypto", id:"atomusd", image:"images/atomusd.svg", price:9.87, change:-1.88, performance:"loser" },
+  { symbol:"LINKUSD", desc:"Link vs US Dollar", type:"crypto", id:"linkusd_loser", image:"images/linkusd.svg", price:0.46, change:-3.21, performance:"loser" },
+  { symbol:"OILCASHUSD", desc:"Oil Cash vs US Dollar", type:"crypto", id:"oilcashusd", image:"images/oilcash.svg", price:12.44, change:-2.91, performance:"loser" },
+  { symbol:"LTCUSD", desc:"Litecoin vs US Dollar", type:"crypto", id:"ltcusd", image:"images/ltcusd.svg", price:0.41, change:-1.62, performance:"loser" },
+
+  /* LONG */
+  { symbol:"Tesla", desc:"Tesla Stock", type:"stock", id:"tesla", image:"images/tesla_dark.png", price:446.98, change:2.79, performance:"long" },
+  { symbol:"Nvidia", desc:"Nvidia Stock", type:"stock", id:"nvidia", image:"images/nvidia_dark.png", price:186.95, change:-0.06, performance:"long" },
+  { symbol:"Apple", desc:"Apple Stock", type:"stock", id:"apple", image:"images/apple_dark.png", price:247.05, change:1.05, performance:"long" },
+  { symbol:"Amazon", desc:"Amazon Stock", type:"stock", id:"amazon", image:"images/amazon_dark.png", price:182.64, change:1.88, performance:"long" },
+  { symbol:"Meta", desc:"Meta Platforms Stock", type:"stock", id:"meta", image:"images/facebook_dark.png", price:521.14, change:2.41, performance:"long" },
+  { symbol:"Google", desc:"Alphabet Stock", type:"stock", id:"google", image:"images/google_dark.png", price:152.87, change:1.29, performance:"long" },
+
+  /* SHORT */
+  { symbol:"AXSUSD", desc:"Axie Infinity vs US Dollar", type:"crypto", id:"axsusd_short", image:"images/axsusd.svg", price:2.77, change:-4.48, performance:"short" },
+  { symbol:"DASHUSD", desc:"Dash vs US Dollar", type:"crypto", id:"dashusd_short", image:"images/dashusd.svg", price:65.20, change:-1.57, performance:"short" },
+  { symbol:"CRVUSD", desc:"Curve DAO vs US Dollar", type:"crypto", id:"crvusd_short", image:"images/crvusd.svg", price:0.351, change:-1.40, performance:"short" },
+  { symbol:"COIN", desc:"Coinbase Stock", type:"stock", id:"coinbase", image:"images/coinbase_dark.png", price:228.11, change:-2.19, performance:"short" },
+  { symbol:"Adidas", desc:"Adidas Stock", type:"stock", id:"adidas", image:"images/adidas_dark.png", price:14.62, change:-1.94, performance:"short" },
+  { symbol:"Netflix", desc:"Netflix Stock", type:"stock", id:"netflix", image:"images/netflix_dark.png", price:58.91, change:-2.73, performance:"short" }
 ];
+
+
+
 
 /* ===============================
    DOM REFERENCES
@@ -1878,13 +1918,13 @@ function showView(view) {
 /* ===============================
    MARKET LIST
 ================================ */
-markets.forEach(m => {
+marketData.forEach(m => {
   const row = document.createElement("div");
   row.className = "market-item";
   row.dataset.symbol = m.symbol;
   row.innerHTML = `
     <div class="left">
-      <img src="${m.img}">
+      <img src="${m.image}">
       <div>
         <div class="symbol">${m.symbol}</div>
         <div class="desc">${m.desc}</div>
@@ -1901,12 +1941,12 @@ markets.forEach(m => {
 /* ===============================
    SEARCH LIST
 ================================ */
-markets.forEach(m => {
+marketData.forEach(m => {
   const row = document.createElement("div");
   row.className = "market-item";
   row.innerHTML = `
     <div class="left">
-      <img src="${m.img}">
+      <img src="${m.image}">
       <div>
         <div class="symbol">${m.symbol}</div>
         <div class="desc">${m.desc}</div>
@@ -1923,7 +1963,7 @@ markets.forEach(m => {
    LIVE PRICE UPDATE
 ================================ */
 async function updatePrices() {
-  const cryptoIds = markets
+  const cryptoIds = marketData
     .filter(m => m.type === "crypto")
     .map(m => m.id)
     .join(",");
@@ -1934,7 +1974,7 @@ async function updatePrices() {
     `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true`
   ).then(r => r.json());
 
-  markets.forEach(m => {
+  marketData.forEach(m => {
     if (!prices[m.id]) return;
 
     const row = document.querySelector(`[data-symbol="${m.symbol}"]`);
@@ -2586,53 +2626,13 @@ canvas{
 }
 </style>
 
-<!--CARD CHART SCRIPT--> 
+<!--==========CARD CHART SCRIPT AND STYLE===========--> 
+
+<!-- CARD SCRIPT -->
 <script>
 /* ===============================
-   DATASET (ORIGINAL + 20 MORE)
+   UNIFIED DATASET
 ================================ */
-const data = {
-  gainers:[
-    {symbol:"ZRXUSD",desc:"0x vs US Dollar",image:"images/zrxusd.svg", price:0.12740,change:3.33},
-    {symbol:"CHZUSD",desc:"Chiliz vs US Dollar",image:"images/chzusd.svg", price:0.0506,change:1.22},
-    {symbol:"STORJUSD",desc:"Storj vs US Dollar",image:"images/storjusd.svg", price:0.1279,change:2.11},
-
-    {symbol:"Oracle",desc:"Oracle Stock",image:"images/oracle_dark.png", price:146.21,change:4.82},
-    {symbol:"Microsoft",desc:"Microsoft Stock",image:"images/microsoft_dark.png", price:34.19,change:3.14},
-    {symbol:"ETHEUR",desc:"Ethurium vs Euro",image:"images/etheur.svg", price:0.61,change:1.87},
-    {symbol:"LINKUSD",desc:"Chainlink vs US Dollar",image:"images/linkusd.svg", price:18.03,change:2.64},
-    {symbol:"MATICUSD",desc:"Polygon vs US Dollar",image:"images/maticusd.svg", price:0.92,change:1.41},
-  ],
-
-  losers:[
-    {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
-    {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
-    {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
-    {symbol:"APEUSD",desc:"Apecoin vs US Dollar",image:"images/apeusd.svg", price:5.21,change:-2.33},
-    {symbol:"ATOMUSD",desc:"Cosmos vs US Dollar",image:"images/atomusd.svg", price:9.87,change:-1.88},
-    {symbol:"LINKUSD",desc:"Link vs US Dollar",image:"images/linkusd.svg", price:0.46,change:-3.21},
-    {symbol:"OILCASHUSD",desc:"Oil Cash vs US Dollar",image:"images/oilcash.svg", price:12.44,change:-2.91},
-    {symbol:"LTCUSD",desc:"Litecoin vs US Dollar",image:"images/ltcusd.svg", price:0.41,change:-1.62},
-  ],
-
-  long:[
-    {symbol:"Tesla",desc:"Tesla Stock",image:"images/tesla_dark.png", price:446.98,change:2.79},
-    {symbol:"Nvidia",desc:"Nvidia Stock",image:"images/nvidia_dark.png", price:186.95,change:-0.06},
-    {symbol:"Apple",desc:"Apple Stock",image:"images/apple_dark.png", price:247.05,change:1.05},
-    {symbol:"Amazon",desc:"Amazon Stock",image:"images/amazon_dark.png", price:182.64,change:1.88},
-    {symbol:"Meta",desc:"Meta Platforms Stock",image:"images/facebook_dark.png ", price:521.14,change:2.41},
-    {symbol:"Google",desc:"Alphabet Stock",image:"images/google_dark.png", price:152.87,change:1.29},
-  ],
-
-  short:[
-    {symbol:"AXSUSD",desc:"Axie Infinity vs US Dollar",image:"images/axsusd.svg", price:2.77,change:-4.48},
-    {symbol:"DASHUSD",desc:"Dash vs US Dollar",image:"images/dashusd.svg", price:65.20,change:-1.57},
-    {symbol:"CRVUSD",desc:"Curve DAO vs US Dollar",image:"images/crvusd.svg", price:0.351,change:-1.40},
-    {symbol:"COIN",desc:"Coinbase Stock",image:"images/coinbase_dark.png", price:228.11,change:-2.19},
-    {symbol:"Adidas",desc:"Adidas Stock",image:"images/adidas_dark.png", price:14.62,change:-1.94},
-    {symbol:"Netflix",desc:"Netflix Stock",image:"images/netflix_dark.svg", price:58.91,change:-2.73},
-  ]
-};
 
 /* ===============================
    BUILD CARD
@@ -2670,7 +2670,7 @@ function createCard(m){
 }
 
 /* ===============================
-   MINI CHART (DRAW ON DEMAND)
+   MINI CHART
 ================================ */
 function drawMiniChart(canvas, positive, seed){
   const ctx = canvas.getContext("2d");
@@ -2695,8 +2695,7 @@ function drawMiniChart(canvas, positive, seed){
     i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
   });
 
-  const color = positive ? "#1fd18b" : "#ff5c5c";
-  ctx.strokeStyle = color;
+  ctx.strokeStyle = positive ? "#1fd18b" : "#ff5c5c";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -2726,21 +2725,32 @@ const observer = new IntersectionObserver(entries=>{
 },{threshold:0.25});
 
 /* ===============================
-   RENDER
+   RENDER BY PERFORMANCE
 ================================ */
-function renderSection(list, container){
-  list.forEach(m=>{
-    const card = createCard(m);
-    container.appendChild(card);
-    observer.observe(card);
-  });
+function renderByPerformance(performance, containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+
+  marketData
+    .filter(item => item.performance === performance)
+    .forEach(m => {
+      const card = createCard(m);
+      container.appendChild(card);
+      observer.observe(card);
+    });
 }
 
-renderSection(data.gainers, document.getElementById("gainers"));
-renderSection(data.losers, document.getElementById("losers"));
-renderSection(data.long, document.getElementById("topLong"));
-renderSection(data.short, document.getElementById("topShort"));
+/* ===============================
+   INITIAL RENDER
+================================ */
+renderByPerformance("gainer", "gainers");
+renderByPerformance("loser", "losers");
+renderByPerformance("long", "topLong");
+renderByPerformance("short", "topShort");
 </script>
+
+
+
 
 <!--CHART STYLE-->
 <style>
@@ -2915,6 +2925,12 @@ canvas{
   body{max-width:420px;margin:auto}
 }
 </style>
+
+<!--===================================================-->
+
+
+
+
 
 <style>
   * {
