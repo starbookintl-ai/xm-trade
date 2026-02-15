@@ -470,6 +470,12 @@
         .panel-mild{background-color: #1e2741;}
     </style>
 
+    <style>
+      * {
+      -webkit-tap-highlight-color: transparent;
+      }
+    </style>    
+
 </head>
 <body>
 
@@ -1112,7 +1118,7 @@
           <!--WITHDRAW VIEW-->
           <div id="withdrawView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Withdraw</p> </div>
+              <div> <p  class="slide-header">Withdraw</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>  
             <div class="slide-views-wrap">
@@ -1193,7 +1199,7 @@
           <!--DEPOSIT VIEW-->
           <div id="depositView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div><p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Deposit</p> </div>
+              <div><p  class="slide-header">Deposit</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div> 
 
@@ -1237,7 +1243,7 @@
           <!--MY WALLET VIEW-->
           <div id="mywalletView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">My Wallet</p> </div>
+              <div> <p  class="slide-header">My Wallet</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div> 
             <div class="slide-views-wrap">
@@ -1356,10 +1362,14 @@
           <!--COPY TRADE VIEW-->
           <div id="copytradeView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Copy Trade</p> </div>
+              <div> <p  class="slide-header">Copy Trading</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>   
             <div class="slide-views-wrap">
+
+                <div class="copytrading-search">
+                  🔍 <input id="copytraderSearch" placeholder="Strategy or Trader"> ⚙
+                </div>
   
               <!-- JS POPULATES HERE -->
               <div id="copytraderList"></div>             
@@ -1370,7 +1380,7 @@
           <!--COMPETITIONS VIEW-->
           <div id="competitionsView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Competitions</p> </div>
+              <div> <p  class="slide-header">Competitions</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>                 
             <div class="slide-views-wrap">
@@ -1392,7 +1402,7 @@
           <!--BONUS VIEW-->
           <div id="bonusView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Bonus</p> </div>
+              <div> <p  class="slide-header">Bonus</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>      
             <div class="slide-views-wrap">
@@ -1414,7 +1424,7 @@
           <!--REFERE VIEW-->
           <div id="refereview" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Refere A Friend</p> </div>
+              <div> <p  class="slide-header">Refere A Friend</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>        
             <div class="slide-views-wrap">
@@ -1436,7 +1446,7 @@
           <!--TRADERS CLUB VIEW-->
           <div id="tradersclubView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Traders Club</p> </div>
+              <div> <p  class="slide-header">Traders Club</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>  
             <div class="slide-views-wrap">
@@ -1458,7 +1468,7 @@
           <!--NEWS VIEW-->
           <div id="newsView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">News</p> </div>
+              <div> <p  class="slide-header">News</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>     
             <div class="slide-views-wrap">
@@ -1480,7 +1490,7 @@
           <!--ANALYSIS VIEW-->
           <div id="analysisView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Analysis</p> </div>
+              <div> <p  class="slide-header">Analysis</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>         
             <div class="slide-views-wrap">
@@ -1502,7 +1512,7 @@
           <!--ECONOMIC CALENDAR VIEW-->
           <div id="economiccalendarView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Economic Calendar</p> </div>
+              <div> <p  class="slide-header">Economic Calendar</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>                 
             <div class="slide-views-wrap">
@@ -1524,7 +1534,7 @@
           <!--TRADING CENTRAL VIEW-->
           <div id="tradingcentralView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Trading Central</p> </div>
+              <div> <p  class="slide-header">Trading Central</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>              
             <div class="slide-views-wrap">
@@ -1546,7 +1556,7 @@
           <!--FOREX CALCULATOR VIEW-->
           <div id="forexcalculatorView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Forex Calculator</p> </div>
+              <div> <p  class="slide-header">Forex Calculator</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>          
             <div class="slide-views-wrap">
@@ -1568,7 +1578,7 @@
           <!--HELP CENTER VIEW-->
           <div id="helpcenterView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Help Center</p> </div>
+              <div> <p  class="slide-header">Help Center</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>           
             <div class="slide-views-wrap">
@@ -1590,7 +1600,7 @@
           <!--LIVE CHAT VIEW-->
           <div id="livechatView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Live Chat</p> </div>
+              <div> <p  class="slide-header">Live Chat</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>                
             <div class="slide-views-wrap">
@@ -1612,7 +1622,7 @@
           <!--SUBMIT QUESTION VIEW-->
           <div id="submitquestionView" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div> <p style="font-size: 23px;font-weight: bold;padding-left: 8px;">Submit A Question</p> </div>
+              <div> <p  class="slide-header">Submit A Question</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>  
             <div class="slide-views-wrap">
@@ -1750,16 +1760,17 @@
 
 <!--==============APP DATA===================-->
 <script>
-  /* ===============================
-   COPY TRADING PROFILES DATASET
+/* ===============================
+   COPYTRADING TRADER DATASET
 ================================ */
-const strategies = [
+const copyTraders = [
   {name:"Elon Musk", handle:"@ElonMusk", rank:6, return:"39.89%", funds:"$8,131", invested:"$200,217", min:"$50", fee:"35%", investors:"661", drawdown:"25%",image:"https://i.pinimg.com/736x/4f/ce/17/4fce1710ef11a77170235d51b0ba25c1.jpg"},
   {name:"Kathy Lien", handle:"@KathyLien", rank:5, return:"33.36%", funds:"$4,097", invested:"$15,094", min:"$3,000", fee:"30%", investors:"244", drawdown:"18%",image:"https://i.pinimg.com/736x/de/44/64/de446467698b874e9ccab50e4428caa2.jpg"},
   {name:"Raghee Horner", handle:"RagheeHorner", rank:4, return:"28.12%", funds:"$12,504", invested:"$98,332", min:"$100", fee:"25%", investors:"412", drawdown:"21%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZutyP238lG-1G74VihXKsZ_Tz8LCJuGZDog&s"},
   {name:"Chris Lori", handle:"@ChrisLori", rank:3, return:"24.77%", funds:"$6,880", invested:"$45,910", min:"$250", fee:"20%", investors:"198", drawdown:"16%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTh6V1vtnn4oE7B3cjYYuwYhXf3dxG0kKe4A&s"},
   {name:"Ray Dalio", handle:"@RayDalio", rank:2, return:"21.45%", funds:"$9,441", invested:"$62,300", min:"$500", fee:"15%", investors:"355", drawdown:"14%",image:"https://i.pinimg.com/736x/02/09/b0/0209b0fab1926832a2805600307196dd.jpg"},
 ];
+
 
 /* ===============================
    MARKET DATA
@@ -1810,38 +1821,42 @@ const marketData = [
 
 <!--===========COPY TRADING=======================-->
 <script>
-/* ===============================
-   COPYTRADING TRADER DATASET
-================================ */
-const copyTraders = [
-  {name:"Elon Musk", handle:"@ElonMusk", rank:6, return:"39.89%", funds:"$8,131", invested:"$200,217", min:"$50", fee:"35%", investors:"661", drawdown:"25%",image:"https://i.pinimg.com/736x/4f/ce/17/4fce1710ef11a77170235d51b0ba25c1.jpg"},
-  {name:"Kathy Lien", handle:"@KathyLien", rank:5, return:"33.36%", funds:"$4,097", invested:"$15,094", min:"$3,000", fee:"30%", investors:"244", drawdown:"18%",image:"https://i.pinimg.com/736x/de/44/64/de446467698b874e9ccab50e4428caa2.jpg"},
-  {name:"Raghee Horner", handle:"RagheeHorner", rank:4, return:"28.12%", funds:"$12,504", invested:"$98,332", min:"$100", fee:"25%", investors:"412", drawdown:"21%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZutyP238lG-1G74VihXKsZ_Tz8LCJuGZDog&s"},
-  {name:"Chris Lori", handle:"@ChrisLori", rank:3, return:"24.77%", funds:"$6,880", invested:"$45,910", min:"$250", fee:"20%", investors:"198", drawdown:"16%",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTh6V1vtnn4oE7B3cjYYuwYhXf3dxG0kKe4A&s"},
-  {name:"Ray Dalio", handle:"@RayDalio", rank:2, return:"21.45%", funds:"$9,441", invested:"$62,300", min:"$500", fee:"15%", investors:"355", drawdown:"14%",image:"https://i.pinimg.com/736x/02/09/b0/0209b0fab1926832a2805600307196dd.jpg"},
-];
 
 /* ===============================
    SPARKLINE DRAWER
 ================================ */
 function drawTraderSparkline(canvas, seed){
-
   const ctx = canvas.getContext("2d");
+  const w = canvas.parentElement.clientWidth;
+  const h = canvas.parentElement.clientHeight;
 
-  /* FIX: get real size even if hidden */
-  const rect = canvas.getBoundingClientRect();
-  const w = rect.width  || canvas.parentElement.offsetWidth  || 300;
-  const h = rect.height || canvas.parentElement.offsetHeight || 60;
-
-  canvas.width  = w;
+  canvas.width = w;
   canvas.height = h;
 
   let r = seed.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
 
-  const points = Array.from({length:28}, (_,i)=>{
+  let value = 0.35;
+
+  const points = Array.from({ length: 28 }, (_, i) => {
     r = (r * 9301 + 49297) % 233280;
-    return 0.5 + Math.sin(i/4)*0.15 + (r/233280)*0.25;
+
+    // base upward drift
+    const trend = 0.012;
+
+    // small randomness (both directions)
+    const noise = (r / 233280 - 0.5) * 0.06;
+
+    // occasional tiny pullback
+    const pullback = Math.sin(i * 0.9) * 0.015;
+
+    value += trend + noise + pullback;
+
+    // clamp so it never crashes or spikes unrealistically
+    value = Math.max(0.15, Math.min(value, 0.95));
+
+    return value;
   });
+
 
   const min = Math.min(...points);
   const max = Math.max(...points);
@@ -1862,57 +1877,87 @@ function drawTraderSparkline(canvas, seed){
   ctx.closePath();
 
   const g = ctx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,"rgba(54,255,135,.35)");
-  g.addColorStop(1,"rgba(54,255,135,0)");
+  g.addColorStop(0,"#36ff862a");
+  g.addColorStop(1,"#36ff8700");
   ctx.fillStyle = g;
   ctx.fill();
 }
 
-/* ===============================
-   RENDER COPYTRADERS
-================================ */
 const copytraderListEl = document.getElementById("copytraderList");
+const strategySearchInput = document.getElementById("copytraderSearch");
 
-copyTraders.forEach(trader=>{
-  const card = document.createElement("div");
-  card.className = "ct-card";
+/* ===============================
+   RENDER FUNCTION
+================================ */
+function renderCopyTraders(list){
+  copytraderListEl.innerHTML = "";
 
-  card.innerHTML = `
-    <div class="ct-card-top">
-      <div class="ct-profile">
-        <img class="ct-avatar" src="${trader.image}" alt="">
-        <div>
-          <div class="ct-name">${trader.name}</div>
-          <div class="ct-handle">${trader.handle}</div>
+  list.forEach(trader=>{
+    const card = document.createElement("div");
+    card.className = "ct-card";
+
+    card.innerHTML = `
+      <div class="ct-card-top">
+        <div class="ct-profile">
+          <img class="ct-avatar" src="${trader.image}" alt="">
+          <div>
+            <div class="ct-name">${trader.name}</div>
+            <div class="ct-handle">${trader.handle}</div>
+          </div>
         </div>
+        <div class="ct-rank">${trader.rank}</div>
       </div>
-      <div class="ct-rank">${trader.rank}</div>
-    </div>
 
-    <div class="ct-chart">
-      <canvas></canvas>
-      <div class="ct-return">
-        Return 1M
-        <strong>${trader.return}</strong>
-      </div>      
-    </div>
+      <div class="ct-chart">
+        <canvas></canvas>
+        <div class="ct-return">
+          Return 1M
+          <strong>${trader.return}</strong>
+        </div>      
+      </div>
 
-    <div class="ct-stats">
-      <div class="ct-stat"><span>Own Funds</span><strong>${trader.funds}</strong></div>
-      <div class="ct-stat"><span>Invested</span><strong>${trader.invested}</strong></div>
-      <div class="ct-stat"><span>Min. Investment</span><strong>${trader.min}</strong></div>
-    </div>
+      <div class="ct-stats">
+        <div class="ct-stat"><span>Own Funds</span><strong>${trader.funds}</strong></div>
+        <div class="ct-stat"><span>Invested</span><strong>${trader.invested}</strong></div>
+        <div class="ct-stat"><span>Min. Investment</span><strong>${trader.min}</strong></div>
+      </div>
 
-    <div class="ct-footer">
-      <div>Fee<strong>${trader.fee}</strong></div>
-      <div>Investors<strong>${trader.investors}</strong></div>
-      <div>Drawdown<strong>${trader.drawdown}</strong></div>
-    </div>
-  `;
+      <div class="ct-footer">
+        <div>Fee<strong>${trader.fee}</strong></div>
+        <div>Investors<strong>${trader.investors}</strong></div>
+        <div>Drawdown<strong>${trader.drawdown}</strong></div>
+      </div>
+    `;
 
-  copytraderListEl.appendChild(card);
-  drawTraderSparkline(card.querySelector("canvas"), trader.name);
+    copytraderListEl.appendChild(card);
+
+    // ensure canvas draws correctly
+    const canvas = card.querySelector("canvas");
+    requestAnimationFrame(() =>
+      drawTraderSparkline(canvas, trader.name)
+    );
+  });
+}
+
+/* ===============================
+   SEARCH LOGIC
+================================ */
+strategySearchInput.addEventListener("input", () => {
+  const query = strategySearchInput.value.toLowerCase();
+
+  const filtered = copyTraders.filter(trader =>
+    trader.name.toLowerCase().includes(query) ||
+    trader.handle.toLowerCase().includes(query)
+  );
+
+  renderCopyTraders(filtered);
 });
+
+/* ===============================
+   INITIAL LOAD
+================================ */
+renderCopyTraders(copyTraders);
+
 </script>
 
 <style>
@@ -1939,11 +1984,10 @@ copyTraders.forEach(trader=>{
 
 /* ---------- CARD ---------- */
 .ct-card{
-  background:linear-gradient(180deg,#15213a,#111a2d);
+  background:#192744a2;
   border-radius:16px;
   padding:16px;
   margin-bottom:18px;
-  box-shadow:0 4px 18px rgba(0,0,0,.35);
   cursor: pointer;
 }
 
@@ -2037,8 +2081,6 @@ copyTraders.forEach(trader=>{
 }
 </style>
 <!--==============================================-->
-
-
 
 
 
@@ -2415,8 +2457,6 @@ fullScreenPanels.forEach(item => {
 
 </style>
 
-
-
 <script>
 let firstPanelOpen = false;
 let secondPanelOpen = false;
@@ -2518,9 +2558,6 @@ window.addEventListener("popstate", () => {
 
 });
 </script>
-
-
-
 <!--=====================================================-->
 
 
@@ -3267,12 +3304,6 @@ canvas{
 
 
 
-
-<style>
-  * {
-  -webkit-tap-highlight-color: transparent;
-  }
-</style>
 
 <!--CHART SCRIPT-->
 <script>
