@@ -356,7 +356,7 @@
 
 
         .slide-panel-topbar{
-          width: 100%;display: flex;justify-content: space-between;align-items: center; padding: 11px 11px;gap: 20px;
+          width: 100%;display: flex;justify-content: space-between;align-items: center; padding: 11px 20px;gap: 20px;
         }
 
 
@@ -484,8 +484,8 @@
   <!-- ================= FLOATING TOP BAR ================= -->
   <header class="top-bar">
     <div class="balance-box">
-      <span class="balance">$0.00</span>
-      <span class="status">Real</span>
+      <span class="balance" id="userBalance">$0.00</span>
+      <span class="status" id="accountStatus">Active</span>
     </div>
 
     <div class="top-actions">
@@ -979,7 +979,11 @@
 
               <div style="width: 100%;display: flex;gap: 20px;align-items: center;">
                 <img src="images/profile-page-icon.png" alt="" class="profile-image">
-                <p style="color: #ffffff80;font-weight: bold;">project234@gmail.com</p>
+                <div>
+                  <p style="color: #ffffff;font-weight: bold; font-size: 16px;" id="profileName">Project 234</p>
+                  <p style="color: #ffffff80;font-weight: bold;" id="profileEmail" >project234@gmail.com</p>                 
+                </div>
+
               </div>
 
               <div class="level-container">
@@ -990,7 +994,7 @@
 
                 <div class="level-value-wrap">
                   <p class="level-value">Bronze</p>
-                  <p class="level-value">$0 <span style="color: #ffffff86;">/$1,000,000</span></p>
+                  <p class="level-value" id="tradingVolume">$0 <span style="color: #ffffff86;">/$1,000,000</span></p>
                 </div>
 
                 <div class="level-bar-wrap">
@@ -1055,7 +1059,7 @@
                 <div class="search-btn" >
                   <img id="searchIcon" src="images/search-icon.png">
                 </div> 
-                <input id="search" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
+                <input id="marketSearch" class="field" type="text" placeholder="Symbol, E.g. AAPL ">
               </div>
 
               <p class="cancel-btn" style="font-size: 17px; font-weight: 600;margin-right: 20px;">Cancel</p>
@@ -1253,18 +1257,18 @@
                 <div class="fx-summary-row">
                   <div>
                     <p class="fx-label">Equity</p>
-                    <p class="fx-value">$0.00</p>
+                    <p class="fx-value" id="walletBalance">$0.00</p>
                   </div>
                   <div>
                     <p class="fx-label">Balance</p>
-                    <p class="fx-value muted">$0.00</p>
+                    <p class="fx-value muted" id="walletEquity">$0.00</p>
                   </div>
                 </div>
 
                 <div class="fx-summary-row thin">
                   <div>
                     <p class="fx-label">Free Margin</p>
-                    <p class="fx-value small">$0.40</p>
+                    <p class="fx-value small" id="walletProfit">$0.40</p>
                   </div>
                   <div>
                     <p class="fx-label">Margin Level</p>
@@ -1368,7 +1372,7 @@
 
               <div class="copytrading-search-wrap">
                 <div class="copytrading-search">
-                  <img src="images/search-icon.png" alt=""> <input id="copytraderSearch" placeholder="Strategy or Trader">
+                  <img src="images/search-icon.png" alt=""> <input id="copytraderSearch" placeholder="Strategy or Username">
                 </div>    
                 <img src="images/info-icon.png" alt="">
                 <img src="images/settings-icon.png" alt="">
@@ -1973,12 +1977,11 @@ strategySearchInput.addEventListener("input", () => {
 renderCopyTraders(copyTraders);
 </script>
 
-
 <style>
 
 /* ---------- copytrading-search ---------- */
 .copytrading-search-wrap{
-display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding: 8px;background: #0f1730;gap: 5px;padding-right: 20px;
+display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding: 8px 20px;background: #0f1730;gap: 5px;padding-right: 25px;
 }
 
 .copytrading-search-wrap img{
@@ -2003,7 +2006,7 @@ display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding:
   outline:none;
   color:#fff;
   width:100%;
-  font-size:14px;
+  font-size:18px;
 }
 .copytrading-search input::placeholder{color:#8c98b3}
 
@@ -2109,6 +2112,9 @@ display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding:
 
 
 
+
+
+<!--==================NAVIGATION SCRIPT=================-->
 <script>
 const navButtons = document.querySelectorAll(".nav-btn");
 const pages = document.querySelectorAll(".page");
@@ -2138,6 +2144,10 @@ navButtons.forEach(btn => {
   });
 });
 </script>
+<!--====================================================-->
+
+
+
 
 
 <script>
@@ -2269,6 +2279,26 @@ marketData.forEach(m => {
   row.onclick = () => selectMarket(m, row);
   list2.appendChild(row);
 });
+
+  // SEARCH FILTER FOR SEARCH VIEW
+  const marketSearch = document.getElementById("marketSearch");
+  const marketList2 = document.getElementById("marketList2");
+
+  marketSearch.addEventListener("input", function () {
+    const query = this.value.toLowerCase().trim();
+    const items = marketList2.querySelectorAll(".market-item");
+
+    items.forEach(item => {
+      const symbol = item.querySelector(".symbol")?.textContent.toLowerCase() || "";
+      const desc = item.querySelector(".desc")?.textContent.toLowerCase() || "";
+
+      if (symbol.includes(query) || desc.includes(query)) {
+        item.style.display = "";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  });
 
 /* ===============================
    LIVE PRICE UPDATE
@@ -3961,6 +3991,128 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+
+
+
+<script>
+/* ======================================================
+   USER SESSION + DATASET (SIMULATED BACKEND RESPONSE)
+====================================================== */
+
+/*
+  In production:
+  Replace this object with fetch() or Firebase response
+*/
+const currentUser = {
+  uid: "USER_839492",
+  name: "Project 234",
+  email: "project234@mail.com",
+  balance: 5250.45,
+  equity: 1320.12,
+  profit: 2438.67,
+  volume: 5400,
+  status: "Real",
+  verified: true
+};
+
+
+/* ======================================================
+   AUTH CHECK
+====================================================== */
+
+function isLoggedIn(){
+  return currentUser && currentUser.uid;
+}
+
+if(!isLoggedIn()){
+  window.location.href = "/login";
+}
+
+
+/* ======================================================
+   DOM HELPER
+====================================================== */
+
+function setText(id,value){
+  const el = document.getElementById(id);
+  if(el) el.textContent = value;
+}
+
+function setImage(id,src){
+  const el = document.getElementById(id);
+  if(el) el.src = src;
+}
+
+
+/* ======================================================
+   USER DATA RENDER ENGINE
+====================================================== */
+
+function populateUserUI(user){
+
+  /* ---------- TOP BAR ---------- */
+  setText("userBalance", `$${user.balance.toLocaleString()}`);
+  setText("accountStatus", user.status);
+
+
+  /* ---------- WALLET ---------- */
+  setText("walletBalance", `$${user.balance.toFixed(2)}`);
+  setText("walletEquity", `$${user.equity.toFixed(2)}`);
+  setText("walletProfit", `$${user.profit.toFixed(2)}`);
+  setText("tradingVolume", `$${user.volume.toLocaleString()}/$100,000`);
+
+
+  /* ---------- PORTFOLIO ---------- */
+  setText("portfolioValue", `$${user.equity.toLocaleString()}`);
+
+
+  /* ---------- PROFILE ---------- */
+  setText("profileName", user.name);
+  setText("profileEmail", user.email);
+  setText("verification-status", user.verified ? "Verified" : "Unverified");
+
+
+  /* ---------- TRADE PANEL ---------- */
+  setText("tradeSymbol", "BTCUSD"); // default symbol
+}
+
+
+/* ======================================================
+   INITIAL PAGE LOAD
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  populateUserUI(currentUser);
+});
+
+
+/* ======================================================
+   LIVE UPDATE SUPPORT (Optional future real-time sync)
+====================================================== */
+
+function updateBalance(newBalance){
+  currentUser.balance = newBalance;
+  populateUserUI(currentUser);
+}
+
+/*
+Example future usage after trade:
+
+updateBalance(980.55);
+*/
+
+
+/* ======================================================
+   EXPORT GLOBAL (optional)
+====================================================== */
+
+window.UserSession = {
+  data: currentUser,
+  refresh: ()=> populateUserUI(currentUser),
+  updateBalance
+};
+
+</script>
 
 
 
