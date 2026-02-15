@@ -1367,9 +1367,13 @@
             </div>   
             <div class="slide-views-wrap">
 
+              <div class="copytrading-search-wrap">
                 <div class="copytrading-search">
-                  🔍 <input id="copytraderSearch" placeholder="Strategy or Trader"> ⚙
-                </div>
+                  <img src="images/search-icon.png" alt=""> <input id="copytraderSearch" placeholder="Strategy or Trader">
+                </div>    
+                <img src="images/info-icon.png" alt="">
+                <img src="images/settings-icon.png" alt="">
+              </div>
   
               <!-- JS POPULATES HERE -->
               <div id="copytraderList"></div>             
@@ -1823,14 +1827,18 @@ const marketData = [
 <script>
 
 /* ===============================
-   SPARKLINE DRAWER
+   SPARKLINE DRAWER (FIXED)
 ================================ */
 function drawTraderSparkline(canvas, seed){
-  const ctx = canvas.getContext("2d");
-  const w = canvas.parentElement.clientWidth;
-  const h = canvas.parentElement.clientHeight;
 
-  canvas.width = w;
+  const ctx = canvas.getContext("2d");
+
+  /* FIX: get real dimensions even if hidden */
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width  || canvas.parentElement.offsetWidth  || 300;
+  const h = rect.height || canvas.parentElement.offsetHeight || 60;
+
+  canvas.width  = w;
   canvas.height = h;
 
   let r = seed.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
@@ -1840,26 +1848,20 @@ function drawTraderSparkline(canvas, seed){
   const points = Array.from({ length: 28 }, (_, i) => {
     r = (r * 9301 + 49297) % 233280;
 
-    // base upward drift
     const trend = 0.012;
-
-    // small randomness (both directions)
     const noise = (r / 233280 - 0.5) * 0.06;
-
-    // occasional tiny pullback
     const pullback = Math.sin(i * 0.9) * 0.015;
 
     value += trend + noise + pullback;
-
-    // clamp so it never crashes or spikes unrealistically
     value = Math.max(0.15, Math.min(value, 0.95));
 
     return value;
   });
 
-
   const min = Math.min(...points);
   const max = Math.max(...points);
+
+  ctx.clearRect(0,0,w,h);
 
   ctx.beginPath();
   points.forEach((v,i)=>{
@@ -1883,8 +1885,13 @@ function drawTraderSparkline(canvas, seed){
   ctx.fill();
 }
 
+
+/* ===============================
+   DOM
+================================ */
 const copytraderListEl = document.getElementById("copytraderList");
 const strategySearchInput = document.getElementById("copytraderSearch");
+
 
 /* ===============================
    RENDER FUNCTION
@@ -1931,16 +1938,19 @@ function renderCopyTraders(list){
 
     copytraderListEl.appendChild(card);
 
-    // ensure canvas draws correctly
+    /* FIX: delay draw until layout is visible */
     const canvas = card.querySelector("canvas");
-    requestAnimationFrame(() =>
-      drawTraderSparkline(canvas, trader.name)
-    );
+
+    const draw = () => drawTraderSparkline(canvas, trader.name);
+
+    requestAnimationFrame(draw);
+    setTimeout(draw,120); // fallback if container was hidden
   });
 }
 
+
 /* ===============================
-   SEARCH LOGIC
+   SEARCH
 ================================ */
 strategySearchInput.addEventListener("input", () => {
   const query = strategySearchInput.value.toLowerCase();
@@ -1953,25 +1963,37 @@ strategySearchInput.addEventListener("input", () => {
   renderCopyTraders(filtered);
 });
 
+
 /* ===============================
    INITIAL LOAD
 ================================ */
 renderCopyTraders(copyTraders);
-
 </script>
+
 
 <style>
 
 /* ---------- copytrading-search ---------- */
+.copytrading-search-wrap{
+display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding: 8px;background: #0f1730;margin-bottom: 10px;gap: 5px;padding-right: 20px;
+}
+
+.copytrading-search-wrap img{
+  height: 28px;
+  padding: 5px;
+}
+
 .copytrading-search{
   display:flex;
   align-items:center;
   gap:10px;
-  background:#121c31;
+  border: 1px solid #ffffff1e;
   border-radius:10px;
-  padding:12px 14px;
-  margin-bottom:18px;
+  padding:8px 14px;
+  width: 100%;
 }
+
+
 .copytrading-search input{
   background:none;
   border:none;
