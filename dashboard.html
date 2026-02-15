@@ -360,7 +360,7 @@
         }
 
 
-        .slide-panel-topbar-img{height: 20px;width: 20px;cursor: pointer;}
+        .slide-panel-topbar-img{height: 20px;width: 20px;cursor: pointer;padding: 2px;}
         .slide-panel-topbar h3{font-size: 20px;}
 
         .slide-panel-topbar-img:hover{opacity: 0.4;}
@@ -1364,8 +1364,7 @@
             <div class="slide-panel-topbar">
               <div> <p  class="slide-header">Copy Trading</p> </div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
-            </div>   
-            <div class="slide-views-wrap">
+            </div>  
 
               <div class="copytrading-search-wrap">
                 <div class="copytrading-search">
@@ -1374,6 +1373,10 @@
                 <img src="images/info-icon.png" alt="">
                 <img src="images/settings-icon.png" alt="">
               </div>
+
+            <div class="slide-views-wrap">
+
+
   
               <!-- JS POPULATES HERE -->
               <div id="copytraderList"></div>             
@@ -1975,7 +1978,7 @@ renderCopyTraders(copyTraders);
 
 /* ---------- copytrading-search ---------- */
 .copytrading-search-wrap{
-display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding: 8px;background: #0f1730;margin-bottom: 10px;gap: 5px;padding-right: 20px;
+display: flex;align-items: center;width: 100%; position: sticky;top: 0; padding: 8px;background: #0f1730;gap: 5px;padding-right: 20px;
 }
 
 .copytrading-search-wrap img{
@@ -2740,8 +2743,9 @@ window.addEventListener("popstate", () => {
 
 
 <style>
+.slide-header{font-weight: bold;font-size: 15px;}
 .slide-canvas{height: 100%;}
-.slide-views-wrap{display: flex;flex-direction: column;gap: 20px;padding: 15px;overflow-y: auto; min-height: 0;height: 96.5%;}
+.slide-views-wrap{display: flex;flex-direction: column;gap: 20px;padding: 15px; overflow-y: auto; min-height: 0;height: 96.5%;}
 .deposit-options-wrap{display: grid;grid-template-columns: 1fr 1fr;gap: 20px;}
 .deposit-method-card{cursor: pointer; display: flex;flex-direction: column;padding: 10px;border-radius: 8px;  background:var(--card); border:1px solid var(--border); min-height: 150px;align-items: center;gap: 10px;}
 .deposit-method-card:hover{background: var(--card-hover)}
@@ -3724,7 +3728,6 @@ oneClickToggle.addEventListener("change", () => {
 ================================ */
 
 .slide-views-wrap {
-  padding: 16px;
   font-family: Inter, system-ui, sans-serif;
   color: #e9f1ff;
 }
