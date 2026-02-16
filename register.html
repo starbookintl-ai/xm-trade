@@ -264,6 +264,13 @@
       }
     }
   </style>
+
+  <style>
+    * {
+    -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -339,13 +346,6 @@
           <p>Risk Warning: Our services involve a significant risk and can result in the loss of your invested capital.
             Please read and ensure you fully understand our <a href="" style="color: gray;">Risk Disclosures (XM Global), Risk Disclosures
               (XM International MU) and Risk Disclosures (XM (SC) Limited).</a> </p>
-          <p><b style="color: #000;">Restricted Regions:</b> We do not provide our service to citizens of the United States of America,
-            Canada, Israel and the Islamic Republic of Iran (and other sanctioned countries).</p>
-          <p> XM does not direct its website and services to any individual in any country in which the use of its
-            website and services are prohibited by local laws or regulations. When accessing this website from a country
-            in which its use may or may not be prohibited, it is the user's responsibility to ensure that any use of the
-            website or services adhere to local laws or regulations. XM does not affirm that the information on its
-            website is suitable to all jurisdictions.
           <p>XM International MU Limited is regulated by the Financial Services Commission (FSC) of Mauritius under the
             Investment Dealer's License number GB23202700.</p>
         </div>
@@ -359,83 +359,125 @@
 
 
 
-  <script>
-  function togglePass() {
-    const p = document.getElementById("password");
-    p.type = p.type === "password" ? "text" : "password";
-  }
+<script>
+const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
 
-  /* ---- Country dataset ---- */
-  const countries = [
-    "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia",
-    "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Belgium",
-    "Benin","Bolivia","Botswana","Brazil","Bulgaria","Burkina Faso","Cambodia",
-    "Cameroon","Canada","Chile","China","Colombia","Costa Rica","Croatia","Cyprus",
-    "Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia",
-    "Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala",
-    "Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Ireland","Israel",
-    "Italy","Jamaica","Japan","Jordan","Kenya","Kuwait","Latvia","Lebanon","Lithuania",
-    "Luxembourg","Malaysia","Malta","Mexico","Morocco","Netherlands","New Zealand",
-    "Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Qatar",
-    "Romania","Saudi Arabia","Senegal","Singapore","Slovakia","Slovenia","South Africa",
-    "South Korea","Spain","Sri Lanka","Sweden","Switzerland","Thailand","Turkey",
-    "Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zambia",
-    "Zimbabwe"
-  ];
+/* PASSWORD TOGGLE */
+function togglePass(){
+  const p = document.getElementById("password");
+  p.type = p.type === "password" ? "text" : "password";
+}
 
-  const countrySelect = document.getElementById("country");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const consentCheckbox = document.getElementById("consent");
-  const registerBtn = document.getElementById("registerBtn");
+/* COUNTRY DATASET */
+const countries = [
+"Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia",
+"Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Belgium",
+"Benin","Bolivia","Botswana","Brazil","Bulgaria","Burkina Faso","Cambodia",
+"Cameroon","Canada","Chile","China","Colombia","Costa Rica","Croatia","Cyprus",
+"Czech Republic","Denmark","Dominican Republic","Ecuador","Egypt","Estonia",
+"Ethiopia","Finland","France","Georgia","Germany","Ghana","Greece","Guatemala",
+"Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Ireland","Israel",
+"Italy","Jamaica","Japan","Jordan","Kenya","Kuwait","Latvia","Lebanon","Lithuania",
+"Luxembourg","Malaysia","Malta","Mexico","Morocco","Netherlands","New Zealand",
+"Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Qatar",
+"Romania","Saudi Arabia","Senegal","Singapore","Slovakia","Slovenia","South Africa",
+"South Korea","Spain","Sri Lanka","Sweden","Switzerland","Thailand","Turkey",
+"Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zambia",
+"Zimbabwe"
+];
 
-  /* populate country dropdown */
-  countries.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
-    countrySelect.appendChild(opt);
-  });
+const country = document.getElementById("country");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const consent = document.getElementById("consent");
+const btn = document.getElementById("registerBtn");
 
-  /* validation */
-  function validateForm() {
-    const isValid =
-      countrySelect.value &&
-      emailInput.value.trim() &&
-      passwordInput.value.trim() &&
-      consentCheckbox.checked;
+/* populate countries */
+countries.forEach(c=>{
+  const opt=document.createElement("option");
+  opt.value=c;
+  opt.textContent=c;
+  country.appendChild(opt);
+});
 
-    registerBtn.disabled = !isValid;
-  }
+/* validation */
+function validate(){
+  btn.disabled = !(country.value && email.value && password.value && consent.checked);
+}
+[country,email,password,consent].forEach(el=>el.addEventListener("input",validate));
 
-  [countrySelect, emailInput, passwordInput, consentCheckbox]
-    .forEach(el => el.addEventListener("input", validateForm));
 
-  /* ---- SUBMIT TO GOOGLE APPS SCRIPT ---- */
-  registerBtn.addEventListener("click", () => {
-    if (registerBtn.disabled) return;
+
+/* =========================
+   REGISTER (FIXED)
+========================= */
+
+btn.onclick = async ()=>{
+
+  if(btn.disabled) return;
+
+  btn.textContent="Creating...";
+  btn.disabled=true;
+
+  try{
 
     const payload = {
-      country: countrySelect.value,
-      email: emailInput.value.trim(),
-      password: passwordInput.value.trim(),
-      consent: consentCheckbox.checked,
-      timestamp: new Date().toISOString()
+      action: "register",
+
+      name: email.value.split("@")[0], // auto username
+      email: email.value.trim().toLowerCase(),
+      password: password.value,
+      country: country.value,
+
+      // hidden defaults
+      balance: 0,
+      equity: 0,
+      profit: 0,
+      volume: 0
     };
 
-    fetch("YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL", {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
+    const res = await fetch(API,{
+      method:"POST",
+
+      // ⭐ CRITICAL FOR GOOGLE APPS SCRIPT
+      headers:{
+        "Content-Type":"text/plain;charset=utf-8"
       },
+
       body: JSON.stringify(payload)
     });
 
-    registerBtn.textContent = "Submitting...";
-    registerBtn.disabled = true;
-  });
-  </script>
+    const data = await res.json();
+
+    if(data.status){
+
+      localStorage.setItem("uid",data.uid);
+
+      // smooth redirect
+      window.location.href = "dashboard.html";
+
+    }else{
+
+      alert(data.message || "Registration failed");
+
+      btn.disabled=false;
+      btn.textContent="Create Account";
+    }
+
+  }catch(err){
+
+    console.error(err);
+
+    alert("Connection error");
+
+    btn.disabled=false;
+    btn.textContent="Create Account";
+  }
+};
+</script>
+
+
+
 
 
 </body>
