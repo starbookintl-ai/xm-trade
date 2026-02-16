@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Broker Landing Clone</title>
+  <meta name="viewport"   content="width=device-width, initial-scale=1.0" />
+  <title>XM Trading</title>
 
 <style>
 :root{--bg-dark:#070b16;--bg-dark-2:#0b1022;--primary:#1f7bff;--text-main:#ffffff;--text-muted:#9aa4c7;--card-bg:#11162b;--chart-width:1400px auto;--chart-opacity:.35}
@@ -58,6 +58,11 @@ z-index:0;clip-path: inset(0 100% 0 0);animation: revealBg 2s ease-out forwards;
 .overlay-placeholder {padding: 1.2rem 2.5rem;border-radius: 14px;background: rgba(16, 24, 58, 0.9);color: #fff;font-weight: 600;backdrop-filter: blur(6px);box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);}
 @media(max-width:900px){.stats-row{grid-template-columns:1fr;gap:40px}.features-grid{grid-template-columns:1fr}.section-3{padding:90px 24px 0px 24px;border-radius:50px 50px 0 0}.section-1{border-radius:0 0 50px 50px;padding-top:20px}.market-strip{overflow-x:scroll}.nav-links{display:none}.menu-btn{display:block}.section{margin-bottom:20px}.balance-grid{grid-template-columns:1fr;gap:0}.wrapper{padding:20px 15px}.stat-block strong{font-size:20px}.balance-action h4{font-size:12px}.stat-block h4{font-size:15px}.balance-header span{font-size:12px}.balance-header button{font-size:12px}.nav-actions a{display:none} .nav-actions{display: flex;} nav{justify-content:space-between}.card .bg-object{right:-110px;bottom:-120px;width:290px;height:290px}.card .bg-object-bonus{bottom:-160px;right:-100px;width:400px;height:400px}.card .bg-object-competition{right:-100px;bottom:-80px;width:250px;height:250px}.card .bg-object-copy{right:-200px;bottom:-120px;width:400px;height:400px}.hero small{font-size:14px}.hero h1{font-size:37px;line-height:1}}
 @media(max-width:768px){.nav-cta-wrapper{display: none;} .grid-cards-wrapper-1,.grid-cards-wrapper-2{grid-template-columns:1fr}.section-2{padding:20px 16px;}.card{width:100%;min-width:0;min-height:400px}.card p{max-width:none}.card .bg-object{right:-110px;bottom:-120px;width:290px;height:290px}}
+</style>
+<style>
+  * {
+  -webkit-tap-highlight-color: transparent;
+  }
 </style>
 
 </head>
@@ -1255,4 +1260,57 @@ const observer = new IntersectionObserver(entries=>{
 
 document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
 </script>
+
+<script>
+
+/* ================================
+   GOOGLE API
+================================ */
+const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
+
+
+/* ================================
+   VERIFY SESSION ON LOAD
+================================ */
+window.addEventListener("load", async () => {
+
+  const uid = localStorage.getItem("uid");
+
+  // no session → stay on page
+  if(!uid) return;
+
+  try{
+
+    const res = await fetch(API,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        action:"getUser",
+        uid: uid
+      })
+    });
+
+    const data = await res.json();
+
+    // valid user → redirect
+    if(data.status){
+      window.location.replace("dashboard.html");
+    }else{
+      // invalid uid → clean storage
+      localStorage.removeItem("uid");
+    }
+
+  }catch(err){
+
+    // if API fails, don't trap the user
+    console.log("Session check failed");
+
+  }
+
+});
+
+</script>
+
 
