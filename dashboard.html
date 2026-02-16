@@ -940,7 +940,7 @@
 
               <div class="available-balance-card">
                 <h4>Standard <span class="status">Real</span></h4>
-                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                <p style="font-size: 20px; font-weight: 600;" id="balance2" >0.00 USD </p>
                 <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
               </div>
               
@@ -1129,7 +1129,7 @@
 
                 <div class="available-balance-card">
                   <h4>Standard <span class="status">Real</span></h4>
-                  <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                  <p style="font-size: 20px; font-weight: 600;" id="balance4" >0.00 USD </p>
                   <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
                 </div>              
 
@@ -1212,7 +1212,7 @@
 
               <div class="available-balance-card" style="margin-bottom: 30px;">
                 <h4>Standard <span class="status">Real</span></h4>
-                <p style="font-size: 20px; font-weight: 600;">0.00 USD </p>
+                <p style="font-size: 20px; font-weight: 600;" id="balance3" >0.00 USD </p>
                 <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
               </div>
               
@@ -1257,11 +1257,11 @@
                 <div class="fx-summary-row">
                   <div>
                     <p class="fx-label">Equity</p>
-                    <p class="fx-value" id="walletBalance">$0.00</p>
+                    <p class="fx-value" id="walletEquity">$0.00</p>
                   </div>
                   <div>
                     <p class="fx-label">Balance</p>
-                    <p class="fx-value muted" id="walletEquity">$0.00</p>
+                    <p class="fx-value muted" id="walletBalance">$0.00</p>
                   </div>
                 </div>
 
@@ -4004,7 +4004,8 @@ document.addEventListener("DOMContentLoaded", () => {
   Replace this object with fetch() or Firebase response
 */
 const currentUser = {
-  uid: "USER_839492",
+  uid: "#839492",
+  walletaddress: "",
   name: "Project 234",
   email: "project234@mail.com",
   balance: 5250.45,
@@ -4012,7 +4013,7 @@ const currentUser = {
   profit: 2438.67,
   volume: 5400,
   status: "Real",
-  verified: true
+  verified: true,
 };
 
 
@@ -4056,9 +4057,12 @@ function populateUserUI(user){
 
 
   /* ---------- WALLET ---------- */
-  setText("walletBalance", `$${user.balance.toFixed(2)}`);
-  setText("walletEquity", `$${user.equity.toFixed(2)}`);
-  setText("walletProfit", `$${user.profit.toFixed(2)}`);
+  setText("walletBalance", `$${user.balance.toLocaleString()}`);
+  setText("balance2", `${user.balance.toLocaleString()} USD`);
+  setText("balance3", `${user.balance.toLocaleString()} USD`);
+  setText("balance4", `${user.balance.toLocaleString()} USD`);
+  setText("walletEquity", `$${user.equity.toLocaleString()}`);
+  setText("walletProfit", `$${user.profit.toLocaleString()}`);
   setText("tradingVolume", `$${user.volume.toLocaleString()}/$100,000`);
 
 
