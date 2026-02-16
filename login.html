@@ -167,6 +167,13 @@ h1{
   }
 }
 </style>
+
+<style>
+  * {
+  -webkit-tap-highlight-color: transparent;
+  }
+</style>
+
 </head>
 
 <body>
@@ -215,47 +222,18 @@ h1{
 </div>
 
 <script>
-/* 👁 PASSWORD TOGGLE */
+
+/* ================================
+   GOOGLE API
+================================ */
+const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
+
+
+/* ================================
+   PASSWORD TOGGLE
+================================ */
 let isVisible = false;
-function togglePassword(){
-  const pass = document.getElementById("password");
-  const icon = document.getElementById("eyeIcon");
-  isVisible = !isVisible;
-  pass.type = isVisible ? "text" : "password";
-  icon.src = isVisible ? "images/eye-on.svg" : "images/eye-off.svg";
-}
 
-/* 🔐 HARDCODED LOGIN */
-function login(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const errorMsg = document.getElementById("errorMsg");
-
-  const VALID_EMAIL = "project234@gmail.com";
-  const VALID_PASSWORD = "project234";
-
-  if(email === VALID_EMAIL && password === VALID_PASSWORD){
-    errorMsg.style.display = "none";
-    window.location.href = "dashboard.html";
-  } else {
-    errorMsg.style.display = "block";
-  }
-}
-</script>
-
-</body>
-</html>
-
-
-
-<!--
-<script>
-/*
-/* 🔗 YOUR GOOGLE APPS SCRIPT WEB APP URL */
-const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
-
-/* 👁 Password visibility toggle */
-let isVisible = false;
 function togglePassword(){
   const pass = document.getElementById("password");
   const icon = document.getElementById("eyeIcon");
@@ -267,8 +245,41 @@ function togglePassword(){
     : "images/eye-off.svg";
 }
 
-/* 🔐 Login handler */
+
+/* ================================
+   FETCH WITH TIMEOUT
+================================ */
+async function fetchWithTimeout(url, options={}, timeout=15000){
+
+  const controller = new AbortController();
+  const id = setTimeout(()=>controller.abort(), timeout);
+
+  try{
+
+    const res = await fetch(url,{
+      ...options,
+      signal: controller.signal
+    });
+
+    clearTimeout(id);
+
+    if(!res.ok){
+      throw new Error("Server error");
+    }
+
+    return await res.json();
+
+  }catch(err){
+    throw err;
+  }
+}
+
+
+/* ================================
+   LOGIN
+================================ */
 async function login(){
+
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const error = document.getElementById("errorMsg");
@@ -276,32 +287,67 @@ async function login(){
   error.style.display = "none";
 
   if(!email || !password){
-    error.textContent = "Please enter email and password";
+    error.textContent = "Enter email and password";
     error.style.display = "block";
     return;
   }
 
   try{
-    const res = await fetch(SCRIPT_URL,{
+
+    const data = await fetchWithTimeout(API,{
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ email, password })
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        action:"login",
+        email,
+        password
+      })
     });
 
-    const data = await res.json();
-
-    if(data.status === "success"){
-      window.location.href = `dashboard.html?uid=${data.uid}`;
-    } else {
+    if(!data || !data.status){
+      error.textContent = "Invalid login credentials";
       error.style.display = "block";
+      return;
     }
 
+    /* 🔐 SAVE SESSION */
+    localStorage.setItem("uid", data.user.uid);
+
+    /* 🚀 REDIRECT */
+    window.location.replace("dashboard.html");
+
   }catch(err){
+
     error.textContent = "Connection error. Try again.";
     error.style.display = "block";
+
   }
 }
 
+
+/* ================================
+   ENTER KEY SUPPORT
+================================ */
+document.addEventListener("keydown", e=>{
+  if(e.key === "Enter"){
+    login();
+  }
+});
+
+
+/* ================================
+   AUTO REDIRECT IF ALREADY LOGGED IN
+================================ */
+if(localStorage.getItem("uid")){
+  window.location.replace("dashboard.html");
+}
+
 </script>
--->
+
+
+</body>
+</html>
+
 
