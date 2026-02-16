@@ -1036,7 +1036,7 @@
                 </div>
                 <div class="account-control-btn">
                   <img src="images/signout-icon.png" alt="" style="width: 18px; height: 18px;">
-                  <p style="font-size: 16px;">Sign Out</p>
+                  <p style="font-size: 16px;" id="signoutButton">Sign Out</p>
                 </div>
               </div>
 
@@ -3995,128 +3995,152 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <script>
-/* ======================================================
-   USER SESSION + DATASET (SIMULATED BACKEND RESPONSE)
-====================================================== */
+const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
 
-/*
-  In production:
-  Replace this object with fetch() or Firebase response
-*/
-const currentUser = {
-  uid: "#839492",
-  walletaddress: "",
-  name: "Project 234",
-  email: "project234@mail.com",
-  balance: 5250.45,
-  equity: 1320.12,
-  profit: 2438.67,
-  volume: 5400,
-  status: "Real",
-  verified: true,
-};
+/* ===============================
+   SESSION CHECK
+=============================== */
 
+const uid = localStorage.getItem("uid");
 
-/* ======================================================
-   AUTH CHECK
-====================================================== */
-
-function isLoggedIn(){
-  return currentUser && currentUser.uid;
-}
-
-if(!isLoggedIn()){
-  window.location.href = "/login";
+if(!uid){
+  window.location.href = "login.html";
 }
 
 
-/* ======================================================
-   DOM HELPER
-====================================================== */
+/* ===============================
+   SAFE NUMBER FIX
+=============================== */
 
-function setText(id,value){
+function num(val){
+  if(val === "" || val === null || val === undefined) return 0;
+  return parseFloat(val) || 0;
+}
+
+function money(val){
+  return "$" + num(val).toLocaleString();
+}
+
+function setText(id,val){
   const el = document.getElementById(id);
-  if(el) el.textContent = value;
-}
-
-function setImage(id,src){
-  const el = document.getElementById(id);
-  if(el) el.src = src;
+  if(el) el.textContent = val;
 }
 
 
-/* ======================================================
-   USER DATA RENDER ENGINE
-====================================================== */
+/* ===============================
+   RENDER USER DATA
+=============================== */
 
-function populateUserUI(user){
+function render(user){
 
-  /* ---------- TOP BAR ---------- */
-  setText("userBalance", `$${user.balance.toLocaleString()}`);
-  setText("accountStatus", user.status);
+  const balance = num(user.balance);
+  const equity  = num(user.equity);
+  const profit  = num(user.profit);
+  const volume  = num(user.volume);
 
+  /* BALANCE */
+  setText("userBalance", money(balance));
+  setText("walletBalance", money(balance));
+  setText("balance2", balance.toLocaleString() + " USD");
+  setText("balance3", balance.toLocaleString() + " USD");
+  setText("balance4", balance.toLocaleString() + " USD");
 
-  /* ---------- WALLET ---------- */
-  setText("walletBalance", `$${user.balance.toLocaleString()}`);
-  setText("balance2", `${user.balance.toLocaleString()} USD`);
-  setText("balance3", `${user.balance.toLocaleString()} USD`);
-  setText("balance4", `${user.balance.toLocaleString()} USD`);
-  setText("walletEquity", `$${user.equity.toLocaleString()}`);
-  setText("walletProfit", `$${user.profit.toLocaleString()}`);
-  setText("tradingVolume", `$${user.volume.toLocaleString()}/$100,000`);
+  /* METRICS */
+  setText("walletEquity", money(equity));
+  setText("walletProfit", money(profit));
+  setText("tradingVolume", "$" + volume.toLocaleString() + "/$100,000");
+  setText("portfolioValue", money(equity));
 
-
-  /* ---------- PORTFOLIO ---------- */
-  setText("portfolioValue", `$${user.equity.toLocaleString()}`);
-
-
-  /* ---------- PROFILE ---------- */
+  /* PROFILE */
   setText("profileName", user.name);
   setText("profileEmail", user.email);
+
+  /* STATUS */
+  setText("accountStatus", user.statusAcc || "Active");
   setText("verification-status", user.verified ? "Verified" : "Unverified");
-
-
-  /* ---------- TRADE PANEL ---------- */
-  setText("tradeSymbol", "BTCUSD"); // default symbol
 }
 
 
-/* ======================================================
-   INITIAL PAGE LOAD
-====================================================== */
+/* ===============================
+   LOAD USER FROM APPS SCRIPT
+=============================== */
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  populateUserUI(currentUser);
-});
+async function loadUser(){
 
+  try{
 
-/* ======================================================
-   LIVE UPDATE SUPPORT (Optional future real-time sync)
-====================================================== */
+    const res = await fetch(API,{
+      method:"POST",
+      body: JSON.stringify({
+        action:"getUser",
+        uid: uid
+      })
+    });
 
-function updateBalance(newBalance){
-  currentUser.balance = newBalance;
-  populateUserUI(currentUser);
+    const text = await res.text();
+    const data = JSON.parse(text);
+
+    if(!data.status){
+      logout();
+      return;
+    }
+
+    render(data.user);
+
+  }catch(err){
+    alert("Failed to load dashboard");
+    logout();
+  }
+
 }
 
-/*
-Example future usage after trade:
 
-updateBalance(980.55);
-*/
+/* ===============================
+   LOGOUT
+=============================== */
+
+function logout(){
+  localStorage.removeItem("uid");
+  window.location.href = "login.html";
+}
 
 
-/* ======================================================
-   EXPORT GLOBAL (optional)
-====================================================== */
+/* ===============================
+   LOAD
+=============================== */
+
+window.addEventListener("load", loadUser);
+
+
+/* ===============================
+   EXPORT
+=============================== */
 
 window.UserSession = {
-  data: currentUser,
-  refresh: ()=> populateUserUI(currentUser),
-  updateBalance
+  refresh: loadUser,
+  logout: logout
 };
 
+
+/* ================================
+   SIGN OUT
+================================ */
+document.getElementById("signoutButton").addEventListener("click", function(){
+
+  // remove session
+  localStorage.removeItem("uid");
+
+  // optional: clear everything
+  // localStorage.clear();
+
+  // redirect to login
+  window.location.replace("login.html");
+
+});
 </script>
+
+
+
 
 
 
