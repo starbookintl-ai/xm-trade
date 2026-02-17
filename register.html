@@ -248,6 +248,25 @@
       cursor: not-allowed;
     }
 
+    .helper{
+      color:#e11d48;
+      font-size:12px;
+      display:block;
+      margin-top:4px;
+      min-height:14px;
+    }
+
+    .field.error{
+      border-color:#e11d48;
+    }
+
+    .toggle-pass{
+      width:20px;
+      height:20px;
+      cursor:pointer;
+    }
+
+
     @media (max-width:700px) {
       body {
         padding: 0px
@@ -293,16 +312,30 @@
       <select id="country" class="field">
         <option value="">Select country</option>
       </select>
+      <small class="helper" id="countryHelper"></small>      
 
+
+      <label>Full Name</label>
+      <input id="fullname" class="field" type="text" placeholder="Full Name">
+      <small class="helper" id="nameHelper"></small>
 
       <label>Email</label>
       <input id="email" class="field" type="email" placeholder="Email">
+      <small class="helper" id="emailHelper"></small>
 
       <label>Password</label>
       <div class="password-wrap">
         <input id="password" class="field" type="password" placeholder="Password">
-        <span class="toggle-pass" onclick="togglePass()">👁</span>
+        <img id="passIcon" class="toggle-pass" src="images/visible_on.png" onclick="togglePass()">
       </div>
+      <small class="helper" id="passHelper"></small>
+
+      <label>Confirm Password</label>
+      <div class="password-wrap">
+        <input id="confirmPassword" class="field" type="password" placeholder="Confirm Password">
+        <img id="confirmIcon" class="toggle-pass" src="images/visible_on.png" onclick="toggleConfirmPass()">
+      </div>
+      <small class="helper" id="confirmHelper"></small>
 
       <div class="partner">
         Have a Partner Code? <a href="#">Enter here</a>
@@ -315,6 +348,8 @@
           for marketing optimization and personalization purposes.
         </span>
       </div>
+
+      <small class="helper" id="consentHelper"></small>    <br>  
 
       <button id="registerBtn" class="btn" disabled>Create Account</button>
 
@@ -343,9 +378,6 @@
             Exchange Commission (CySEC) under licence number 120/10.</p>
           <p>All entities referenced herein are part of the Trading Point Group and are duly authorized to operate under
             the XM brand.</p>
-          <p>Risk Warning: Our services involve a significant risk and can result in the loss of your invested capital.
-            Please read and ensure you fully understand our <a href="" style="color: gray;">Risk Disclosures (XM Global), Risk Disclosures
-              (XM International MU) and Risk Disclosures (XM (SC) Limited).</a> </p>
           <p>XM International MU Limited is regulated by the Financial Services Commission (FSC) of Mauritius under the
             Investment Dealer's License number GB23202700.</p>
         </div>
@@ -362,10 +394,24 @@
 <script>
 const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
 
+/* PASSWORD ICONS (INSERT YOUR IMAGE PATHS) */
+const eyeOpen = "images/visible_on.png";
+const eyeClosed = "images/visible_off.png";
+
 /* PASSWORD TOGGLE */
+const passIcon = document.getElementById("passIcon");
+const confirmIcon = document.getElementById("confirmIcon");
+
 function togglePass(){
   const p = document.getElementById("password");
   p.type = p.type === "password" ? "text" : "password";
+  if(passIcon) passIcon.src = p.type === "password" ? eyeOpen : eyeClosed;
+}
+
+function toggleConfirmPass(){
+  const p = document.getElementById("confirmPassword");
+  p.type = p.type === "password" ? "text" : "password";
+  if(confirmIcon) confirmIcon.src = p.type === "password" ? eyeOpen : eyeClosed;
 }
 
 /* COUNTRY DATASET */
@@ -386,11 +432,22 @@ const countries = [
 "Zimbabwe"
 ];
 
+/* DOM */
 const country = document.getElementById("country");
+const fullname = document.getElementById("fullname");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmPassword");
 const consent = document.getElementById("consent");
 const btn = document.getElementById("registerBtn");
+
+/* helpers */
+const nameHelper = document.getElementById("nameHelper");
+const emailHelper = document.getElementById("emailHelper");
+const passHelper = document.getElementById("passHelper");
+const confirmHelper = document.getElementById("confirmHelper");
+const countryHelper = document.getElementById("countryHelper");
+const consentHelper = document.getElementById("consentHelper");
 
 /* populate countries */
 countries.forEach(c=>{
@@ -400,22 +457,98 @@ countries.forEach(c=>{
   country.appendChild(opt);
 });
 
-/* validation */
-function validate(){
-  btn.disabled = !(country.value && email.value && password.value && consent.checked);
+/* helpers */
+function validEmail(e){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
-[country,email,password,consent].forEach(el=>el.addEventListener("input",validate));
 
+function capitalizeName(name){
+  return name
+    .toLowerCase()
+    .split(" ")
+    .filter(Boolean)
+    .map(w=>w.charAt(0).toUpperCase()+w.slice(1))
+    .join(" ");
+}
+
+/* error UI */
+function setError(field, helper, message){
+  if(!field || !helper) return;
+
+  if(message){
+    field.style.borderColor = "#e11d48";
+    helper.textContent = message;
+  }else{
+    field.style.borderColor = "";
+    helper.textContent = "";
+  }
+}
+
+/* validation (UPGRADED WITH HELPERS) */
+function validate(){
+
+  let ok = true;
+
+  if(fullname.value.trim().length < 3){
+    setError(fullname, nameHelper, "Enter your full name");
+    ok=false;
+  }else{
+    setError(fullname, nameHelper, "");
+  }
+
+  if(!validEmail(email.value)){
+    setError(email, emailHelper, "Enter a valid email");
+    ok=false;
+  }else{
+    setError(email, emailHelper, "");
+  }
+
+  if(password.value.length < 6){
+    setError(password, passHelper, "Minimum 6 characters");
+    ok=false;
+  }else{
+    setError(password, passHelper, "");
+  }
+
+  if(confirmPassword.value !== password.value){
+    setError(confirmPassword, confirmHelper, "Passwords do not match");
+    ok=false;
+  }else{
+    setError(confirmPassword, confirmHelper, "");
+  }
+
+  if(!country.value){
+    if(countryHelper) countryHelper.textContent="Select your country";
+    ok=false;
+  }else{
+    if(countryHelper) countryHelper.textContent="";
+  }
+
+  if(!consent.checked){
+    if(consentHelper) consentHelper.textContent="You must agree before continuing";
+    ok=false;
+  }else{
+    if(consentHelper) consentHelper.textContent="";
+  }
+
+  btn.disabled = !ok;
+}
+
+[fullname,email,password,confirmPassword,country,consent]
+.forEach(el=>el.addEventListener("input",validate));
 
 
 /* =========================
-   REGISTER (FIXED)
+   REGISTER
 ========================= */
+
+let creating = false;
 
 btn.onclick = async ()=>{
 
-  if(btn.disabled) return;
+  if(btn.disabled || creating) return;
 
+  creating = true;
   btn.textContent="Creating...";
   btn.disabled=true;
 
@@ -423,37 +556,36 @@ btn.onclick = async ()=>{
 
     const payload = {
       action: "register",
-
-      name: email.value.split("@")[0], // auto username
+      name: capitalizeName(fullname.value.trim()),
       email: email.value.trim().toLowerCase(),
       password: password.value,
-      country: country.value,
-
-      // hidden defaults
       balance: 0,
       equity: 0,
       profit: 0,
-      volume: 0
+      volume: 0,      
+      country: country.value,
     };
 
     const res = await fetch(API,{
       method:"POST",
-
-      // ⭐ CRITICAL FOR GOOGLE APPS SCRIPT
       headers:{
         "Content-Type":"text/plain;charset=utf-8"
       },
-
       body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    const text = await res.text();
+
+    if(!text.startsWith("{")){
+      throw new Error("Bad server response");
+    }
+
+    const data = JSON.parse(text);
 
     if(data.status){
 
       localStorage.setItem("uid",data.uid);
 
-      // smooth redirect
       window.location.href = "dashboard.html";
 
     }else{
@@ -462,6 +594,7 @@ btn.onclick = async ()=>{
 
       btn.disabled=false;
       btn.textContent="Create Account";
+      creating=false;
     }
 
   }catch(err){
@@ -472,9 +605,13 @@ btn.onclick = async ()=>{
 
     btn.disabled=false;
     btn.textContent="Create Account";
+    creating=false;
   }
 };
 </script>
+
+
+
 
 
 
