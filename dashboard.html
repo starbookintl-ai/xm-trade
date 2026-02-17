@@ -1034,9 +1034,9 @@
                   <img src="images/profile-icon.png" alt="" style="width: 15px; height: 15px;">
                   <p style="font-size: 16px;">Support</p>
                 </div>
-                <div class="account-control-btn">
+                <div class="account-control-btn" id="signoutButton">
                   <img src="images/signout-icon.png" alt="" style="width: 18px; height: 18px;">
-                  <p style="font-size: 16px;" id="signoutButton">Sign Out</p>
+                  <p style="font-size: 16px;" >Sign Out</p>
                 </div>
               </div>
 
@@ -1255,14 +1255,17 @@
               <!-- ACCOUNT OVERVIEW -->
               <div class="fx-card fx-summary">
                 <div class="fx-summary-row">
-                  <div>
-                    <p class="fx-label">Equity</p>
-                    <p class="fx-value" id="walletEquity">$0.00</p>
-                  </div>
+
                   <div>
                     <p class="fx-label">Balance</p>
                     <p class="fx-value muted" id="walletBalance">$0.00</p>
                   </div>
+
+                  <div>
+                    <p class="fx-label">Equity</p>
+                    <p class="fx-value" id="walletEquity">$0.00</p>
+                  </div>
+
                 </div>
 
                 <div class="fx-summary-row thin">
@@ -4134,7 +4137,7 @@ document.getElementById("signoutButton").addEventListener("click", function(){
   // localStorage.clear();
 
   // redirect to login
-  window.location.replace("login.html");
+  window.location.replace("index.html");
 
 });
 </script>
