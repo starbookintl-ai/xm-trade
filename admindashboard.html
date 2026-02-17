@@ -1,535 +1,597 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>FX Admin</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+    <style>
+        /* GLOBAL */
+        * {
+            box-sizing: border-box;
+        }
 
-/* GLOBAL */
-*{box-sizing:border-box;}
+        body {
+            margin: 0;
+            font-family: Segoe UI;
+            background: #06121f;
+            color: #e6eefc;
+        }
 
-body{
-margin:0;
-font-family:Segoe UI;
-background:#06121f;
-color:#e6eefc;
+        /* HEADER */
+        .header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background:#071a2f;
+            font-weight: 700;
+            z-index: 20;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.03) inset;
+
+
+        }
+
+        /* LOGIN SCREEN */
+
+        .loginWrap {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loginCard {
+            background: #081a2e;
+            padding: 40px;
+            border-radius: 14px;
+            width: 95%;
+            max-width: 420px;
+        }
+
+        .loginCard h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        /* LAYOUT */
+
+        .container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 320px;
+            background: #081a2e;
+            overflow-y: auto;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* USER */
+
+        .user {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            cursor: pointer;
+        }
+
+        .user:hover {
+            background: #0d2744;
+        }
+
+        /* CARD */
+
+        .card {
+            background: #081a2e;
+            padding: 25px;
+            border-radius: 14px;
+            max-width: 900px;
+        }
+
+        /* GRID */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* INPUT */
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .05);
+            background: #06121f;
+            color: white;
+        }
+
+        /* BUTTON */
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #1f7bff, #4da3ff);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* login button only */
+        .loginCard button {
+            width: auto;
+            display: block;
+            margin: 20px auto 0 auto;
+            padding: 14px 40px;
+        }
+
+
+        button:disabled {
+            opacity: .6;
+        }
+
+        /* DELETE BUTTON */
+
+        .deleteBtn {
+            background: linear-gradient(90deg, #ff3b3b, #ff6b6b);
+        }
+
+        /* SWITCH */
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1a293a;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        input:checked+.slider {
+            background: #1f7bff;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        /* LOADING */
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 10, 20, .85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: .2s;
+            z-index: 30;
+        }
+
+        .loading.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, .1);
+            border-top: 6px solid #4da3ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0b2a4d;
+            padding: 16px 26px;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: .3s;
+
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .search {
+            width: 90%;
+            margin: 15px;
+            margin-top: 25px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #06121f;
+            color: white;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:900px) {
+
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 250px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        /* HAMBURGER */
+
+        .hamburger {
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* HEADER BUTTON (logout) */
+        .header button {
+            width: auto;
+            padding: 10px 22px;
+            margin-top: 0;
+        }
+
+
+        /* MOBILE DRAWER */
+
+        @media(max-width:900px) {
+
+            .header {
+                position: relative;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 340px;
+                height: calc(100% - 70px);
+                z-index: 10;
+                transition: .3s;
+                box-shadow: 0 0 20px rgba(0, 0, 0, .6);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+        }
+
+        /* ===============================
+   GLOBAL FX DARK SCROLLBAR
+   Applies to ALL scroll elements
+=============================== */
+
+*{
+  scrollbar-width: thin;                     /* Firefox */
+  scrollbar-color: #2563eb #071224;          /* thumb | track */
 }
 
-/* HEADER */
-.header{
-height:70px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 20px;
-background:linear-gradient(90deg,#071a2f,#0b2a4d);
-font-weight:700;
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar{
+  width:10px;
+  height:10px;
 }
 
-/* LOGIN SCREEN */
-
-.loginWrap{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
+*::-webkit-scrollbar-track{
+  background:#071224;                        /* deep navy track */
 }
 
-.loginCard{
-background:#081a2e;
-padding:40px;
-border-radius:14px;
-width:95%;
-max-width:420px;
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(
+    180deg,
+    #1e3a8a,
+    #2563eb
+  );
+  border-radius:12px;
+  border:2px solid #071224;
+  transition:0.25s;
 }
 
-.loginCard h2{
-margin-top:0;
-text-align:center;
+*::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(
+    180deg,
+    #2563eb,
+    #3b82f6
+  );
 }
 
-/* LAYOUT */
-
-.container{
-display:flex;
-height:calc(100vh - 70px);
+/* Optional — smoother scrolling feel */
+html{
+  scroll-behavior:smooth;
 }
 
-.sidebar{
-width:320px;
-background:#081a2e;
-overflow-y:auto;
-}
-
-.main{
-flex:1;
-padding:30px;
-overflow-y:auto;
-}
-
-/* USER */
-
-.user{
-padding:16px;
-border-bottom:1px solid rgba(255,255,255,.04);
-cursor:pointer;
-}
-
-.user:hover{
-background:#0d2744;
-}
-
-/* CARD */
-
-.card{
-background:#081a2e;
-padding:25px;
-border-radius:14px;
-max-width:900px;
-}
-
-/* GRID */
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
-/* INPUT */
-
-input{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid rgba(255,255,255,.05);
-background:#06121f;
-color:white;
-}
-
-/* BUTTON */
-
-button{
-margin-top:20px;
-width:100%;
-padding:15px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#1f7bff,#4da3ff);
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-/* login button only */
-.loginCard button{
-width:auto;
-display:block;
-margin:20px auto 0 auto;
-padding:14px 40px;
-}
-
-
-button:disabled{
-opacity:.6;
-}
-
-/* DELETE BUTTON */
-
-.deleteBtn{
-background:linear-gradient(90deg,#ff3b3b,#ff6b6b);
-}
-
-/* SWITCH */
-
-.switch{
-position:relative;
-display:inline-block;
-width:50px;
-height:26px;
-}
-
-.switch input{display:none;}
-
-.slider{
-position:absolute;
-top:0; left:0; right:0; bottom:0;
-background:#23384f;
-border-radius:30px;
-}
-
-.slider:before{
-content:"";
-position:absolute;
-height:20px;
-width:20px;
-left:3px;
-bottom:3px;
-background:white;
-border-radius:50%;
-transition:.3s;
-}
-
-input:checked + .slider{
-background:#1f7bff;
-}
-
-input:checked + .slider:before{
-transform:translateX(24px);
-}
-
-/* LOADING */
-
-.loading{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(2,10,20,.85);
-display:flex;
-align-items:center;
-justify-content:center;
-visibility:hidden;
-opacity:0;
-transition:.2s;
-z-index:999;
-}
-
-.loading.show{
-visibility:visible;
-opacity:1;
-}
-
-.spinner{
-width:60px;
-height:60px;
-border:6px solid rgba(255,255,255,.1);
-border-top:6px solid #4da3ff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-to{transform:rotate(360deg);}
-}
-
-/* TOAST */
-
-.toast{
-position:fixed;
-bottom:30px;
-right:30px;
-background:#0b2a4d;
-padding:16px 26px;
-border-radius:10px;
-opacity:0;
-transform:translateY(20px);
-transition:.3s;
-}
-
-.toast.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.search{
-width:90%;
-margin:15px;
-padding:10px;
-border-radius:8px;
-border:none;
-background:#06121f;
-color:white;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.container{
-flex-direction:column;
-}
-
-.sidebar{
-width:100%;
-height:250px;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-}
-
-
-/* HAMBURGER */
-
-.hamburger{
-display:none;
-font-size:26px;
-cursor:pointer;
-}
-
-/* HEADER BUTTON (logout) */
-.header button{
-width:auto;
-padding:10px 22px;
-margin-top:0;
-}
-
-
-/* MOBILE DRAWER */
-
-@media(max-width:900px){
-
-.header{
-position:relative;
-}
-
-.hamburger{
-display:block;
-}
-
-.container{
-flex-direction:column;
-}
-
-.sidebar{
-position:fixed;
-top:70px;
-left:-100%;
-width:260px;
-height:calc(100% - 70px);
-z-index:1000;
-transition:.3s;
-box-shadow:0 0 20px rgba(0,0,0,.6);
-}
-
-.sidebar.open{
-left:0;
-}
-
-.main{
-padding:20px;
-}
-
-}
-
-
-</style>
+    </style>
 </head>
 
 <body>
 
-<div id="loginScreen" class="loginWrap">
+    <div id="loginScreen" class="loginWrap">
 
-<div class="loginCard">
-<h2>Admin Login</h2>
+        <div class="loginCard">
+            <h2>Admin Login</h2>
 
-<label>Email</label>
-<input id="adminUser" type="email" placeholder="Enter admin email">
+            <label>Email</label>
+            <input id="adminUser" type="email" placeholder="Enter admin email"> <br>
 
-<label>Password</label>
-<input id="adminPass" type="password" placeholder="Enter password">
-
-
-<button onclick="adminLogin()">Login</button>
-
-</div>
-</div>
-
-<div id="adminApp" style="display:none;">
-
-<div class="header">
-
-<div style="display:flex;align-items:center;gap:15px;">
-<div class="hamburger" onclick="toggleDrawer()">☰</div>
-FX ADMIN
-</div>
-
-<button onclick="logout()">Logout</button>
-
-</div>
+            <label>Password</label>
+            <input id="adminPass" type="password" placeholder="Enter password">
 
 
-<div class="container">
+            <button onclick="adminLogin()">Login</button>
 
-<div class="sidebar">
-<input class="search" placeholder="Search trader..." onkeyup="searchUser(this.value)">
-<div id="userList"></div>
-</div>
+        </div>
+    </div>
 
-<div class="main" id="profile">
-<h2>Select a Trader</h2>
-</div>
+    <div id="adminApp" style="display:none;">
 
-</div>
-</div>
+        <div class="header">
 
-<!-- LOADING -->
-<div class="loading" id="loading">
-<div class="spinner"></div>
-</div>
+            <div style="display:flex;align-items:center;gap:15px;">
+                <div class="hamburger" onclick="toggleDrawer()">☰</div> 
+                <img src="images/xm-logo-white.png" alt="" style="height: 45px;">
+                <P style="font-weight: bold;">ADMIN PAGE</P> 
+            </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+            <button onclick="logout()">Logout</button>
 
-<script>
+        </div>
 
 
+        <div class="container">
 
-const API="https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
-let adminToken=null;
-let allUsers=[];
+            <div class="sidebar">
+                <div style="position: sticky; top: 0; background:#081a2e;">
+                    <input class="search" placeholder="Search trader..." onkeyup="searchUser(this.value)">
+                </div>
 
-/* UI */
-function toggleDrawer(){
-document.querySelector(".sidebar").classList.toggle("open");
-}
+                <div id="userList"></div>
+            </div>
 
-function showLoading(){loading.classList.add("show");}
-function hideLoading(){loading.classList.remove("show");}
+            <div class="main" id="profile">
+                <h2 style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">Select a User Account</h2>
+            </div>
 
-function toast(msg){
-const t=document.getElementById("toast");
-t.innerText=msg;
-t.classList.add("show");
-setTimeout(()=>t.classList.remove("show"),2500);
-}
+        </div>
+    </div>
 
-/* LOGIN */
+    <!-- LOADING -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
 
-async function adminLogin(){
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
 
-showLoading();
+    <script>
 
-const res = await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-action:"adminLogin",
-email:adminUser.value.trim(),
-password:adminPass.value.trim()
-})
-});
 
-const data = await res.json();
-hideLoading();
 
-if(!data.status){
-toast("Invalid admin login");
-return;
-}
+        const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
+        let adminToken = null;
+        let allUsers = [];
 
-adminToken = data.token;
-localStorage.setItem("adminToken",adminToken);
+        /* UI */
+        function toggleDrawer() {
+            document.querySelector(".sidebar").classList.toggle("open");
+        }
 
-startAdmin();
-}
+        function showLoading() { loading.classList.add("show"); }
+        function hideLoading() { loading.classList.remove("show"); }
 
-/* AUTO LOGIN */
+        function toast(msg) {
+            const t = document.getElementById("toast");
+            t.innerText = msg;
+            t.classList.add("show");
+            setTimeout(() => t.classList.remove("show"), 2500);
+        }
 
-function startAdmin(){
+        /* LOGIN */
 
-document.getElementById("loginScreen").style.display="none";
-document.getElementById("adminApp").style.display="block";
+        async function adminLogin() {
 
-loadUsers();
+            showLoading();
 
-}
+            const res = await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "adminLogin",
+                    email: adminUser.value.trim(),
+                    password: adminPass.value.trim()
+                })
+            });
 
-function logout(){
-localStorage.removeItem("adminToken");
-location.reload();
-}
+            const data = await res.json();
+            hideLoading();
 
-window.onload=()=>{
+            if (!data.status) {
+                toast("Invalid admin login");
+                return;
+            }
 
-const token=localStorage.getItem("adminToken");
+            adminToken = data.token;
+            localStorage.setItem("adminToken", adminToken);
 
-if(token){
-adminToken=token;
-startAdmin();
-}
+            startAdmin();
+        }
 
-};
+        /* AUTO LOGIN */
 
-/* USERS */
+        function startAdmin() {
 
-async function loadUsers(){
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("adminApp").style.display = "block";
 
-showLoading();
+            loadUsers();
 
-const res=await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-action:"getAllUsers",
-token:adminToken
-})
-});
+        }
 
-const data=await res.json();
-allUsers=data.users.reverse();
-renderUsers(allUsers);
+        function logout() {
+            localStorage.removeItem("adminToken");
+            location.reload();
+        }
 
-hideLoading();
-}
+        window.onload = () => {
 
-function renderUsers(users){
+            const token = localStorage.getItem("adminToken");
 
-userList.innerHTML="";
+            if (token) {
+                adminToken = token;
+                startAdmin();
+            }
 
-users.forEach(u=>{
+        };
 
-const div=document.createElement("div");
-div.className="user";
+        /* USERS */
 
-div.innerHTML=`
-<strong>${u.name||"No Name"}</strong>
-<span>${u.uid}</span>
+        async function loadUsers() {
+
+            showLoading();
+
+            const res = await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "getAllUsers",
+                    token: adminToken
+                })
+            });
+
+            const data = await res.json();
+            allUsers = data.users.reverse();
+            renderUsers(allUsers);
+
+            hideLoading();
+        }
+
+        function renderUsers(users) {
+
+            userList.innerHTML = "";
+
+            users.forEach(u => {
+
+                const div = document.createElement("div");
+                div.className = "user";
+
+                div.innerHTML = `
+<strong>${u.name || "No Name"}</strong> <br>
+<span style="font-size:12px">${u.uid}</span>
 `;
 
-div.onclick=()=>loadProfile(u.uid);
+                div.onclick = () => loadProfile(u.uid);
 
-userList.appendChild(div);
+                userList.appendChild(div);
 
-});
+            });
 
-}
+        }
 
-function searchUser(text){
+        function searchUser(text) {
 
-text=text.toLowerCase();
+            text = text.toLowerCase();
 
-renderUsers(allUsers.filter(u=>
-(u.name||"").toLowerCase().includes(text) ||
-u.uid.toLowerCase().includes(text)
-));
+            renderUsers(allUsers.filter(u =>
+                (u.name || "").toLowerCase().includes(text) ||
+                u.uid.toLowerCase().includes(text)
+            ));
 
-}
+        }
 
-/* PROFILE */
+        /* PROFILE */
 
-async function loadProfile(uid){
+        async function loadProfile(uid) {
 
-showLoading();
+            showLoading();
 
-const res=await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-action:"getUser",
-uid,
-token:adminToken
-})
-});
+            const res = await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "getUser",
+                    uid,
+                    token: adminToken
+                })
+            });
 
-const u=(await res.json()).user;
+            const u = (await res.json()).user;
 
-profile.innerHTML=`
+            profile.innerHTML = `
 
 <div class="card">
 
@@ -539,54 +601,54 @@ profile.innerHTML=`
 
 <div>
 <label>Full Name</label>
-<input id="name" value="${u.name||""}">
+<input id="name" value="${u.name || ""}">
 </div>
 
 <div>
 <label>Email</label>
-<input id="email" value="${u.email||""}">
+<input id="email" value="${u.email || ""}">
 </div>
 
 <div>
 <label>Password</label>
-<input id="password" value="${u.password||""}">
+<input id="password" value="${u.password || ""}">
 </div>
 
 <div>
 <label>Country</label>
-<input id="country" value="${u.country||""}">
+<input id="country" value="${u.country || ""}">
 </div>
 
 <div>
 <label>Balance</label>
-<input id="balance" value="${u.balance||0}">
+<input id="balance" value="${u.balance || 0}">
 </div>
 
 <div>
 <label>Equity</label>
-<input id="equity" value="${u.equity||0}">
+<input id="equity" value="${u.equity || 0}">
 </div>
 
 <div>
 <label>Profit</label>
-<input id="profit" value="${u.profit||0}">
+<input id="profit" value="${u.profit || 0}">
 </div>
 
 <div>
 <label>Volume</label>
-<input id="volume" value="${u.volume||0}">
+<input id="volume" value="${u.volume || 0}">
 </div>
 
 <div>
 <label>Account Status</label>
-<input id="statusAcc" value="${u.statusAcc||""}">
+<input id="statusAcc" value="${u.statusAcc || ""}">
 </div>
 
 
 <div>
 <label>Verified</label><br><br>
 <label class="switch">
-<input type="checkbox" id="verified" ${u.verified?"checked":""}>
+<input type="checkbox" id="verified" ${u.verified ? "checked" : ""}>
 <span class="slider"></span>
 </label>
 </div>
@@ -599,67 +661,68 @@ profile.innerHTML=`
 </div>
 `;
 
-hideLoading();
-}
+            hideLoading();
+        }
 
-/* SAVE */
+        /* SAVE */
 
-async function saveUser(uid){
+        async function saveUser(uid) {
 
-showLoading();
+            showLoading();
 
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-action:"updateUser",
-token:adminToken,
-uid,
-name:name.value,
-email:email.value,
-password:password.value,
-country:country.value,
-balance:balance.value,
-equity:equity.value,
-profit:profit.value,
-volume:volume.value,
-statusAcc:statusAcc.value,
-verified:verified.checked
-})
-});
+            await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "updateUser",
+                    token: adminToken,
+                    uid,
+                    name: name.value,
+                    email: email.value,
+                    password: password.value,
+                    country: country.value,
+                    balance: balance.value,
+                    equity: equity.value,
+                    profit: profit.value,
+                    volume: volume.value,
+                    statusAcc: statusAcc.value,
+                    verified: verified.checked
+                })
+            });
 
-hideLoading();
-toast("User updated");
-loadUsers();
-}
+            hideLoading();
+            toast("User updated");
+            loadUsers();
+        }
 
-/* DELETE */
+        /* DELETE */
 
-async function deleteUser(uid){
+        async function deleteUser(uid) {
 
-if(!confirm("Delete this user permanently?")) return;
+            if (!confirm("Delete this user permanently?")) return;
 
-showLoading();
+            showLoading();
 
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-action:"deleteUser",
-uid,
-token:adminToken
-})
-});
+            await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "deleteUser",
+                    uid,
+                    token: adminToken
+                })
+            });
 
-hideLoading();
-toast("User deleted");
+            hideLoading();
+            toast("User deleted");
 
-profile.innerHTML="<h2>Select a Trader</h2>";
-loadUsers();
+            profile.innerHTML = "<h2>Select a Trader</h2>";
+            loadUsers();
 
-}
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
