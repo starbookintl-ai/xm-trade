@@ -96,6 +96,7 @@
             padding: 25px;
             border-radius: 14px;
             max-width: 900px;
+            border: #ffffff17 solid 1px;
         }
 
         /* GRID */
@@ -444,160 +445,230 @@ html{
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <script>
+<script>
+
+const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
+let adminToken = null;
+let allUsers = [];
 
 
+/* ===============================
+   SAFE FETCH (ANTI-FREEZE)
+================================ */
 
-        const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
-        let adminToken = null;
-        let allUsers = [];
+async function safeFetch(payload){
 
-        /* UI */
-        function toggleDrawer() {
-            document.querySelector(".sidebar").classList.toggle("open");
+    try{
+
+        const res = await fetch(API,{
+            method:"POST",
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+            body:JSON.stringify(payload)
+        });
+
+        const text = await res.text();
+
+        let data;
+
+        try{
+            data = JSON.parse(text);
+        }catch{
+            throw new Error("Invalid JSON from server");
         }
 
-        function showLoading() { loading.classList.add("show"); }
-        function hideLoading() { loading.classList.remove("show"); }
-
-        function toast(msg) {
-            const t = document.getElementById("toast");
-            t.innerText = msg;
-            t.classList.add("show");
-            setTimeout(() => t.classList.remove("show"), 2500);
-        }
-
-        /* LOGIN */
-
-        async function adminLogin() {
-
-            showLoading();
-
-            const res = await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "adminLogin",
-                    email: adminUser.value.trim(),
-                    password: adminPass.value.trim()
-                })
-            });
-
-            const data = await res.json();
+        // SESSION EXPIRED
+        if(
+            data.message === "Unauthorized" ||
+            data.sessionExpired === true
+        ){
             hideLoading();
 
-            if (!data.status) {
-                toast("Invalid admin login");
-                return;
-            }
+            toast("Session expired. Please login again.");
 
-            adminToken = data.token;
-            localStorage.setItem("adminToken", adminToken);
+            setTimeout(()=>{
+                localStorage.removeItem("adminToken");
+                location.reload();
+            },1500);
 
-            startAdmin();
+            return null;
         }
 
-        /* AUTO LOGIN */
+        return data;
 
-        function startAdmin() {
+    }catch(err){
 
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("adminApp").style.display = "block";
+        console.error("FETCH ERROR:",err);
 
-            loadUsers();
+        hideLoading();
+        toast("Network / Server error");
 
-        }
+        return null;
+    }
+}
 
-        function logout() {
-            localStorage.removeItem("adminToken");
-            location.reload();
-        }
 
-        window.onload = () => {
+/* UI */
 
-            const token = localStorage.getItem("adminToken");
+function toggleDrawer() {
+    document.querySelector(".sidebar").classList.toggle("open");
+}
 
-            if (token) {
-                adminToken = token;
-                startAdmin();
-            }
+function showLoading() { loading.classList.add("show"); }
+function hideLoading() { loading.classList.remove("show"); }
 
-        };
+function toast(msg) {
+    const t = document.getElementById("toast");
+    t.innerText = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
+}
 
-        /* USERS */
 
-        async function loadUsers() {
+/* ===============================
+   LOGIN
+================================ */
 
-            showLoading();
+async function adminLogin(){
 
-            const res = await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "getAllUsers",
-                    token: adminToken
-                })
-            });
+    showLoading();
 
-            const data = await res.json();
-            allUsers = data.users.reverse();
-            renderUsers(allUsers);
+    const data = await safeFetch({
+        action:"adminLogin",
+        email:adminUser.value.trim(),
+        password:adminPass.value.trim()
+    });
 
-            hideLoading();
-        }
+    hideLoading();
 
-        function renderUsers(users) {
+    if(!data) return;
 
-            userList.innerHTML = "";
+    if(!data.status){
+        toast("Invalid admin login");
+        return;
+    }
 
-            users.forEach(u => {
+    adminToken = data.token;
+    localStorage.setItem("adminToken",adminToken);
 
-                const div = document.createElement("div");
-                div.className = "user";
+    startAdmin();
+}
 
-                div.innerHTML = `
-<strong>${u.name || "No Name"}</strong> <br>
+
+/* AUTO LOGIN */
+
+function startAdmin(){
+
+    document.getElementById("loginScreen").style.display="none";
+    document.getElementById("adminApp").style.display="block";
+
+    loadUsers();
+}
+
+function logout(){
+    localStorage.removeItem("adminToken");
+    location.reload();
+}
+
+window.onload = ()=>{
+
+    const token = localStorage.getItem("adminToken");
+
+    if(token){
+        adminToken = token;
+        startAdmin();
+    }
+};
+
+
+/* ===============================
+   USERS
+================================ */
+
+async function loadUsers(){
+
+    showLoading();
+
+    const data = await safeFetch({
+        action:"getAllUsers",
+        token:adminToken
+    });
+
+    hideLoading();
+
+    if(!data) return;
+
+    if(!data.status){
+        toast(data.message || "Failed to load users");
+        return;
+    }
+
+    allUsers = data.users.reverse();
+    renderUsers(allUsers);
+}
+
+
+function renderUsers(users){
+
+    userList.innerHTML="";
+
+    users.forEach(u=>{
+
+        const div=document.createElement("div");
+        div.className="user";
+
+        div.innerHTML=`
+<strong>${u.name || "No Name"}</strong><br>
 <span style="font-size:12px">${u.uid}</span>
 `;
 
-                div.onclick = () => loadProfile(u.uid);
+        div.onclick=()=>loadProfile(u.uid);
 
-                userList.appendChild(div);
+        userList.appendChild(div);
 
-            });
+    });
 
-        }
+}
 
-        function searchUser(text) {
 
-            text = text.toLowerCase();
+function searchUser(text){
 
-            renderUsers(allUsers.filter(u =>
-                (u.name || "").toLowerCase().includes(text) ||
-                u.uid.toLowerCase().includes(text)
-            ));
+    text=text.toLowerCase();
 
-        }
+    renderUsers(allUsers.filter(u=>
+        (u.name||"").toLowerCase().includes(text) ||
+        u.uid.toLowerCase().includes(text)
+    ));
+}
 
-        /* PROFILE */
 
-        async function loadProfile(uid) {
+/* ===============================
+   PROFILE
+================================ */
 
-            showLoading();
+async function loadProfile(uid){
 
-            const res = await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "getUser",
-                    uid,
-                    token: adminToken
-                })
-            });
+    showLoading();
 
-            const u = (await res.json()).user;
+    const data = await safeFetch({
+        action:"getUser",
+        uid,
+        token:adminToken
+    });
 
-            profile.innerHTML = `
+    hideLoading();
+
+    if(!data) return;
+
+    if(!data.status){
+        toast("Failed to load profile");
+        return;
+    }
+
+    const u = data.user;
+
+    profile.innerHTML=`
 
 <div class="card">
 
@@ -650,7 +721,6 @@ html{
 <input id="statusAcc" value="${u.statusAcc || ""}">
 </div>
 
-
 <div>
 <label>Verified</label><br><br>
 <label class="switch">
@@ -666,68 +736,70 @@ html{
 
 </div>
 `;
+}
 
-            hideLoading();
-        }
 
-        /* SAVE */
+/* ===============================
+   SAVE
+================================ */
 
-        async function saveUser(uid) {
+async function saveUser(uid){
 
-            showLoading();
+    showLoading();
 
-            await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "updateUser",
-                    token: adminToken,
-                    uid,
-                    name: name.value,
-                    email: email.value,
-                    password: password.value,
-                    country: country.value,
-                    balance: balance.value,
-                    equity: equity.value,
-                    profit: profit.value,
-                    volume: volume.value,
-                    statusAcc: statusAcc.value,
-                    verified: verified.checked
-                })
-            });
+    const data = await safeFetch({
+        action:"updateUser",
+        token:adminToken,
+        uid,
+        name:name.value,
+        email:email.value,
+        password:password.value,
+        country:country.value,
+        balance:balance.value,
+        equity:equity.value,
+        profit:profit.value,
+        volume:volume.value,
+        statusAcc:statusAcc.value,
+        verified:verified.checked
+    });
 
-            hideLoading();
-            toast("User updated");
-            loadUsers();
-        }
+    hideLoading();
 
-        /* DELETE */
+    if(!data) return;
 
-        async function deleteUser(uid) {
+    toast("User updated");
+    loadUsers();
+}
 
-            if (!confirm("Delete this user permanently?")) return;
 
-            showLoading();
+/* ===============================
+   DELETE
+================================ */
 
-            await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "deleteUser",
-                    uid,
-                    token: adminToken
-                })
-            });
+async function deleteUser(uid){
 
-            hideLoading();
-            toast("User deleted");
+    if(!confirm("Delete this user permanently?")) return;
 
-            profile.innerHTML = "<h2>Select a Trader</h2>";
-            loadUsers();
+    showLoading();
 
-        }
+    const data = await safeFetch({
+        action:"deleteUser",
+        uid,
+        token:adminToken
+    });
 
-    </script>
+    hideLoading();
+
+    if(!data) return;
+
+    toast("User deleted");
+
+    profile.innerHTML="<h2>Select a Trader</h2>";
+    loadUsers();
+}
+
+</script>
+
 
 </body>
 
