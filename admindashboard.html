@@ -63,9 +63,12 @@
         }
 
         .sidebar {
-            width: 280px;
+            display: flex;
+            flex-direction: column;
+            width: 210px;
             background: #081a2e;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .main {
@@ -240,6 +243,7 @@
             opacity: 0;
             transform: translateY(20px);
             transition: .3s;
+            z-index: 50;
 
         }
 
@@ -312,10 +316,12 @@
             }
 
             .sidebar {
+                display: flex;
+                flex-direction: column;
                 position: fixed;
                 top: 70px;
                 left: -100%;
-                width: 340px;
+                width: 260px;
                 height: calc(100% - 70px);
                 z-index: 10;
                 transition: .3s;
@@ -339,7 +345,7 @@
 
 *{
   scrollbar-width: thin;                     /* Firefox */
-  scrollbar-color: #2563eb #071224;          /* thumb | track */
+  scrollbar-color: #102a53 #071224;          /* thumb | track */
 }
 
 /* Chrome, Edge, Safari */
