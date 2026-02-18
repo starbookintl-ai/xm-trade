@@ -431,7 +431,25 @@ html{
             </div>
 
             <div class="main" id="profile">
-                <h2 style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">Select a User Account</h2>
+               <div class="card">
+
+            <h2>Central Wallet</h2>
+
+            <label>Platform Wallet Address</label>
+            <input id="globalWallet" placeholder="Loading wallet...">
+
+            <button onclick="saveGlobalWallet()">
+            Update Wallet
+            </button>
+
+            </div>
+
+            <br>
+
+            <h2 style="text-align:center;margin-top:40px;">
+            Select a User Account
+            </h2>
+
             </div>
 
         </div>
@@ -563,8 +581,10 @@ function startAdmin(){
     document.getElementById("loginScreen").style.display="none";
     document.getElementById("adminApp").style.display="block";
 
+    loadWallet();   // ✅ FIX ADDED
     loadUsers();
 }
+
 
 function logout(){
     localStorage.removeItem("adminToken");
@@ -580,6 +600,72 @@ window.onload = ()=>{
         startAdmin();
     }
 };
+
+
+/* ===============================
+   GLOBAL WALLET
+================================ */
+
+async function loadWallet(){
+
+    showLoading();
+
+    const data = await safeFetch({
+        action:"getGlobalWallet", // ✅ CORRECT ENDPOINT
+        token:adminToken
+    });
+
+    hideLoading();
+
+    if(!data) return;
+
+    if(!data.status){
+        toast(data.message || "Failed to load wallet");
+        return;
+    }
+
+    const input = document.getElementById("globalWallet");
+
+    if(input){
+        input.value = data.wallet || "";
+    }
+}
+
+async function saveGlobalWallet(){
+
+    const input = document.getElementById("globalWallet");
+
+    if(!input){
+        toast("Wallet input not found");
+        return;
+    }
+
+    const wallet = input.value.trim();
+
+    if(!wallet){
+        toast("Enter a wallet address");
+        return;
+    }
+
+    showLoading();
+
+    const data = await safeFetch({
+        action:"updateGlobalWallet",
+        token:adminToken,
+        wallet
+    });
+
+    hideLoading();
+
+    if(!data) return;
+
+    if(!data.status){
+        toast(data.message || "Failed to update wallet");
+        return;
+    }
+
+    toast("Central wallet updated ✔");
+}
 
 
 /* ===============================
@@ -613,6 +699,22 @@ function renderUsers(users){
 
     userList.innerHTML="";
 
+    // ⭐ ADMIN OPTION
+    const adminDiv = document.createElement("div");
+    adminDiv.className = "user";
+    adminDiv.style.background = "#0d2744";
+    adminDiv.style.fontWeight = "700";
+
+    adminDiv.innerHTML = `
+    ⚙️ Admin Panel
+    `;
+
+    adminDiv.onclick = loadAdminCard;
+
+    userList.appendChild(adminDiv);
+
+
+    // USERS
     users.forEach(u=>{
 
         const div=document.createElement("div");
@@ -646,6 +748,30 @@ function searchUser(text){
 /* ===============================
    PROFILE
 ================================ */
+function loadAdminCard(){
+
+profile.innerHTML = `
+
+<div class="card">
+
+<h2>Central Wallet</h2>
+
+<label>Platform Wallet Address</label>
+<input id="globalWallet" placeholder="Loading wallet...">
+
+<button onclick="saveGlobalWallet()">
+Update Wallet
+</button>
+
+</div>
+
+`;
+
+loadWallet(); // reload wallet into the input
+}
+
+
+
 
 async function loadProfile(uid){
 
@@ -799,6 +925,7 @@ async function deleteUser(uid){
 }
 
 </script>
+
 
 
 </body>
