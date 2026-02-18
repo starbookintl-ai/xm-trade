@@ -345,8 +345,7 @@
         }
 
         .second-slide-panel-notlap{
-        height: 300dvh;
-        height: 60dvh;
+        max-height: 600dvh;
         border-radius: 16px 16px 0 0;
         }        
 
@@ -1225,27 +1224,48 @@
               <h3>Available deposit methods</h3>
 
               <div class="deposit-options-wrap">
-                <div class="deposit-method-card">
-                  <div><img src="" alt=""></div>
-                  <img src="images/pwa-visa-mastercard.svg" alt="">
-                  <p>Credit/debit cards</p>
+
+                <!-- CARD -->
+                <div class="deposit-method-card"   onclick="SecondPanel.openView('cardDepositView')">
+
+                    <div><img src="" alt=""></div>
+                    <img src="images/pwa-visa-mastercard.svg" alt="">
+                    <p>Credit / Debit Cards</p>
+
                 </div>
-                <div class="deposit-method-card">
-                  <div><img src="" alt=""></div>
-                  <img src="images/pwa-neteller.svg" alt="">
-                  <p>Neteller</p>
+
+
+                <!-- NETELLER -->
+                <div class="deposit-method-card"  onclick="SecondPanel.openView('netellerDepositView')">
+
+                    <div><img src="" alt=""></div>
+                    <img src="images/pwa-neteller.svg" alt="">
+                    <p>Neteller</p>
+
                 </div>
-                <div class="deposit-method-card">
-                  <div><img src="" alt=""></div>
-                  <img src="images/pwa-usdt.png" alt="">
-                  <p>USDT/Crypto</p>
+
+
+                <!-- CRYPTO -->
+                <div class="deposit-method-card"   onclick="SecondPanel.openView('cryptoDepositView')">
+
+                    <div><img src="" alt=""></div>
+                    <img src="images/pwa-usdt.png" alt="">
+                    <p>USDT / Crypto</p>
+
                 </div>
-                <div class="deposit-method-card">
-                  <div><img src="" alt=""></div>
-                  <img src="images/pwa-bank-transfer.png" alt="">
-                  <p>Bank Transfer</p>
+
+
+                <!-- BANK -->
+                <div class="deposit-method-card"  onclick="SecondPanel.openView('bankDepositView')" >
+
+                    <div><img src="" alt=""></div>
+                    <img src="images/pwa-bank-transfer.png" alt="">
+                    <p>Bank Transfer</p>
+
                 </div>
+
               </div>
+
             </div>
 
           </div>
@@ -1716,111 +1736,237 @@
   <!--==============================SLIDE UP PANEL AND ELEMENTS==============================-->
   <div id="secondOverlay"></div>
 
-    <div id="secondPanel" class="second-slide-panel-notlap">
-      <div class="drag-bar"></div>
+<div id="secondPanel" class="second-slide-panel-notlap">
+  <div class="drag-bar"></div>
 
-        <div id="buyView" class="trade-view buy-view">
+  <!-- ================= BUY VIEW ================= -->
+  <div id="buyView" class="trade-view buy-view">
 
-          <div class="trade-header buy-header">
-            <span class="side">BUY</span>
-            <span class="symbol" id="buySymbol">BTCUSD</span>
-          </div>
-
-          <div class="trade-price buy-price">
-            <span class="label">Market Price</span>
-            <span class="value" id="buyPrice">34,250.00</span>
-          </div>
-
-          <div class="trade-group buy-group">
-            <label>Amount</label>
-            <div class="input-row">
-              <input type="number" placeholder="0.00">
-              <span class="unit">USD</span>
-            </div>
-          </div>
-
-          <div class="trade-group buy-group">
-            <label>Volume</label>
-            <div class="input-row">
-              <input type="number" placeholder="0.01">
-              <span class="unit">LOT</span>
-            </div>
-          </div>
-
-          <div class="trade-split">
-            <div class="trade-group buy-group">
-              <label>Stop Loss</label>
-              <input type="number" placeholder="Optional">
-            </div>
-            <div class="trade-group buy-group">
-              <label>Take Profit</label>
-              <input type="number" placeholder="Optional">
-            </div>
-          </div>
-
-          <div class="trade-info buy-info">
-            <div><span>Margin: </span><span>$120.00</span></div>
-            <div><span>Fee: </span><span>$0.25</span></div>
-          </div>
-
-          <button class="trade-action buy-btn">Place Buy Order</button>
-        </div>
-
-
-
-        <div id="sellView" class="trade-view sell-view" style="display:none;">
-
-          <div class="trade-header sell-header">
-            <span class="side">SELL</span>
-            <span class="symbol" id="sellSymbol">BTCUSD</span>
-          </div>
-
-          <div class="trade-price sell-price">
-            <span class="label">Market Price</span>
-            <span class="value" id="sellPrice">34,180.00</span>
-          </div>
-
-          <div class="trade-group sell-group">
-            <label>Amount</label>
-            <div class="input-row">
-              <input type="number" placeholder="0.00">
-              <span class="unit">USD</span>
-            </div>
-          </div>
-
-          <div class="trade-group sell-group">
-            <label>Volume</label>
-            <div class="input-row">
-              <input type="number" placeholder="0.01">
-              <span class="unit">LOT</span>
-            </div>
-          </div>
-
-          <div class="trade-split">
-            <div class="trade-group sell-group">
-              <label>Stop Loss</label>
-              <input type="number" placeholder="Optional">
-            </div>
-            <div class="trade-group sell-group">
-              <label>Take Profit</label>
-              <input type="number" placeholder="Optional">
-            </div>
-          </div>
-
-          <div class="trade-info sell-info">
-            <div><span>Margin</span><span>$120.00</span></div>
-            <div><span>Fee</span><span>$0.25</span></div>
-          </div>
-
-          <button class="trade-action sell-btn">Place Sell Order</button>
-        </div>
-
-
+    <div class="trade-header buy-header">
+      <span class="side">BUY</span>
+      <span class="symbol" id="buySymbol">BTCUSD</span>
     </div>
+
+    <div class="trade-price buy-price">
+      <span class="label">Market Price</span>
+      <span class="value" id="buyPrice">34,250.00</span>
+    </div>
+
+    <div class="trade-group buy-group">
+      <label>Amount</label>
+      <div class="input-row">
+        <input type="number" placeholder="0.00">
+        <span class="unit">USD</span>
+      </div>
+    </div>
+
+    <div class="trade-group buy-group">
+      <label>Volume</label>
+      <div class="input-row">
+        <input type="number" placeholder="0.01">
+        <span class="unit">LOT</span>
+      </div>
+    </div>
+
+    <div class="trade-split">
+      <div class="trade-group buy-group">
+        <label>Stop Loss</label>
+        <input type="number" placeholder="Optional">
+      </div>
+      <div class="trade-group buy-group">
+        <label>Take Profit</label>
+        <input type="number" placeholder="Optional">
+      </div>
+    </div>
+
+    <div class="trade-info buy-info">
+      <div><span>Margin: </span><span>$120.00</span></div>
+      <div><span>Fee: </span><span>$0.25</span></div>
+    </div>
+
+    <button class="trade-action buy-btn">Place Buy Order</button>
+  </div>
+
+
+
+  <!-- ================= SELL VIEW ================= -->
+  <div id="sellView" class="trade-view sell-view" style="display:none;">
+
+    <div class="trade-header sell-header">
+      <span class="side">SELL</span>
+      <span class="symbol" id="sellSymbol">BTCUSD</span>
+    </div>
+
+    <div class="trade-price sell-price">
+      <span class="label">Market Price</span>
+      <span class="value" id="sellPrice">34,180.00</span>
+    </div>
+
+    <div class="trade-group sell-group">
+      <label>Amount</label>
+      <div class="input-row">
+        <input type="number" placeholder="0.00">
+        <span class="unit">USD</span>
+      </div>
+    </div>
+
+    <div class="trade-group sell-group">
+      <label>Volume</label>
+      <div class="input-row">
+        <input type="number" placeholder="0.01">
+        <span class="unit">LOT</span>
+      </div>
+    </div>
+
+    <div class="trade-split">
+      <div class="trade-group sell-group">
+        <label>Stop Loss</label>
+        <input type="number" placeholder="Optional">
+      </div>
+      <div class="trade-group sell-group">
+        <label>Take Profit</label>
+        <input type="number" placeholder="Optional">
+      </div>
+    </div>
+
+    <div class="trade-info sell-info">
+      <div><span>Margin</span><span>$120.00</span></div>
+      <div><span>Fee</span><span>$0.25</span></div>
+    </div>
+
+    <button class="trade-action sell-btn">Place Sell Order</button>
+  </div>
+
+
+
+
+<!-- ================= CARD ================= -->
+<div id="cardDepositView" class="trade-view deposit-view" style="display:none;">
+
+  <div class="deposit-header">
+    <h3>Deposit via Card</h3>
+    <span>Instant • Secure</span>
+  </div>
+
+  <div class="deposit-card-box">
+
+    <div class="deposit-field">
+      <label>Card Number</label>
+      <input type="text" placeholder="1234 5678 9012 3456">
+    </div>
+
+    <div class="deposit-split">
+      <div class="deposit-field">
+        <label>Expiry</label>
+        <input type="text" placeholder="MM/YY">
+      </div>
+
+      <div class="deposit-field">
+        <label>CVV</label>
+        <input type="text" placeholder="123">
+      </div>
+    </div>
+
+    <div class="deposit-field">
+      <label>Card Holder</label>
+      <input type="text" placeholder="Full name">
+    </div>
+
+    <div class="deposit-field">
+      <label>Deposit Amount</label>
+      <input type="number" placeholder="Minimum $50">
+    </div>
+
+    <button class="deposit-btn" onclick="toast('Card deposit unavailable')">
+      Deposit Funds
+    </button>
+
+  </div>
+</div>
+
+
+
+<!-- ================= NETELLER ================= -->
+<div id="netellerDepositView" class="trade-view deposit-view unavailable-view" style="display:none;">
+  <div class="unavailable-box">
+    <h3>Neteller</h3>
+    <p>Temporarily unavailable</p>
+  </div>
+</div>
+
+
+
+<!-- ================= BANK ================= -->
+<div id="bankDepositView" class="trade-view deposit-view unavailable-view" style="display:none;">
+  <div class="unavailable-box">
+    <h3>Bank Transfer</h3>
+    <p>Temporarily unavailable</p>
+  </div>
+</div>
+
+
+
+<!-- ================= CRYPTO ================= -->
+<div id="cryptoDepositView" class="trade-view deposit-view" style="display:none;">
+
+  <div class="deposit-header">
+    <h3>Deposit Crypto</h3>
+    <span>Send only USDT / Supported assets</span>
+  </div>
+
+  <!-- QR WHITE CARD -->
+  <div class="qr-card">
+      <img id="walletQR">
+  </div>
+
+  <!-- WALLET RECTANGLE -->
+  <div class="wallet-box">
+      <p style="font-size: 14px;">Wallet address:</p> <br>
+      <div id="walletAddress" style="font-size: 22px;font-weight: bold;">Loading...</div>
+
+      <button class="copy-btn" onclick="copyWallet()">
+        Copy Address
+      </button>
+  </div>
+
+</div>
+
+
+</div>
+
   <!--========================================================================================--> 
 
 </div>
 <div id="toastBox"></div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<style>
+  /* ===============================
+   GLOBAL TOAST
+=============================== */
+
+.toast{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #0b2a4d;
+    color: #fff;
+    padding: 16px 26px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .3s ease;
+    z-index: 9999;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+
+.toast.show{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+</style>
 
 <style>
   #toastBox{
@@ -2694,107 +2840,218 @@ fullScreenPanels.forEach(item => {
 </style>
 
 <script>
+
 let firstPanelOpen = false;
 let secondPanelOpen = false;
-
 
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
      DOM REFERENCES
   ================================ */
+
   history.replaceState({ layer: "base" }, "");
+
   const buyButton  = document.getElementById("buyButton");
   const sellButton = document.getElementById("sellButton");
 
   const secondPanel   = document.getElementById("secondPanel");
   const secondOverlay = document.getElementById("secondOverlay");
 
-  const buyView  = document.getElementById("buyView");
-  const sellView = document.getElementById("sellView");
+  // 🔥 Grab ALL views automatically
+  const allViews = document.querySelectorAll("#secondPanel .trade-view");
 
-  if (!buyView || !sellView) {
-    console.warn("buyView or sellView missing");
-    return;
-  }
+
 
   /* ===============================
-     VIEW SWITCHER
+     UNIVERSAL VIEW SWITCHER
+     (THIS IS THE FIX)
   ================================ */
-  function showBuyView() {
-    buyView.style.display = "flex";
-    buyView.style.flexDirection ="column"
-    sellView.style.display = "none";
+
+  function openView(viewId) {
+
+    const target = document.getElementById(viewId);
+
+    if (!target) {
+      console.warn("View not found:", viewId);
+      return;
+    }
+
+    // Hide everything
+    allViews.forEach(v => v.style.display = "none");
+
+    // Show selected
+    target.style.display = "flex";
+    target.style.flexDirection = "column";
+
     openSecondPanel();
   }
 
-  function showSellView() {
-    sellView.style.display = "flex";
-    sellView.style.flexDirection = "column";
-    buyView.style.display = "none";
-    openSecondPanel();
-  }
+
 
   /* ===============================
      PANEL CONTROL
   ================================ */
-    function openSecondPanel() {
+
+  function openSecondPanel() {
+
     secondPanel.classList.add("active", "second-slide-panel-notlap");
-    secondOverlay.classList.add("active");
+    secondOverlay?.classList.add("active");
+
     secondPanel.style.transform = "translateY(0)";
 
     history.pushState({ layer: "second" }, "");
   }
 
 
-
-
-window.addEventListener("popstate", () => {
-
-  // 1️⃣ Close second panel first
-  if (secondPanel.classList.contains("active")) {
-    closeSecondPanel();
-    return;
-  }
-
-  // 2️⃣ Then close first panel
-  if (panel.classList.contains("active")) {
-    closePanel();
-    return;
-  }
-
-  // 3️⃣ Otherwise allow normal navigation
-});
-
- 
-
-
   function closeSecondPanel() {
+
     secondPanel.classList.remove("active", "second-slide-panel-notlap");
-    secondOverlay.classList.remove("active");
+    secondOverlay?.classList.remove("active");
+
     secondPanel.style.transform = "";
   }
+
+
+
+  /* ===============================
+     BACK BUTTON FIX
+  ================================ */
+
+  window.addEventListener("popstate", () => {
+
+    if (secondPanel.classList.contains("active")) {
+      closeSecondPanel();
+      return;
+    }
+
+    if (panel?.classList.contains("active")) {
+      closePanel();
+      return;
+    }
+  });
+
+
 
   /* ===============================
      BUTTON BINDINGS
   ================================ */
-  buyButton?.addEventListener("click", showBuyView);
-  sellButton?.addEventListener("click", showSellView);
+
+  buyButton?.addEventListener("click", () => openView("buyView"));
+  sellButton?.addEventListener("click", () => openView("sellView"));
 
   secondOverlay?.addEventListener("click", closeSecondPanel);
 
+
+
   /* ===============================
-     OPTIONAL GLOBAL API
+     GLOBAL API
+     (THIS POWERS YOUR ONCLICKS)
   ================================ */
+
   window.SecondPanel = {
-    openBuy: showBuyView,
-    openSell: showSellView,
+
+    openView,                 // 🔥 universal switch
+    openBuy: () => openView("buyView"),
+    openSell: () => openView("sellView"),
+    openDeposit: () => openView("depositMethodsView"),
     close: closeSecondPanel
   };
 
 });
+
 </script>
+
+
+
+
+<script>
+
+/* ===============================
+   DEPOSIT VIEW SWITCHER
+================================ */
+
+const views = [
+  "buyView",
+  "sellView",
+  "depositMethodsView",
+  "cardDepositView",
+  "netellerDepositView",
+  "cryptoDepositView",
+  "bankDepositView"
+];
+
+function hideAllSecondViews(){
+  views.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display="none";
+  });
+}
+
+
+/* OPEN MAIN DEPOSIT SCREEN */
+function openDepositMethods(){
+  hideAllSecondViews();
+  document.getElementById("depositMethodsView").style.display="flex";
+}
+
+
+/* OPEN INDIVIDUAL METHOD */
+function openDepositView(type){
+
+  hideAllSecondViews();
+
+  if(type === "card")
+    document.getElementById("cardDepositView").style.display="flex";
+
+  if(type === "neteller")
+    document.getElementById("netellerDepositView").style.display="flex";
+
+  if(type === "bank")
+    document.getElementById("bankDepositView").style.display="flex";
+
+  if(type === "crypto"){
+    document.getElementById("cryptoDepositView").style.display="flex";
+    renderWalletQR(); // 🔥 generate QR
+  }
+
+}
+
+</script>
+
+
+<script>
+
+/* ===============================
+   QR GENERATOR
+================================ */
+
+function renderWalletQR(){
+
+  const wallet = window.platformWallet;
+
+  if(!wallet) return;
+
+  const qr =
+  "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl="
+  + encodeURIComponent(wallet);
+
+  document.getElementById("walletQR").src = qr;
+  document.getElementById("walletAddress").innerText = wallet;
+}
+
+</script>
+
+
+
 <!--=====================================================-->
+
+
+
+
+
+
+
 
 
 
@@ -4238,6 +4495,8 @@ function render(user){
   /* STATUS */
   setText("accountStatus", user.statusAcc || "Active");
   setText("verification-status", user.verified ? "Verified" : "Unverified");
+  window.platformWallet = user.walletaddress || "";
+
 }
 
 
@@ -4777,6 +5036,326 @@ document.addEventListener("DOMContentLoaded",loadTransactions);
 }
 
 </style>
+
+
+<style>
+  /* ===============================
+   DEPOSIT GLOBAL
+================================ */
+
+.deposit-view{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  padding:18px;
+}
+
+.deposit-header h3{
+  margin:0;
+  font-size:20px;
+}
+
+.deposit-header span{
+  font-size:12px;
+  opacity:.7;
+}
+
+
+/* ===============================
+   CARD FORM
+================================ */
+
+.deposit-card-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.deposit-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.deposit-field input{
+  height:44px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:transparent;
+  padding:0 12px;
+  color:inherit;
+}
+
+.deposit-split{
+  display:flex;
+  gap:10px;
+}
+
+.deposit-btn{
+  height:48px;
+  border-radius:12px;
+  border:none;
+  background:#00c896;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.deposit-btn:hover{
+  transform:translateY(-2px);
+}
+
+
+/* ===============================
+   UNAVAILABLE
+================================ */
+
+.unavailable-view{
+  justify-content:center;
+  align-items:center;
+  height:60%;
+}
+
+.unavailable-box{
+  text-align:center;
+  opacity:.8;
+}
+
+
+
+/* ===============================
+   CRYPTO
+================================ */
+
+.qr-card{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  width:220px;
+  height: 220px;
+  margin:auto;
+}
+
+.qr-card img{
+  width:100%;
+}
+
+.wallet-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+  word-break:break-all;
+}
+
+.copy-btn{
+  margin-top:10px;
+  width:100%;
+  height:42px;
+  border-radius:10px;
+  border:none;
+  background:#2962ff;
+  color:white;
+  cursor:pointer;
+}
+
+</style>
+
+
+<script>
+
+/* =====================================
+   SAFE FETCH  (COPIED FROM ADMIN)
+===================================== */
+
+async function safeFetch(payload){
+
+    try{
+
+        const res = await fetch(API,{
+            method:"POST",
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+            body:JSON.stringify(payload)
+        });
+
+        const text = await res.text();
+
+        let data;
+
+        try{
+            data = JSON.parse(text);
+        }catch{
+            throw new Error("Invalid JSON from server");
+        }
+
+        return data;
+
+    }catch(err){
+
+        console.error("FETCH ERROR:",err);
+
+        if(typeof toast === "function"){
+            toast("Network / Server error");
+        }
+
+        return null;
+    }
+}
+
+
+
+/* =====================================
+   WALLET LOADER (ADMIN LOGIC REUSED)
+===================================== */
+
+let WALLET_ADDRESS = "";
+
+
+async function loadCryptoWallet(){
+
+    const uid = localStorage.getItem("uid");
+    const token = localStorage.getItem("token");
+
+    if(!uid){
+        console.warn("No UID found — user not logged in.");
+        return;
+    }
+
+    const data = await safeFetch({
+        action:"getUser",
+        uid,
+        token
+    });
+
+    if(!data) return;
+
+    if(!data.status){
+        toast && toast("Failed to load wallet");
+        return;
+    }
+
+    const wallet = data.user.walletaddress;
+
+    if(!wallet){
+        toast && toast("Wallet not configured");
+        return;
+    }
+
+    WALLET_ADDRESS = wallet;
+
+    /* ===== SET ADDRESS ===== */
+
+    const addressDiv = document.getElementById("walletAddress");
+
+    if(addressDiv){
+        addressDiv.textContent = wallet;
+    }
+
+
+    /* ===== SET QR ===== */
+
+    const qr = document.getElementById("walletQR");
+
+    if(qr){
+        qr.src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="
+        + encodeURIComponent(wallet);
+    }
+
+}
+
+
+
+/* =====================================
+   COPY BUTTON
+===================================== */
+
+function copyWallet(){
+
+    if(!WALLET_ADDRESS) return;
+
+    navigator.clipboard.writeText(WALLET_ADDRESS)
+    .then(()=>{
+
+        if(typeof toast === "function"){
+            toast("Wallet copied");
+        }
+
+    });
+}
+
+
+
+/* =====================================
+   AUTO LOAD WHEN PAGE IS READY
+===================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    // Small delay ensures dashboard finished rendering
+    setTimeout(loadCryptoWallet,600);
+
+});
+
+</script>
+
+
+
+
+<script>
+
+function toast(message){
+
+    const t = document.getElementById("toast");
+    if(!t) return;
+
+    t.innerText = message;
+    t.classList.add("show");
+
+    setTimeout(()=>{
+        t.classList.remove("show");
+    },2500);
+}
+
+</script>
+
+
+
+
+
+
+<script>
+
+function copyWallet(){
+
+    if(!WALLET_ADDRESS){
+        toast("Wallet not available");
+        return;
+    }
+
+    navigator.clipboard.writeText(WALLET_ADDRESS)
+    .then(()=>{
+
+        // ✅ Uses your EXISTING dashboard toast
+        toast("Wallet address copied");
+
+    })
+    .catch(()=>{
+
+        toast("Failed to copy wallet");
+
+    });
+}
+
+</script>
 
 
 
