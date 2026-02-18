@@ -932,11 +932,11 @@
           <!--WALLET CANVAS-->
           <div id="walletView" style="padding: 0px 15px;" class="slide-canvas canvas-disabled">
             <div class="slide-panel-topbar">
-              <div></div>
+              <div><h3>Funding</h3></div>
               <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
             </div>     
-            <div class="wallet-wrap">
-              <h3>Funding</h3>
+            <div class="wallet-wrap"s>
+              
 
               <div class="available-balance-card">
                 <h4>Standard <span class="status">Real</span></h4>
@@ -1121,16 +1121,18 @@
 
           <!--WITHDRAW VIEW-->
           <div id="withdrawView" class="slide-canvas canvas-disabled">
+
             <div class="slide-panel-topbar">
-              <div> <p  class="slide-header">Withdraw</p> </div>
-              <img src="images/cancle-icon.png" alt="" class="cancel-btn slide-panel-topbar-img">
+              <div><p class="slide-header">Withdraw</p></div>
+              <img src="images/cancle-icon.png" class="cancel-btn slide-panel-topbar-img">
             </div>  
+
             <div class="slide-views-wrap">
 
                 <div class="available-balance-card">
                   <h4>Standard <span class="status">Real</span></h4>
-                  <p style="font-size: 20px; font-weight: 600;" id="balance4" >0.00 USD </p>
-                  <P style="color: #ffffff4b; font-weight: 600;">#36630840</P>
+                  <p style="font-size:20px;font-weight:600;" id="withdrawBalance">0.00 USD</p>
+                  <p style="color:#ffffff4b;font-weight:600;">#36630840</p>
                 </div>              
 
                 <!-- WITHDRAW FORM -->
@@ -1139,18 +1141,18 @@
                     <!-- ASSET -->
                     <div class="group">
                       <label class="label">Asset</label>
-                      <select class="select">
-                        <option>Bitcoin (BTC)</option>
-                        <option>Ethereum (ETH)</option>
-                        <option>USDT</option>
+                      <select class="select" id="asset">
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="USDT">USDT</option>
                       </select>
                     </div>
 
                     <!-- NETWORK -->
                     <div class="group">
                       <label class="label">Network</label>
-                      <select class="select">
-                        <option>Bitcoin (BTC)</option>
+                      <select class="select" id="network">
+                        <option>BTC</option>
                         <option>ERC20</option>
                         <option>TRC20</option>
                       </select>
@@ -1159,46 +1161,48 @@
                     <!-- ADDRESS -->
                     <div class="group">
                       <label class="label">Withdrawal Address</label>
-                      <input class="input" placeholder="Paste destination address"/>
+                      <input id="withdrawAddress" class="input" placeholder="Paste destination address"/>
                     </div>
 
                     <!-- MEMO -->
                     <div class="group">
                       <label class="label">Memo / Tag (Optional)</label>
-                      <input class="input" placeholder="Required for some networks"/>
+                      <input id="withdrawMemo" class="input" placeholder="Required for some networks"/>
                     </div>
 
                     <!-- AMOUNT -->
                     <div class="group">
                       <label class="label">Amount</label>
                       <div class="amount-row">
-                        <input class="input" placeholder="0.00"/>
-                        <button class="max-btn">MAX</button>
+                        <input id="withdrawAmount" class="input" placeholder="0.00"/>
+                        <button id="maxWithdraw" class="max-btn">MAX</button>
                       </div>
                     </div>
 
                     <!-- FEES -->
                     <div class="info">
                       <span>Network Fee</span>
-                      <span>0.0005 BTC</span>
+                      <span id="networkFee">0.00</span>
                     </div>
+
                     <div class="info">
                       <span>You Will Receive</span>
-                      <span>1.2453 BTC</span>
+                      <span id="receiveAmount">0.00</span>
                     </div>
 
                     <!-- SUBMIT -->
-                    <button class="withdraw-btn">Withdraw</button>
+                    <button id="withdrawBtn" class="withdraw-btn">
+                      Withdraw
+                    </button>
 
                 </div>
-              
 
-                <!-- WARNING -->
                 <div class="notice">
                   ⚠️ Withdrawals are irreversible. Ensure the address and network are correct.
                 </div>             
             </div>                     
           </div>
+
 
           <!--DEPOSIT VIEW-->
           <div id="depositView" class="slide-canvas canvas-disabled">
@@ -4144,6 +4148,176 @@ document.getElementById("signoutButton").addEventListener("click", function(){
 
 
 
+<script>
+
+let currentBalance = 0;
+
+
+/* =========================
+   LOAD BALANCE INTO VIEW
+========================= */
+
+async function loadWithdrawBalance(){
+
+  const uid = localStorage.getItem("uid");
+  if(!uid) return;
+
+  const res = await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify({
+      action:"getUser",
+      uid:uid
+    })
+  });
+
+  const data = await res.json();
+
+  if(!data.status) return;
+
+  currentBalance = Number(data.user.balance);
+
+  document.getElementById("withdrawBalance")
+    .innerText = currentBalance.toLocaleString() + " USD";
+}
+
+
+
+/* =========================
+   MAX BUTTON
+========================= */
+
+document.getElementById("maxWithdraw").onclick = ()=>{
+
+  document.getElementById("withdrawAmount").value = currentBalance;
+
+  calculateReceive();
+};
+
+
+
+/* =========================
+   FEE + RECEIVE CALC
+========================= */
+
+const FEE_PERCENT = 0.01; // 1%
+
+document
+.getElementById("withdrawAmount")
+.addEventListener("input",calculateReceive);
+
+
+function calculateReceive(){
+
+  const amount =
+    Number(document.getElementById("withdrawAmount").value) || 0;
+
+  const fee = amount * FEE_PERCENT;
+  const receive = amount - fee;
+
+  document.getElementById("networkFee")
+    .innerText = fee.toFixed(2);
+
+  document.getElementById("receiveAmount")
+    .innerText = receive.toFixed(2);
+}
+
+
+
+/* =========================
+   WITHDRAW
+========================= */
+
+document.getElementById("withdrawBtn")
+.addEventListener("click", withdrawFunds);
+
+
+async function withdrawFunds(){
+
+  const btn = document.getElementById("withdrawBtn");
+
+  const uid = localStorage.getItem("uid");
+
+  const asset = document.getElementById("asset").value;
+  const network = document.getElementById("network").value;
+  const address = document.getElementById("withdrawAddress").value.trim();
+  const memo = document.getElementById("withdrawMemo").value.trim();
+  const amount = Number(document.getElementById("withdrawAmount").value);
+
+  if(!amount || amount <= 0){
+    alert("Enter withdrawal amount");
+    return;
+  }
+
+  if(amount > currentBalance){
+    alert("Insufficient balance");
+    return;
+  }
+
+  if(!address){
+    alert("Enter withdrawal address");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerText = "Processing...";
+
+  try{
+
+    const res = await fetch(API,{
+      method:"POST",
+      headers:{ "Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        action:"withdraw",
+        uid:uid,
+        amount:amount,
+        asset:asset,
+        network:network,
+        address:address,
+        memo:memo
+      })
+    });
+
+    const data = await res.json();
+
+    if(data.status){
+
+      alert("Withdrawal successful");
+
+      document.getElementById("withdrawAmount").value="";
+      document.getElementById("withdrawAddress").value="";
+      document.getElementById("withdrawMemo").value="";
+      document.getElementById("networkFee").innerText="0.00";
+      document.getElementById("receiveAmount").innerText="0.00";
+
+      loadWithdrawBalance();
+
+      // if you built transaction loader:
+      if(typeof loadTransactions === "function"){
+        loadTransactions();
+      }
+
+    }else{
+      alert(data.message || "Withdrawal failed");
+    }
+
+  }catch(err){
+    alert("Network error");
+  }
+
+  btn.disabled = false;
+  btn.innerText = "Withdraw";
+}
+
+
+
+/* =========================
+   AUTO LOAD
+========================= */
+
+window.addEventListener("load", loadWithdrawBalance);
+
+</script>
 
 
 
