@@ -959,9 +959,11 @@
                   <img src= "images/internal-transfer-icon.png" alt="" class="funding-button-icon"> <p>Internal Transfer</p>
                 </div>
 
-                <div class="funding-option-btn">
-                  <img src="images/transaction-history-icon.png" alt="" class="funding-button-icon"> <p>Transactions History</p>
+                <div class="funding-option-btn" id="transactionsButton">
+                  <img src="images/transaction-history-icon.png" class="funding-button-icon">
+                  <p>Transactions History</p>
                 </div>
+
               </div>
             </div>
 
@@ -1247,6 +1249,51 @@
             </div>
 
           </div>
+
+
+
+          <!-- TRANSACTION HISTORY VIEW -->
+          <div id="transactionsView" class="slide-canvas canvas-disabled">
+
+            <div class="slide-panel-topbar">
+              <div><p class="slide-header">Transactions</p></div>
+              <img src="images/cancle-icon.png" class="cancel-btn slide-panel-topbar-img">
+            </div>
+
+            <div class="slide-views-wrap">
+
+              <!-- TABLE -->
+              <div class="tx-table-wrap">
+
+                <table class="tx-table">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Before</th>
+                      <th>After</th>
+                      <th>Method</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="txTableBody">
+                    <tr>
+                      <td colspan="7" class="tx-loading">Loading transactions...</td>
+                    </tr>
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
 
           <!--MY WALLET VIEW-->
           <div id="mywalletView" class="slide-canvas canvas-disabled">
@@ -1773,6 +1820,128 @@
   <!--========================================================================================--> 
 
 </div>
+<div id="toastBox"></div>
+
+<style>
+  #toastBox{
+  position:fixed;
+  top:20px;
+  right:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:9999;
+}
+
+.toast{
+  min-width:260px;
+  padding:14px 16px;
+  border-radius:10px;
+  color:#fff;
+  font-weight:600;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  animation:slideIn .35s ease;
+}
+
+.toast.success{
+  background:linear-gradient(135deg,#00c853,#009624);
+}
+
+.toast.error{
+  background:linear-gradient(135deg,#ff4d4d,#c62828);
+}
+
+.toast.info{
+  background:linear-gradient(135deg,#2196f3,#1565c0);
+}
+
+@keyframes slideIn{
+  from{
+    transform:translateX(120%);
+    opacity:0;
+  }
+  to{
+    transform:translateX(0);
+    opacity:1;
+  }
+}
+
+</style>
+
+
+
+<!--TRANSACTION HISTORY STYLE-->
+<style>
+  .tx-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:15px;
+}
+
+.tx-card{
+  background:#ffffff08;
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.tx-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.tx-type{
+  font-weight:700;
+  font-size:15px;
+}
+
+.tx-date{
+  color:#ffffff70;
+  font-size:12px;
+}
+
+.tx-right{
+  text-align:right;
+}
+
+.tx-amount{
+  font-weight:700;
+  font-size:16px;
+}
+
+.tx-status{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:6px;
+  margin-top:4px;
+  display:inline-block;
+}
+
+.status-completed{
+  background:#00c85333;
+  color:#00e676;
+}
+
+.status-pending{
+  background:#ffa00033;
+  color:#ffca28;
+}
+
+.status-failed{
+  background:#ff525233;
+  color:#ff6e6e;
+}
+
+</style>
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -2156,7 +2325,7 @@ navButtons.forEach(btn => {
 
 
 
-
+<!--FIRST PANEL + FIRST OVERLAY-->
 <script>
 /* ===============================
    DOM REFERENCES
@@ -2170,6 +2339,7 @@ const marketType = document.getElementById("marketType");
 const tradeIcon = document.getElementById("tradeIcon");
 
 /* Slide views */
+const transactionsView = document.getElementById("transactionsView");
 const chartView = document.getElementById("chartView");
 const searchView = document.getElementById("searchView");
 const notificationView = document.getElementById("notificationView");
@@ -2193,6 +2363,7 @@ const livechatView = document.getElementById("livechatView");
 const submitquestionView = document.getElementById("submitquestionView");
 
 /* Buttons */
+const transactionsBtn = document.getElementById("transactionsButton");
 const notificationBtn = document.getElementById("notificationButton");
 const walletBtn = document.getElementById("walletButton");
 const profileBtn = document.getElementById("profileButton");
@@ -2223,8 +2394,10 @@ const slideViews = [
   withdrawView, depositView, mywalletView, copytradeView,
   competitionsView, bonusView, refereview, tradersclubView,
   newsView, analysisView, economiccalendarView, tradingcentralView,
-  forexcalculatorView, helpcenterView, livechatView, submitquestionView
+  forexcalculatorView, helpcenterView, livechatView, submitquestionView,
+  transactionsView // ✅ ADD THIS
 ];
+
 
 /* ===============================
    HARD VIEW EXCLUSIVITY
@@ -2398,6 +2571,7 @@ searchBtn.onclick = () => openPartialGroup(searchView);
    FULL SCREEN PANEL REGISTRY
 ================================ */
 const fullScreenPanels = [
+  { btn: transactionsBtn, view: transactionsView },
   { btn: notificationBtn,     view: notificationView },
   { btn: walletBtn,           view: walletView },
   { btn: profileBtn,          view: profileView },
@@ -4000,7 +4174,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
 <script>
 const API = "https://script.google.com/macros/s/AKfycbyo6uGNQ_IDRTkm5AEzPPRLkdzarH8BUzETivaZ8pFl1eq82j6FwYwj_vK8AfeGBKmX-Q/exec";
 
@@ -4148,13 +4321,36 @@ document.getElementById("signoutButton").addEventListener("click", function(){
 
 
 
+
+<!--WITHDRAW PAGE HANDLER-->
 <script>
 
 let currentBalance = 0;
 
 
 /* =========================
-   LOAD BALANCE INTO VIEW
+   TOAST NOTIFICATION
+========================= */
+
+function showToast(message,type="info"){
+
+  const box = document.getElementById("toastBox");
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerText = message;
+
+  box.appendChild(toast);
+
+  setTimeout(()=>{
+    toast.remove();
+  },4000);
+}
+
+
+
+/* =========================
+   LOAD BALANCE
 ========================= */
 
 async function loadWithdrawBalance(){
@@ -4162,23 +4358,32 @@ async function loadWithdrawBalance(){
   const uid = localStorage.getItem("uid");
   if(!uid) return;
 
-  const res = await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify({
-      action:"getUser",
-      uid:uid
-    })
-  });
+  try{
 
-  const data = await res.json();
+    const res = await fetch(API,{
+      method:"POST",
+      headers:{ "Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        action:"getUser",
+        uid:uid
+      })
+    });
 
-  if(!data.status) return;
+    const data = await res.json();
 
-  currentBalance = Number(data.user.balance);
+    if(!data.status){
+      showToast("Failed to load balance","error");
+      return;
+    }
 
-  document.getElementById("withdrawBalance")
-    .innerText = currentBalance.toLocaleString() + " USD";
+    currentBalance = Number(data.user.balance);
+
+    document.getElementById("withdrawBalance")
+      .innerText = currentBalance.toLocaleString() + " USD";
+
+  }catch(err){
+    showToast("Network error loading balance","error");
+  }
 }
 
 
@@ -4197,10 +4402,10 @@ document.getElementById("maxWithdraw").onclick = ()=>{
 
 
 /* =========================
-   FEE + RECEIVE CALC
+   FEE + RECEIVE
 ========================= */
 
-const FEE_PERCENT = 0.01; // 1%
+const FEE_PERCENT = 0.01;
 
 document
 .getElementById("withdrawAmount")
@@ -4228,7 +4433,8 @@ function calculateReceive(){
    WITHDRAW
 ========================= */
 
-document.getElementById("withdrawBtn")
+document
+.getElementById("withdrawBtn")
 .addEventListener("click", withdrawFunds);
 
 
@@ -4244,18 +4450,20 @@ async function withdrawFunds(){
   const memo = document.getElementById("withdrawMemo").value.trim();
   const amount = Number(document.getElementById("withdrawAmount").value);
 
+  /* VALIDATION */
+
   if(!amount || amount <= 0){
-    alert("Enter withdrawal amount");
+    showToast("Enter withdrawal amount","error");
     return;
   }
 
   if(amount > currentBalance){
-    alert("Insufficient balance");
+    showToast("Insufficient balance","error");
     return;
   }
 
   if(!address){
-    alert("Enter withdrawal address");
+    showToast("Enter withdrawal address","error");
     return;
   }
 
@@ -4282,7 +4490,9 @@ async function withdrawFunds(){
 
     if(data.status){
 
-      alert("Withdrawal successful");
+      showToast("Withdrawal request submitted","success");
+
+      /* RESET FORM */
 
       document.getElementById("withdrawAmount").value="";
       document.getElementById("withdrawAddress").value="";
@@ -4292,17 +4502,16 @@ async function withdrawFunds(){
 
       loadWithdrawBalance();
 
-      // if you built transaction loader:
       if(typeof loadTransactions === "function"){
         loadTransactions();
       }
 
     }else{
-      alert(data.message || "Withdrawal failed");
+      showToast(data.message || "Withdrawal failed","error");
     }
 
   }catch(err){
-    alert("Network error");
+    showToast("Network error","error");
   }
 
   btn.disabled = false;
@@ -4321,12 +4530,258 @@ window.addEventListener("load", loadWithdrawBalance);
 
 
 
+<script>
+
+/* ================================
+   SLIDE VIEW HELPER
+================================ */
+function openSlideView(view){
+  document.querySelectorAll(".slide-canvas").forEach(v => {
+    v.classList.add("canvas-disabled");
+    v.classList.remove("canvas-enable");
+  });
+
+  view.classList.remove("canvas-disabled");
+  view.classList.add("canvas-enable");
+
+  document.getElementById("panelOverlay").classList.add("active");
+  document.getElementById("slidePanel").classList.add("active");
+}
+
+/* ================================
+   CLOSE PANEL (X BUTTONS)
+================================ */
+document.querySelectorAll(".cancel-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("panelOverlay").classList.remove("active");
+    document.getElementById("slidePanel").classList.remove("active");
+  });
+});
+
+</script>
+
+
+
+<script>
+
+/* =============================
+   LOAD TRANSACTION
+============================= */
+
+async function loadTransactions(){
+
+  const tbody = document.getElementById("txTableBody");
+
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="7" class="tx-loading">
+        Loading transactions...
+      </td>
+    </tr>
+  `;
+
+  try{
+
+    const res = await fetch(API,{
+      method:"POST",
+      body:JSON.stringify({
+        action:"getTransactions",
+        uid:uid
+      })
+    });
+
+    const data = await res.json();
+
+    if(!data.status){
+      throw new Error("Failed to load");
+    }
+
+    renderTransactions(data.transactions);
+
+  }catch(err){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="tx-loading">
+          Failed to load transactions
+        </td>
+      </tr>
+    `;
+  }
+}
+
+
+/* =============================
+   RENDER TABLE
+============================= */
+
+function renderTransactions(transactions){
+
+  const tbody = document.getElementById("txTableBody");
+
+  if(!transactions.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="tx-loading">
+          No transactions yet
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  tbody.innerHTML = "";
+
+  transactions.forEach(tx=>{
+
+    const type = (tx.type || "").toLowerCase();
+
+    // ✅ Debit vs Credit detection (future-proof)
+    const isDebit =
+      type.includes("withdraw") ||
+      type.includes("transfer") ||
+      type.includes("loss") ||
+      type.includes("debit");
+
+    const sign = isDebit ? "-" : "+";
+
+    const typeClass = isDebit
+      ? "tx-type-withdrawal"
+      : "tx-type-deposit";
+
+    const statusClass =
+      tx.status.toLowerCase() === "completed"
+      ? "tx-completed"
+      : tx.status.toLowerCase() === "pending"
+      ? "tx-pending"
+      : "tx-failed";
+
+    const row = `
+      <tr>
+
+        <td class="${typeClass}">
+          ${tx.type}
+        </td>
+
+        <td class="${typeClass}">
+          ${sign}$${Number(tx.amount).toLocaleString()}
+        </td>
+
+        <td>
+          $${Number(tx.before).toLocaleString()}
+        </td>
+
+        <td>
+          $${Number(tx.after).toLocaleString()}
+        </td>
+
+        <td>
+          ${tx.method}
+        </td>
+
+        <td>
+          <span class="tx-status ${statusClass}">
+            ${tx.status}
+          </span>
+        </td>
+
+        <td>
+          ${tx.date}
+        </td>
+
+      </tr>
+    `;
+
+    tbody.insertAdjacentHTML("beforeend",row);
+
+  });
+
+}
+
+
+/* =============================
+   AUTO LOAD WHEN VIEW OPENS
+============================= */
+
+document.addEventListener("DOMContentLoaded",loadTransactions);
+
+</script>
+
+
+
+<style>
+
+.tx-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  margin-top:10px;
+}
+
+.tx-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.tx-table th{
+  text-align:left;
+  padding:12px 10px;
+  background:#111827;
+  color:#fff;
+  font-weight:600;
+}
+
+.tx-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #eee;
+}
+
+.tx-loading{
+  text-align:center;
+  padding:30px;
+  font-weight:600;
+}
+
+.tx-type-withdrawal{
+  color:#ef4444;
+  font-weight:700;
+}
+
+.tx-type-deposit{
+  color:#10b981;
+  font-weight:700;
+}
+
+.tx-status{
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.tx-completed{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.tx-pending{
+  background:#fef9c3;
+  color:#854d0e;
+}
+
+.tx-failed{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+</style>
 
 
 
 
-<body>
-  
-</body>
+
+
 </body>
 </html
